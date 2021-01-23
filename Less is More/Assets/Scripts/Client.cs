@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 using Messages;
 using UnityEngine;
@@ -8,37 +9,94 @@ using Mirror.SimpleWeb;
 using NetStack.Quantization;
 using NetStack.Serialization;
 using UnityEngine.SceneManagement;
+using Debug = UnityEngine.Debug;
 
 public class Client : MonoBehaviour
 {
+    private GameObject _playerPrefab;
     private SimpleWebClient _ws;
     private float _myId;
     private float _timer;
     private bool _connected;
     private Inputs _polledInputs;
+    private Dictionary<int, PeerData> _peerDatas;
+    private Dictionary<int, PeerState> _peerStates;
 
-    void Start()
+    void Awake()
     {
+        _playerPrefab = GetComponent<GameController>().GetPlayerPrefab();
+        
         TcpConfig tcpConfig = new TcpConfig(true, 5000, 20000);
         _ws = SimpleWebClient.Create(16*1024, 1000, tcpConfig);
         
-        
-        _ws.onConnect += delegate
-        {
-            Debug.Log("Client connected");
-        };
         _ws.onData += WsOnonData;
         _ws.onError += delegate(Exception exception)
         {
             Debug.Log("Error: " + exception.Message);
         };
-        
-        Connect(true);
     }
 
-    private void WsOnonData(ArraySegment<byte> obj)
+    private void WsOnonData(ArraySegment<byte> data)
     {
-        // do stuff
+        BitBuffer bitBuffer = BufferPool.GetBitBuffer();
+        bitBuffer.FromArray(data.Array, data.Count);
+        ushort messageId = bitBuffer.PeekUShort();
+        
+        //Debug.Log("Received message with id " + messageId);
+
+        // GUARD, don't process any messages besides the initial handshake until handshake is complete
+        if (!_connected && messageId != 1)
+            return;
+
+        switch (messageId)
+        {
+            case 1:
+            {
+                _peerDatas = new Dictionary<int, PeerData>();
+                _peerStates = new Dictionary<int, PeerState>();
+                InitialState initialState = new InitialState()
+                {
+                    States = _peerStates
+                };
+                initialState.Deserialize(ref bitBuffer);
+                _myId = initialState.YourId;
+
+                foreach (var keyValue in initialState.States)
+                {
+                    PeerState peerState = keyValue.Value;
+                    int peerId = keyValue.Key;
+            
+                    GameObject newPlayer = Instantiate(_playerPrefab, peerState.position, Quaternion.identity);
+                    _peerDatas[peerId] = new PeerData()
+                    {
+                        Id = peerId,
+                        PlayerTransform = newPlayer.transform,
+                        PlayerMovement = newPlayer.GetComponent<Movement>()
+                    };
+                }
+
+                Debug.Log("Client connected");
+                _connected = true;
+
+                break;
+            }
+            case 3:
+            {
+                PeerStates peerStates = new PeerStates()
+                {
+                    States = _peerStates
+                };
+                peerStates.Deserialize(ref bitBuffer);
+                
+                // TODO: interp
+                foreach (var keyValue in peerStates.States)
+                {
+                    _peerDatas[keyValue.Key].PlayerTransform.position = keyValue.Value.position;
+                }
+
+                break;
+            }
+        }
     }
 
     public void Connect(bool isRemote)
@@ -77,14 +135,14 @@ public class Client : MonoBehaviour
 
     private void Update()
     {
+        _ws.ProcessMessageQueue(this);
+        
         // GUARD
         if (!_connected)
             return;
         
         PollInputs(ref _polledInputs);
-        
-        _ws.ProcessMessageQueue(this);
-        
+
         _timer += Time.deltaTime;
         while (_timer >= Constants.STEP)
         {

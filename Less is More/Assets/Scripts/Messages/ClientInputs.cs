@@ -11,12 +11,10 @@ namespace Messages
         
         public Inputs inputs;
 
-        public int Serialize(ref BitBuffer data)
+        public void Serialize(ref BitBuffer data)
         {
             data.AddUShort(id);
             inputs.Serialize(ref data);
-            
-            return data.Length;
         }
 
         public void Deserialize(ref BitBuffer data)

@@ -6,7 +6,7 @@ using UnityEngine;
 
 public interface BitSerializable
 {
-    int Serialize(ref BitBuffer data);
+    void Serialize(ref BitBuffer data);
     void Deserialize(ref BitBuffer data);
 }
 
@@ -15,10 +15,12 @@ public static class Writer
     public static ArraySegment<byte> SerializeToByteSegment(BitSerializable message)
     {
         BitBuffer bitBuffer = BufferPool.GetBitBuffer();
-        int size = message.Serialize(ref bitBuffer);
         byte[] byteBuffer = BufferPool.GetByteBuffer();
+        
+        message.Serialize(ref bitBuffer);
+        
         bitBuffer.ToArray(byteBuffer);
-        return new ArraySegment<byte>(byteBuffer, 0, size);
+        return new ArraySegment<byte>(byteBuffer, 0, bitBuffer.Length);
     }
 }
 

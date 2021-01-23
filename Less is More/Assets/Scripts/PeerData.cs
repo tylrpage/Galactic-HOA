@@ -1,4 +1,6 @@
 ﻿
+using NetStack.Quantization;
+using NetStack.Serialization;
 using UnityEngine;
 
 public class PeerData

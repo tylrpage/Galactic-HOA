@@ -98,11 +98,14 @@
               </e>
             </e>
           </e>
+          <e p="GameController.cs" t="Include" />
           <e p="Inputs.cs" t="Include" />
           <e p="Messages" t="Include">
             <e p="BitSerializable.cs" t="Include" />
             <e p="ClientInputs.cs" t="Include" />
+            <e p="InitialState.cs" t="Include" />
             <e p="messages.txt" t="Include" />
+            <e p="PeerStates.cs" t="Include" />
           </e>
           <e p="Movement.cs" t="Include" />
           <e p="PeerData.cs" t="Include" />

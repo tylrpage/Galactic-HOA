@@ -12,23 +12,39 @@ using NetStack.Serialization;
 
 public class Server : MonoBehaviour
 {
-#pragma warning disable 0649
-    [SerializeField] private GameObject playerPrefab;
-#pragma warning restore 0649
-    
+    private GameObject _playerPrefab;
     private SimpleWebServer _webServer;
     private Dictionary<int, PeerData> _peerDatas;
-    private bool _connected;
+    private Dictionary<int, PeerState> _peerStates;
+    private List<int> _connectedIds;
+    private bool _listening;
     private float _timer;
 
     private void Awake()
     {
         _peerDatas = new Dictionary<int, PeerData>();
+        _playerPrefab = GetComponent<GameController>().GetPlayerPrefab();
+        _connectedIds = new List<int>();
     }
 
     // Start is called before the first frame update
     void Start()
     {
+        _webServer = Listen();
+
+        _webServer.onConnect += WebServerOnonConnect;
+        _webServer.onData += WebServerOnonData;
+        _webServer.onError += delegate(int i, Exception exception)
+        {
+            Debug.Log("Error: " + exception.Message);
+        };
+        _webServer.onDisconnect += WebServerOnonDisconnect;
+    }
+    
+    private SimpleWebServer Listen()
+    {
+        SimpleWebServer webServer;
+        
         SslConfig sslConfig;
         TcpConfig tcpConfig = new TcpConfig(true, 5000, 20000);
         if (Application.isBatchMode)
@@ -37,44 +53,48 @@ public class Server : MonoBehaviour
             sslConfig = new SslConfig(true, "cert.pfx", "", SslProtocols.Tls12);
         }
         else
-        {  
+        {
             Debug.Log("Setting up non secure server");
             sslConfig = new SslConfig(false, "", "", SslProtocols.Tls12);
         }
-        _webServer = new SimpleWebServer(10000, tcpConfig, 16*1024, 3000, sslConfig);
-        _webServer.Start(Constants.GAME_PORT);
-        
+
+        webServer = new SimpleWebServer(10000, tcpConfig, 16 * 1024, 3000, sslConfig);
+        webServer.Start(Constants.GAME_PORT);
+
         Debug.Log("Server started");
-        
-        _webServer.onConnect += WebServerOnonConnect;
-        
-        _webServer.onData += WebServerOnonData;
-        
-        _webServer.onError += delegate(int i, Exception exception)
-        {
-            Debug.Log("Error: " + exception.Message);
-        };
-        
-        _webServer.onDisconnect += WebServerOnonDisconnect;
+        _listening = true;
+
+        return webServer;
     }
 
-    private void WebServerOnonConnect(int id)
+    private void WebServerOnonConnect(int peerId)
     {
-        GameObject newPlayer = Instantiate(playerPrefab, Vector3.zero, Quaternion.identity);
+        GameObject newPlayer = Instantiate(_playerPrefab, Vector3.zero, Quaternion.identity);
 
         PeerData peerData = new PeerData()
         {
-            Id = id,
+            Id = peerId,
             Inputs = Inputs.EmptyInputs(),
             PlayerMovement = newPlayer.GetComponent<Movement>(),
             PlayerTransform = newPlayer.transform
         };
-        _peerDatas[id] = peerData;
+        _peerDatas[peerId] = peerData;
+        _connectedIds.Add(peerId);
+        
+        // Give connecting peer his initial handshake data
+        InitialState initialState = new InitialState()
+        {
+            States = GeneratePeerStates(_peerDatas),
+            YourId = peerId
+        };
+        ArraySegment<byte> bytes = Writer.SerializeToByteSegment(initialState);
+        _webServer.SendOne(peerId, bytes);
     }
 
     private void WebServerOnonDisconnect(int id)
     {
         _peerDatas.Remove(id);
+        _connectedIds.Remove(id);
     }
 
     private void WebServerOnonData(int peerId, ArraySegment<byte> data)
@@ -100,8 +120,10 @@ public class Server : MonoBehaviour
 
     void Update()
     {
+        _webServer.ProcessMessageQueue(this);
+        
         // GUARD
-        if (!_connected)
+        if (!_listening)
             return;
         
         _timer += Time.deltaTime;
@@ -110,8 +132,28 @@ public class Server : MonoBehaviour
             _timer -= Constants.STEP;
             
             // send states
+            PeerStates peerStates = new PeerStates()
+            {
+                States = GeneratePeerStates(_peerDatas)
+            };
+            ArraySegment<byte> bytes = Writer.SerializeToByteSegment(peerStates);
+            _webServer.SendAll(_connectedIds, bytes);
         }
     }
+
+    private Dictionary<int, PeerState> GeneratePeerStates(Dictionary<int, PeerData>  peerDatas)
+    {
+        var peerStates = new Dictionary<int, PeerState>();
+        foreach (var keyValue in peerDatas)
+        {
+            peerStates[keyValue.Key] = new PeerState()
+            {
+                position = keyValue.Value.PlayerTransform.position
+            };
+        }
+
+        return peerStates;
+    } 
 
     private void OnDestroy()
     {
