@@ -1,0 +1,20 @@
+Less is more
+
+- Game where you rush around to drop everything in your inventory
+ - Interact with other players to either pass them something or mutally remove something
+
+- De-cluttering your room
+
+- mutiplayer party match where you need to keep your area as clean as possible
+ - Could be like leaf blowers or something
+ - Or different types of items require methods of removal
+ - Other people are moving stuff out of their area and into yours
+ - leafs and rocks
+
+- Circle system
+ - Smooth out the segment creation and deletion
+ - Make a nicer map sprite
+- networked movement
+ - Interp the postions
+ - Don't send unchanged positions
+- leafs and leaf blower
