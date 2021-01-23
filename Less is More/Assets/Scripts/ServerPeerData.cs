@@ -3,7 +3,7 @@ using NetStack.Quantization;
 using NetStack.Serialization;
 using UnityEngine;
 
-public class PeerData
+public class ServerPeerData
 {
     public int Id;
     public Inputs Inputs;

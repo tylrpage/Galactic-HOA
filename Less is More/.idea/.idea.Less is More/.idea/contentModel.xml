@@ -11,6 +11,7 @@
           <e p="BufferPool.cs" t="Include" />
           <e p="CircleDivider.cs" t="Include" />
           <e p="Client.cs" t="Include" />
+          <e p="ClientPeerData.cs" t="Include" />
           <e p="Constants.cs" t="Include" />
           <e p="Deps" t="Include">
             <e p="NetStack-master" t="Include">
@@ -108,8 +109,9 @@
             <e p="PeerStates.cs" t="Include" />
           </e>
           <e p="Movement.cs" t="Include" />
-          <e p="PeerData.cs" t="Include" />
+          <e p="PositionInterp.cs" t="Include" />
           <e p="Server.cs" t="Include" />
+          <e p="ServerPeerData.cs" t="Include" />
         </e>
       </e>
       <e p="Less is More.sln" t="IncludeFlat" />

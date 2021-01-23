@@ -14,7 +14,7 @@ public class Server : MonoBehaviour
 {
     private GameObject _playerPrefab;
     private SimpleWebServer _webServer;
-    private Dictionary<int, PeerData> _peerDatas;
+    private Dictionary<int, ServerPeerData> _peerDatas;
     private Dictionary<int, PeerState> _peerStates;
     private List<int> _connectedIds;
     private bool _listening;
@@ -22,7 +22,7 @@ public class Server : MonoBehaviour
 
     private void Awake()
     {
-        _peerDatas = new Dictionary<int, PeerData>();
+        _peerDatas = new Dictionary<int, ServerPeerData>();
         _playerPrefab = GetComponent<GameController>().GetPlayerPrefab();
         _connectedIds = new List<int>();
     }
@@ -70,12 +70,15 @@ public class Server : MonoBehaviour
     private void WebServerOnonConnect(int peerId)
     {
         GameObject newPlayer = Instantiate(_playerPrefab, Vector3.zero, Quaternion.identity);
+        
+        Movement movement = newPlayer.GetComponent<Movement>();
+        movement.enabled = true;
 
-        PeerData peerData = new PeerData()
+        ServerPeerData peerData = new ServerPeerData()
         {
             Id = peerId,
             Inputs = Inputs.EmptyInputs(),
-            PlayerMovement = newPlayer.GetComponent<Movement>(),
+            PlayerMovement = movement,
             PlayerTransform = newPlayer.transform
         };
         _peerDatas[peerId] = peerData;
@@ -141,7 +144,7 @@ public class Server : MonoBehaviour
         }
     }
 
-    private Dictionary<int, PeerState> GeneratePeerStates(Dictionary<int, PeerData>  peerDatas)
+    private Dictionary<int, PeerState> GeneratePeerStates(Dictionary<int, ServerPeerData>  peerDatas)
     {
         var peerStates = new Dictionary<int, PeerState>();
         foreach (var keyValue in peerDatas)

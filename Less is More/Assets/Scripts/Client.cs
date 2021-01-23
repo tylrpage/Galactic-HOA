@@ -19,7 +19,7 @@ public class Client : MonoBehaviour
     private float _timer;
     private bool _connected;
     private Inputs _polledInputs;
-    private Dictionary<int, PeerData> _peerDatas;
+    private Dictionary<int, ClientPeerData> _peerDatas;
     private Dictionary<int, PeerState> _peerStates;
 
     void Awake()
@@ -52,7 +52,7 @@ public class Client : MonoBehaviour
         {
             case 1:
             {
-                _peerDatas = new Dictionary<int, PeerData>();
+                _peerDatas = new Dictionary<int, ClientPeerData>();
                 _peerStates = new Dictionary<int, PeerState>();
                 InitialState initialState = new InitialState()
                 {
@@ -67,11 +67,14 @@ public class Client : MonoBehaviour
                     int peerId = keyValue.Key;
             
                     GameObject newPlayer = Instantiate(_playerPrefab, peerState.position, Quaternion.identity);
-                    _peerDatas[peerId] = new PeerData()
+                    
+                    PositionInterp positionInterp = newPlayer.GetComponent<PositionInterp>();
+                    positionInterp.enabled = true;
+                    
+                    _peerDatas[peerId] = new ClientPeerData()
                     {
                         Id = peerId,
-                        PlayerTransform = newPlayer.transform,
-                        PlayerMovement = newPlayer.GetComponent<Movement>()
+                        PositionInterp = positionInterp
                     };
                 }
 
@@ -88,10 +91,10 @@ public class Client : MonoBehaviour
                 };
                 peerStates.Deserialize(ref bitBuffer);
                 
-                // TODO: interp
+                // Send new position to the player's interpolation controller
                 foreach (var keyValue in peerStates.States)
                 {
-                    _peerDatas[keyValue.Key].PlayerTransform.position = keyValue.Value.position;
+                    _peerDatas[keyValue.Key].PositionInterp.PushNewTo(keyValue.Value.position);
                 }
 
                 break;
