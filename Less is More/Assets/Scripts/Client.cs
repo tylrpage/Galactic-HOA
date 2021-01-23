@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
+using Messages;
 using UnityEngine;
 using Mirror.SimpleWeb;
 using NetStack.Quantization;
@@ -14,6 +15,7 @@ public class Client : MonoBehaviour
     private float _myId;
     private float _timer;
     private bool _connected;
+    private Inputs _polledInputs;
 
     void Start()
     {
@@ -79,6 +81,8 @@ public class Client : MonoBehaviour
         if (!_connected)
             return;
         
+        PollInputs(ref _polledInputs);
+        
         _ws.ProcessMessageQueue(this);
         
         _timer += Time.deltaTime;
@@ -87,8 +91,30 @@ public class Client : MonoBehaviour
             _timer -= Constants.STEP;
 
             // Tell the server my inputs
+            ClientInputs clientInputs = new ClientInputs()
+            {
+                inputs = _polledInputs
+            };
+            ArraySegment<byte> bytes = Writer.SerializeToByteSegment(clientInputs);
+            _ws.Send(bytes);
+
+            _polledInputs = Inputs.EmptyInputs();
 
             // Maybe Tell character controller 2D to do client predicted movement
         }
+    }
+
+    private void PollInputs(ref Inputs polledInputs)
+    {
+        if (Input.GetKey(KeyCode.W))
+            polledInputs.W = true;
+        if (Input.GetKey(KeyCode.A))
+            polledInputs.A = true;
+        if (Input.GetKey(KeyCode.S))
+            polledInputs.S = true;
+        if (Input.GetKey(KeyCode.D))
+            polledInputs.D = true;
+        if (Input.GetKeyDown(KeyCode.Space))
+            polledInputs.Space = true;
     }
 }

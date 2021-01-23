@@ -15,6 +15,7 @@ static class BufferPool {
         if (bitBuffer == null)
             bitBuffer = new BitBuffer(1024);
 
+        bitBuffer.Clear();
         return bitBuffer;
     }
     
@@ -22,6 +23,7 @@ static class BufferPool {
         if (byteBuffer == null)
             byteBuffer = new byte[1024];
 
+        Array.Clear(byteBuffer, 0, 1024);
         return byteBuffer;
     }
 }

@@ -98,6 +98,12 @@
               </e>
             </e>
           </e>
+          <e p="Inputs.cs" t="Include" />
+          <e p="Messages" t="Include">
+            <e p="BitSerializable.cs" t="Include" />
+            <e p="ClientInputs.cs" t="Include" />
+            <e p="messages.txt" t="Include" />
+          </e>
           <e p="Movement.cs" t="Include" />
           <e p="Server.cs" t="Include" />
         </e>
