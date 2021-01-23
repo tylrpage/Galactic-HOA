@@ -9,12 +9,99 @@
         <e p="Scripts" t="Include">
           <e p="AnimationController.cs" t="Include" />
           <e p="CircleDivider.cs" t="Include" />
+          <e p="Deps" t="Include">
+            <e p="NetStack-master" t="Include">
+              <e p="source" t="Include">
+                <e p="NetStack.Buffers" t="Include">
+                  <e p="ArrayPool.cs" t="Include" />
+                  <e p="ArrayPoolEventSource.cs" t="Include" />
+                  <e p="DefaultArrayPool.cs" t="Include" />
+                  <e p="DefaultArrayPoolBucket.cs" t="Include" />
+                  <e p="Utilities.cs" t="Include" />
+                </e>
+                <e p="NetStack.Quantization" t="Include">
+                  <e p="BoundedRange.cs" t="Include" />
+                  <e p="HalfPrecision.cs" t="Include" />
+                  <e p="SmallestThree.cs" t="Include" />
+                </e>
+                <e p="NetStack.Serialization" t="Include">
+                  <e p="BitBuffer.cs" t="Include" />
+                </e>
+                <e p="NetStack.Threading" t="Include">
+                  <e p="ArrayQueue.cs" t="Include" />
+                  <e p="ConcurrentBuffer.cs" t="Include" />
+                  <e p="ConcurrentPool.cs" t="Include" />
+                </e>
+              </e>
+            </e>
+            <e p="ParrelSync" t="Include">
+              <e p="Examples" t="Include">
+                <e p="CustomArgumentExample.cs" t="Include" />
+              </e>
+              <e p="ParrelSync" t="Include">
+                <e p="Editor" t="Include">
+                  <e p="AssetModBlock" t="Include">
+                    <e p="EditorQuit.cs" t="Include" />
+                    <e p="ParrelSyncAssetModificationProcessor.cs" t="Include" />
+                  </e>
+                  <e p="ClonesManager.cs" t="Include" />
+                  <e p="ClonesManagerWindow.cs" t="Include" />
+                  <e p="ExternalLinks.cs" t="Include" />
+                  <e p="FileUtilities.cs" t="Include" />
+                  <e p="NonCore" t="Include">
+                    <e p="AskFeedbackDialog.cs" t="Include" />
+                    <e p="OtherMenuItem.cs" t="Include" />
+                  </e>
+                  <e p="Preferences.cs" t="Include" />
+                  <e p="Project.cs" t="Include" />
+                  <e p="UpdateChecker.cs" t="Include" />
+                </e>
+                <e p="projectCloner.asmdef" t="Include" />
+              </e>
+              <e p="VERSION.txt" t="Include" />
+            </e>
+            <e p="SimpleWebTransport" t="Include">
+              <e p="Client" t="Include">
+                <e p="SimpleWebClient.cs" t="Include" />
+                <e p="StandAlone" t="Include">
+                  <e p="ClientHandshake.cs" t="Include" />
+                  <e p="ClientSslHelper.cs" t="Include" />
+                  <e p="WebSocketClientStandAlone.cs" t="Include" />
+                </e>
+                <e p="Webgl" t="Include">
+                  <e p="SimpleWebJSLib.cs" t="Include" />
+                  <e p="WebSocketClientWebGl.cs" t="Include" />
+                </e>
+              </e>
+              <e p="Common" t="Include">
+                <e p="BufferPool.cs" t="Include" />
+                <e p="Connection.cs" t="Include" />
+                <e p="Constants.cs" t="Include" />
+                <e p="EventType.cs" t="Include" />
+                <e p="Log.cs" t="Include" />
+                <e p="Message.cs" t="Include" />
+                <e p="MessageProcessor.cs" t="Include" />
+                <e p="ReadHelper.cs" t="Include" />
+                <e p="ReceiveLoop.cs" t="Include" />
+                <e p="SendLoop.cs" t="Include" />
+                <e p="TcpConfig.cs" t="Include" />
+                <e p="Utils.cs" t="Include" />
+              </e>
+              <e p="Server" t="Include">
+                <e p="ServerHandshake.cs" t="Include" />
+                <e p="ServerSslHelper.cs" t="Include" />
+                <e p="SimpleWebServer.cs" t="Include" />
+                <e p="WebSocketServer.cs" t="Include" />
+              </e>
+            </e>
+          </e>
           <e p="Movement.cs" t="Include" />
         </e>
       </e>
       <e p="Less is More.sln" t="IncludeFlat" />
       <e p="obj" t="ExcludeRecursive" />
       <e p="Packages" t="ExcludeRecursive" />
+      <e p="ParrelSync.csproj" t="IncludeRecursive" />
       <e p="Temp\bin" t="ExcludeRecursive" />
     </e>
   </component>

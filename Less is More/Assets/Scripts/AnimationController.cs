@@ -4,9 +4,12 @@ using UnityEngine;
 
 public class AnimationController : MonoBehaviour
 {
-    private string _currentAnimationState;
+#pragma warning disable 0649
     [SerializeField] private Animator animator;
     [SerializeField] private Transform spriteTransform;
+#pragma warning restore 0649 
+    
+    private string _currentAnimationState;
 
     public void SetSpriteDirection(bool right)
     {

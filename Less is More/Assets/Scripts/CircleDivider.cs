@@ -6,8 +6,11 @@ using UnityEngine;
 public class CircleDivider : MonoBehaviour
 {
     public int Segments { get; private set; }
-    
+
+#pragma warning disable 0649 
     [SerializeField] private GameObject dividerPrefab;
+#pragma warning restore 0649 
+    
     private List<Transform> _activeDividers;
     private Transform _lastDivider;
 
