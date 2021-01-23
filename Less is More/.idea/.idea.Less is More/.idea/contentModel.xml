@@ -8,7 +8,10 @@
       <e p="Assets" t="Include">
         <e p="Scripts" t="Include">
           <e p="AnimationController.cs" t="Include" />
+          <e p="BufferPool.cs" t="Include" />
           <e p="CircleDivider.cs" t="Include" />
+          <e p="Client.cs" t="Include" />
+          <e p="Constants.cs" t="Include" />
           <e p="Deps" t="Include">
             <e p="NetStack-master" t="Include">
               <e p="source" t="Include">
@@ -96,6 +99,7 @@
             </e>
           </e>
           <e p="Movement.cs" t="Include" />
+          <e p="Server.cs" t="Include" />
         </e>
       </e>
       <e p="Less is More.sln" t="IncludeFlat" />
