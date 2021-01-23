@@ -9,6 +9,12 @@ public class Movement : MonoBehaviour
 
     private Rigidbody2D _rb;
     private AnimationController _animationController;
+    private Inputs _inputs;
+
+    public void SetInputs(Inputs inputs)
+    {
+        _inputs = inputs;
+    }
 
     private void Awake()
     {
@@ -18,7 +24,7 @@ public class Movement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Vector2 inputDir = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+        Vector2 inputDir = GetInputDir(_inputs);
         _rb.AddForce(inputDir * speedMult, ForceMode2D.Force);
         
         // Animation stuff
@@ -39,5 +45,12 @@ public class Movement : MonoBehaviour
                 _animationController.SetSpriteDirection(false);
             }
         }
+    }
+
+    private Vector2 GetInputDir(Inputs inputs)
+    {
+        return new Vector2(
+            (inputs.D ? 1f : 0) - (inputs.A ? 1f : 0),
+            (inputs.W ? 1f : 0) - (inputs.S ? 1f : 0));
     }
 }

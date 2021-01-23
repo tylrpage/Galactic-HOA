@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Security.Authentication;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
+using Messages;
 using UnityEngine;
 using Mirror.SimpleWeb;
 using NetStack.Quantization;
@@ -11,16 +12,23 @@ using NetStack.Serialization;
 
 public class Server : MonoBehaviour
 {
+#pragma warning disable 0649
+    [SerializeField] private GameObject playerPrefab;
+#pragma warning restore 0649
+    
     private SimpleWebServer _webServer;
-    private List<int> _connectedIds;
+    private Dictionary<int, PeerData> _peerDatas;
     private bool _connected;
     private float _timer;
-     
+
+    private void Awake()
+    {
+        _peerDatas = new Dictionary<int, PeerData>();
+    }
+
     // Start is called before the first frame update
     void Start()
     {
-        _connectedIds = new List<int>();
-
         SslConfig sslConfig;
         TcpConfig tcpConfig = new TcpConfig(true, 5000, 20000);
         if (Application.isBatchMode)
@@ -52,17 +60,42 @@ public class Server : MonoBehaviour
 
     private void WebServerOnonConnect(int id)
     {
-        _connectedIds.Add(id);
+        GameObject newPlayer = Instantiate(playerPrefab, Vector3.zero, Quaternion.identity);
+
+        PeerData peerData = new PeerData()
+        {
+            Id = id,
+            Inputs = Inputs.EmptyInputs(),
+            PlayerMovement = newPlayer.GetComponent<Movement>(),
+            PlayerTransform = newPlayer.transform
+        };
+        _peerDatas[id] = peerData;
     }
 
     private void WebServerOnonDisconnect(int id)
     {
-        _connectedIds.Remove(id);
+        _peerDatas.Remove(id);
     }
 
-    private void WebServerOnonData(int id, ArraySegment<byte> data)
+    private void WebServerOnonData(int peerId, ArraySegment<byte> data)
     {
-        
+        BitBuffer bitBuffer = BufferPool.GetBitBuffer();
+        bitBuffer.FromArray(data.Array, data.Count);
+        ushort messageId = bitBuffer.PeekUShort();
+
+        switch (messageId)
+        {
+            // Client input
+            case 2:
+            {
+                ClientInputs clientInputs = new ClientInputs();
+                clientInputs.Deserialize(ref bitBuffer);
+                _peerDatas[peerId].Inputs = clientInputs.inputs;
+                _peerDatas[peerId].PlayerMovement.SetInputs(clientInputs.inputs);
+
+                break;
+            }
+        }
     }
 
     void Update()
@@ -75,7 +108,7 @@ public class Server : MonoBehaviour
         while (_timer >= Constants.STEP)
         {
             _timer -= Constants.STEP;
-
+            
             // send states
         }
     }
