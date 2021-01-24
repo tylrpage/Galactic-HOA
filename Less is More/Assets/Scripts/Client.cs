@@ -80,6 +80,8 @@ public class Client : MonoBehaviour
                     
                     PositionInterp positionInterp = newPlayer.GetComponent<PositionInterp>();
                     positionInterp.enabled = true;
+                    Debug.Log(keyValue.Value.position);
+                    positionInterp.SetPosition(keyValue.Value.position);
                     
                     _peerDatas[peerId] = new ClientPeerData()
                     {

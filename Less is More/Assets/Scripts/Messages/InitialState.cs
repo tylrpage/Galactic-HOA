@@ -45,7 +45,9 @@ namespace Messages
                 
                 if (!States.ContainsKey(peerId))
                     States[peerId] = new PeerState();
-                States[peerId].Deserialize(ref data);
+                PeerState peerState = new PeerState();
+                peerState.Deserialize(ref data);
+                States[peerId] = peerState;
             }
             
             int leafCount = data.ReadInt();

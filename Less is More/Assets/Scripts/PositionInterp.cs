@@ -5,21 +5,26 @@ using UnityEngine;
 
 public class PositionInterp : MonoBehaviour
 {
-    private Vector3 _from;
-    private Vector3 _to;
+    private Vector2 _to;
     private float _t;
     private int _pushes;
 
-    public void PushNewTo(Vector3 newTo)
+    public void PushNewTo(Vector2 newTo)
     {
         _t = 0;
-        _from = _to;
         _to = newTo;
 
         if (_pushes < 2)
         {
             _pushes++;
         }
+    }
+
+    public void SetPosition(Vector2 pos)
+    {
+        transform.position = pos;
+        _to = pos;
+        _pushes = 2;
     }
 
     public void SetRotation(Quaternion rotation)

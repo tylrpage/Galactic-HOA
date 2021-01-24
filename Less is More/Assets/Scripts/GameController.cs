@@ -1,6 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+
+#if UNITY_EDITOR
 using ParrelSync;
+#endif
+
 using UnityEngine;
 
 public class GameController : MonoBehaviour
@@ -10,6 +14,7 @@ public class GameController : MonoBehaviour
 #pragma warning restore 0649
 
     public bool nonCloneIsServer = false;
+    public bool connectToRemote = false;
 
     public GameObject GetPlayerPrefab()
     {
@@ -34,13 +39,22 @@ public class GameController : MonoBehaviour
             else
                 StartClient();
         }
+        #else
+        if (Application.isBatchMode)
+        {
+            StartServer();
+        }
+        else
+        {
+            StartClient();
+        }
         #endif
     }
 
     private void StartClient()
     {
         Client client = gameObject.AddComponent<Client>();
-        client.Connect(false);
+        client.Connect(connectToRemote);
     }
 
     private void StartServer()

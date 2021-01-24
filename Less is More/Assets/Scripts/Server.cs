@@ -106,6 +106,7 @@ public class Server : MonoBehaviour
 
     private void WebServerOnonDisconnect(int id)
     {
+        Destroy(_peerDatas[id].PlayerTransform.gameObject);
         _peerDatas.Remove(id);
         _connectedIds.Remove(id);
     }
