@@ -112,6 +112,7 @@
           <e p="PositionInterp.cs" t="Include" />
           <e p="Server.cs" t="Include" />
           <e p="ServerPeerData.cs" t="Include" />
+          <e p="YSorting.cs" t="Include" />
         </e>
       </e>
       <e p="Less is More.sln" t="IncludeFlat" />

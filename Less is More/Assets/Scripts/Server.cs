@@ -73,6 +73,7 @@ public class Server : MonoBehaviour
         
         Movement movement = newPlayer.GetComponent<Movement>();
         movement.enabled = true;
+        newPlayer.GetComponent<CircleCollider2D>().enabled = true;
 
         ServerPeerData peerData = new ServerPeerData()
         {

@@ -5,41 +5,31 @@ using UnityEngine;
 
 public class PositionInterp : MonoBehaviour
 {
-    private readonly int bufferSize = 3;
-    
-    private List<Vector3> _positions;
+    private Vector3 _from;
+    private Vector3 _to;
     private float _t;
-
-    private void Awake()
-    {
-        _positions = new List<Vector3>();
-    }
+    private byte _pushes;
 
     public void PushNewTo(Vector3 newTo)
     {
         _t = 0;
-        _positions.Add(newTo);
+        _from = _to;
+        _to = newTo;
 
-        if (_positions.Count > bufferSize)
+        if (_pushes < 2)
         {
-            _positions.RemoveAt(0);
+            _pushes++;
         }
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (_positions.Count >= 2)
+        if (_pushes >= 2)
         {
-            transform.position = Vector3.Lerp(_positions[0], _positions[1], _t);
+            transform.position = Vector3.Lerp(_from, _to, _t);
         }
         
         _t += Time.deltaTime * Constants.TICK;
-
-        if (_t >= 1)
-        {
-            _t = 0;
-            _positions.RemoveAt(0);
-        }
     }
 }
