@@ -324,6 +324,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerPrefab: {fileID: 2717279530534411526, guid: 5117622dbda783a4cbca19fb95e77661,
     type: 3}
+  circleDivider: {fileID: 1508845274}
   nonCloneIsServer: 0
   connectToRemote: 0
 --- !u!20 &519420031

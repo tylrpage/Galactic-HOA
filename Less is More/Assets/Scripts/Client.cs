@@ -13,7 +13,7 @@ using Debug = UnityEngine.Debug;
 
 public class Client : MonoBehaviour
 {
-    private GameObject _playerPrefab;
+    private GameController _gameController;
     private SimpleWebClient _ws;
     private float _myId;
     private float _timer;
@@ -28,8 +28,8 @@ public class Client : MonoBehaviour
 
     void Awake()
     {
+        _gameController = GetComponent<GameController>();
         _camera = Camera.main;
-        _playerPrefab = GetComponent<GameController>().GetPlayerPrefab();
         _leafSpawner = GetComponent<LeafSpawner>();
         _leafInterps = new Dictionary<int, PositionInterp>();
         
@@ -136,12 +136,19 @@ public class Client : MonoBehaviour
 
                 break;
             }
+            case 6:
+            {
+                ZoneCountChange zoneCountChange = new ZoneCountChange();
+                zoneCountChange.Deserialize(ref bitBuffer);
+                _gameController.GetCircleDivider().SetSegments(zoneCountChange.NewZoneCount);
+                break;
+            }
         }
     }
 
     private void CreateAndRegisterPlayer(int peerId, PeerState peerState)
     {
-        GameObject newPlayer = Instantiate(_playerPrefab, peerState.position, Quaternion.identity);
+        GameObject newPlayer = Instantiate(_gameController.GetPlayerPrefab(), peerState.position, Quaternion.identity);
                     
         PositionInterp positionInterp = newPlayer.GetComponent<PositionInterp>();
         positionInterp.enabled = true;

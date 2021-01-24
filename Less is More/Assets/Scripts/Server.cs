@@ -12,7 +12,6 @@ using NetStack.Serialization;
 
 public class Server : MonoBehaviour
 {
-    private GameObject _playerPrefab;
     private SimpleWebServer _webServer;
     private Dictionary<int, ServerPeerData> _peerDatas;
     private Dictionary<int, PeerState> _peerStates;
@@ -20,11 +19,12 @@ public class Server : MonoBehaviour
     private bool _listening;
     private float _timer;
     private LeafSpawner _leafSpawner;
+    private GameController _gameController;
 
     private void Awake()
     {
         _peerDatas = new Dictionary<int, ServerPeerData>();
-        _playerPrefab = GetComponent<GameController>().GetPlayerPrefab();
+        _gameController = GetComponent<GameController>();
         _connectedIds = new List<int>();
         _leafSpawner = GetComponent<LeafSpawner>();
     }
@@ -73,7 +73,7 @@ public class Server : MonoBehaviour
 
     private void WebServerOnonConnect(int peerId)
     {
-        GameObject newPlayer = Instantiate(_playerPrefab, Vector3.zero, Quaternion.identity);
+        GameObject newPlayer = Instantiate(_gameController.GetPlayerPrefab(), Vector3.zero, Quaternion.identity);
         
         Movement movement = newPlayer.GetComponent<Movement>();
         movement.enabled = true;
@@ -111,6 +111,16 @@ public class Server : MonoBehaviour
         };
         ArraySegment<byte> bytes = Writer.SerializeToByteSegment(initialState);
         _webServer.SendOne(peerId, bytes);
+        
+        // Divide the circle
+        CircleDivider circleDivider = _gameController.GetCircleDivider();
+        circleDivider.AddSegment();
+        // Tell everyone about it
+        ZoneCountChange zoneCountChange = new ZoneCountChange()
+        {
+            NewZoneCount = circleDivider.Segments
+        };
+        _webServer.SendAll(_connectedIds, Writer.SerializeToByteSegment(zoneCountChange));
     }
 
     private void WebServerOnonDisconnect(int id)
@@ -126,6 +136,16 @@ public class Server : MonoBehaviour
         Destroy(_peerDatas[id].PlayerTransform.gameObject);
         _peerDatas.Remove(id);
         _connectedIds.Remove(id);
+        
+        // Remove circle division
+        CircleDivider circleDivider = _gameController.GetCircleDivider();
+        circleDivider.RemoveSegment();
+        // Tell everyone about it
+        ZoneCountChange zoneCountChange = new ZoneCountChange()
+        {
+            NewZoneCount = circleDivider.Segments
+        };
+        _webServer.SendAll(_connectedIds, Writer.SerializeToByteSegment(zoneCountChange));
     }
 
     private void WebServerOnonData(int peerId, ArraySegment<byte> data)

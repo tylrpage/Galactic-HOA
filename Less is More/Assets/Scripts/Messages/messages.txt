@@ -3,3 +3,4 @@
 3 - server's peer states going to client
 4 - server telling clients about a new player
 5 - server telling clients about a player leaving
+6 - server telling clients about a zone count change

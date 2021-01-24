@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class CircleDivider : MonoBehaviour
 {
-    public int Segments { get; private set; }
+    public short Segments { get; private set; }
 
 #pragma warning disable 0649 
     [SerializeField] private GameObject dividerPrefab;
@@ -16,13 +16,36 @@ public class CircleDivider : MonoBehaviour
 
     private void Awake()
     {
-        Segments = 1;
+        Segments = 0;
         _activeDividers = new List<Transform>();
+    }
+
+    public void SetSegments(short newCount)
+    {
+        int diff = newCount - Segments;
+        if (diff > 0)
+        {
+            for (int i = 0; i < diff; i++)
+            {
+                AddSegment();
+            }
+        }
+        else if (diff < 0)
+        {
+            for (int i = 0; i < Mathf.Abs(diff); i++)
+            {
+                RemoveSegment();
+            }
+        }
     }
 
     public void AddSegment()
     {
         Segments++;
+
+        // GUARD, don't do anything for the first segment created
+        if (Segments == 1)
+            return;
         
         if (Segments == 2)
         {

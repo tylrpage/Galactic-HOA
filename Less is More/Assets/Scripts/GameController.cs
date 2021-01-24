@@ -11,6 +11,7 @@ public class GameController : MonoBehaviour
 {
 #pragma warning disable 0649
     [SerializeField] private GameObject playerPrefab;
+    [SerializeField] private CircleDivider circleDivider;
 #pragma warning restore 0649
 
     public bool nonCloneIsServer = false;
@@ -19,6 +20,11 @@ public class GameController : MonoBehaviour
     public GameObject GetPlayerPrefab()
     {
         return playerPrefab;
+    }
+
+    public CircleDivider GetCircleDivider()
+    {
+        return circleDivider;
     }
     
     private void Start()
