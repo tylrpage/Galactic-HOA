@@ -19,17 +19,21 @@ public class Server : MonoBehaviour
     private List<int> _connectedIds;
     private bool _listening;
     private float _timer;
+    private LeafSpawner _leafSpawner;
 
     private void Awake()
     {
         _peerDatas = new Dictionary<int, ServerPeerData>();
         _playerPrefab = GetComponent<GameController>().GetPlayerPrefab();
         _connectedIds = new List<int>();
+        _leafSpawner = GetComponent<LeafSpawner>();
     }
 
     // Start is called before the first frame update
     void Start()
     {
+        _leafSpawner.SpawnLeafsRandomly(15);
+        
         _webServer = Listen();
 
         _webServer.onConnect += WebServerOnonConnect;
@@ -93,6 +97,7 @@ public class Server : MonoBehaviour
         InitialState initialState = new InitialState()
         {
             States = GeneratePeerStates(_peerDatas, false),
+            LeafStates = _leafSpawner.GenerateLeafStates(false),
             YourId = peerId
         };
         ArraySegment<byte> bytes = Writer.SerializeToByteSegment(initialState);
@@ -143,7 +148,8 @@ public class Server : MonoBehaviour
             // send states
             PeerStates peerStates = new PeerStates()
             {
-                States = GeneratePeerStates(_peerDatas, true)
+                States = GeneratePeerStates(_peerDatas, true),
+                Leafs = _leafSpawner.GenerateLeafStates(true)
             };
             ArraySegment<byte> bytes = Writer.SerializeToByteSegment(peerStates);
             _webServer.SendAll(_connectedIds, bytes);

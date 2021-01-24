@@ -11,6 +11,7 @@ namespace Messages
 
         public int YourId;
         public Dictionary<int, PeerState> States;
+        public Dictionary<int, LeafState> LeafStates;
 
         public void Serialize(ref BitBuffer data)
         {
@@ -22,6 +23,13 @@ namespace Messages
             {
                 data.AddInt(peerState.Key);
                 peerState.Value.Serialize(ref data);
+            }
+            
+            data.AddInt(LeafStates.Count);
+            foreach (var leaf in LeafStates)
+            {
+                data.AddInt(leaf.Key);
+                leaf.Value.Serialize(ref data);
             }
         }
 
@@ -38,6 +46,15 @@ namespace Messages
                 if (!States.ContainsKey(peerId))
                     States[peerId] = new PeerState();
                 States[peerId].Deserialize(ref data);
+            }
+            
+            int leafCount = data.ReadInt();
+            for (int i = 0; i < leafCount; i++)
+            {
+                int leafId = data.ReadInt();
+                LeafState leafState = new LeafState();
+                leafState.Deserialize(ref data);
+                LeafStates[leafId] = leafState;
             }
         }
     }

@@ -22,6 +22,11 @@ public class PositionInterp : MonoBehaviour
         }
     }
 
+    public void SetRotation(Quaternion rotation)
+    {
+        transform.rotation = rotation;
+    }
+
     // Update is called once per frame
     void Update()
     {

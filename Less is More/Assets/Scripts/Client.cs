@@ -21,12 +21,17 @@ public class Client : MonoBehaviour
     private Inputs _polledInputs;
     private Dictionary<int, ClientPeerData> _peerDatas;
     private Dictionary<int, PeerState> _peerStates;
+    private Dictionary<int, LeafState> _leafStates;
+    private Dictionary<int, PositionInterp> _leafInterps;
     private Camera _camera;
+    private LeafSpawner _leafSpawner;
 
     void Awake()
     {
         _camera = Camera.main;
         _playerPrefab = GetComponent<GameController>().GetPlayerPrefab();
+        _leafSpawner = GetComponent<LeafSpawner>();
+        _leafInterps = new Dictionary<int, PositionInterp>();
         
         TcpConfig tcpConfig = new TcpConfig(true, 5000, 20000);
         _ws = SimpleWebClient.Create(16*1024, 1000, tcpConfig);
@@ -56,9 +61,12 @@ public class Client : MonoBehaviour
             {
                 _peerDatas = new Dictionary<int, ClientPeerData>();
                 _peerStates = new Dictionary<int, PeerState>();
+                _leafStates = new Dictionary<int, LeafState>();
+                
                 InitialState initialState = new InitialState()
                 {
-                    States = _peerStates
+                    States = _peerStates,
+                    LeafStates = _leafStates
                 };
                 initialState.Deserialize(ref bitBuffer);
                 _myId = initialState.YourId;
@@ -81,6 +89,13 @@ public class Client : MonoBehaviour
                     };
                 }
 
+                foreach (var keyValue in initialState.LeafStates)
+                {
+                    LeafState leafState = keyValue.Value;
+                    GameObject newLeaf = _leafSpawner.SpawnLeaf(leafState.position, leafState.rotation);
+                    _leafInterps[keyValue.Key] = newLeaf.GetComponent<PositionInterp>();
+                }
+
                 Debug.Log("Client connected");
                 _connected = true;
 
@@ -90,7 +105,8 @@ public class Client : MonoBehaviour
             {
                 PeerStates peerStates = new PeerStates()
                 {
-                    States = _peerStates
+                    States = _peerStates,
+                    Leafs = _leafStates
                 };
                 peerStates.Deserialize(ref bitBuffer);
                 
@@ -100,6 +116,13 @@ public class Client : MonoBehaviour
                     _peerDatas[keyValue.Key].PositionInterp.PushNewTo(keyValue.Value.position);
                     _peerDatas[keyValue.Key].AnimationController.ChangeAnimationState(keyValue.Value.currentAnimation);
                     _peerDatas[keyValue.Key].AnimationController.SetSpriteDirection(keyValue.Value.spriteFlipped);
+                }
+
+                foreach (var keyValue in peerStates.Leafs)
+                {
+                    LeafState leafState = keyValue.Value;
+                    _leafInterps[keyValue.Key].PushNewTo(leafState.position);
+                    _leafInterps[keyValue.Key].SetRotation(leafState.rotation);
                 }
 
                 break;

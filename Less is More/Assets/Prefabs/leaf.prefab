@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 4003447652076947643}
   - component: {fileID: 4003447652076947636}
   - component: {fileID: 4003447652076947637}
+  - component: {fileID: 4497740918586304369}
   m_Layer: 8
   m_Name: leaf
   m_TagString: Untagged
@@ -95,6 +96,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SortingGroup: {fileID: 4003447652160899801}
+--- !u!114 &4497740918586304369
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4003447652076947638}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 594f88f1598ca80478ca6eb0bc966216, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &4003447652160899796
 PrefabInstance:
   m_ObjectHideFlags: 0
