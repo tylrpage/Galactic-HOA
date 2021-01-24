@@ -101,6 +101,7 @@
           </e>
           <e p="GameController.cs" t="Include" />
           <e p="Inputs.cs" t="Include" />
+          <e p="LeafBlower.cs" t="Include" />
           <e p="Messages" t="Include">
             <e p="BitSerializable.cs" t="Include" />
             <e p="ClientInputs.cs" t="Include" />

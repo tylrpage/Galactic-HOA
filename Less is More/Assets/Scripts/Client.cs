@@ -21,9 +21,11 @@ public class Client : MonoBehaviour
     private Inputs _polledInputs;
     private Dictionary<int, ClientPeerData> _peerDatas;
     private Dictionary<int, PeerState> _peerStates;
+    private Camera _camera;
 
     void Awake()
     {
+        _camera = Camera.main;
         _playerPrefab = GetComponent<GameController>().GetPlayerPrefab();
         
         TcpConfig tcpConfig = new TcpConfig(true, 5000, 20000);
@@ -175,7 +177,9 @@ public class Client : MonoBehaviour
             polledInputs.S = true;
         if (Input.GetKey(KeyCode.D))
             polledInputs.D = true;
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKey(KeyCode.Space))
             polledInputs.Space = true;
+
+        polledInputs.MouseDir = _camera.ScreenToWorldPoint(Input.mousePosition) - transform.position;
     }
 }

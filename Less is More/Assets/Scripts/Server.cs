@@ -73,6 +73,8 @@ public class Server : MonoBehaviour
         
         Movement movement = newPlayer.GetComponent<Movement>();
         movement.enabled = true;
+        LeafBlower leafBlower = newPlayer.GetComponent<LeafBlower>();
+        leafBlower.enabled = true;
         newPlayer.GetComponent<CircleCollider2D>().enabled = true;
 
         ServerPeerData peerData = new ServerPeerData()
@@ -80,7 +82,8 @@ public class Server : MonoBehaviour
             Id = peerId,
             Inputs = Inputs.EmptyInputs(),
             PlayerMovement = movement,
-            PlayerTransform = newPlayer.transform
+            PlayerTransform = newPlayer.transform,
+            PlayerBlower = leafBlower
         };
         _peerDatas[peerId] = peerData;
         _connectedIds.Add(peerId);
@@ -116,6 +119,7 @@ public class Server : MonoBehaviour
                 clientInputs.Deserialize(ref bitBuffer);
                 _peerDatas[peerId].Inputs = clientInputs.inputs;
                 _peerDatas[peerId].PlayerMovement.SetInputs(clientInputs.inputs);
+                _peerDatas[peerId].PlayerBlower.SetInputs(clientInputs.inputs);
 
                 break;
             }

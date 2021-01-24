@@ -9,4 +9,5 @@ public class ServerPeerData
     public Inputs Inputs;
     public Movement PlayerMovement;
     public Transform PlayerTransform;
+    public LeafBlower PlayerBlower;
 }

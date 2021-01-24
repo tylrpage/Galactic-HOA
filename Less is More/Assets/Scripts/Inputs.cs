@@ -1,5 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.ComTypes;
+using NetStack.Quantization;
 using NetStack.Serialization;
 using UnityEngine;
 
@@ -10,14 +12,20 @@ public struct Inputs
     public bool S;
     public bool D;
     public bool Space;
+    public Vector2 MouseDir;
 
     public void Serialize(ref BitBuffer bitBuffer)
     {
+        MouseDir = MouseDir.normalized;
+        QuantizedVector2 qMouseDir = BoundedRange.Quantize(MouseDir, Constants.MOUSEDIR_BOUNDS);
+        
         bitBuffer.AddBool(W)
             .AddBool(A)
             .AddBool(S)
             .AddBool(D)
-            .AddBool(Space);
+            .AddBool(Space)
+            .AddUInt(qMouseDir.x)
+            .AddUInt(qMouseDir.y);
     }
 
     public void Deserialize(ref BitBuffer bitBuffer)
@@ -27,6 +35,9 @@ public struct Inputs
         S = bitBuffer.ReadBool();
         D = bitBuffer.ReadBool();
         Space = bitBuffer.ReadBool();
+
+        QuantizedVector2 qMouseDir = new QuantizedVector2(bitBuffer.ReadUInt(), bitBuffer.ReadUInt());
+        MouseDir = BoundedRange.Dequantize(qMouseDir, Constants.MOUSEDIR_BOUNDS);
     }
 
     public static Inputs EmptyInputs()
