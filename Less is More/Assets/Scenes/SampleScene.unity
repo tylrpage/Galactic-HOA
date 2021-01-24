@@ -325,6 +325,7 @@ MonoBehaviour:
   playerPrefab: {fileID: 2717279530534411526, guid: 5117622dbda783a4cbca19fb95e77661,
     type: 3}
   nonCloneIsServer: 0
+  connectToRemote: 0
 --- !u!20 &519420031
 Camera:
   m_ObjectHideFlags: 0
@@ -396,7 +397,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   leafPrefab: {fileID: 4003447652076947638, guid: 8202c91353be6cf4c98c4701b439f2b5,
     type: 3}
-  Leafs: []
 --- !u!1 &542220360
 GameObject:
   m_ObjectHideFlags: 0

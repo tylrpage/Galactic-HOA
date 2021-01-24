@@ -73,22 +73,7 @@ public class Client : MonoBehaviour
 
                 foreach (var keyValue in initialState.States)
                 {
-                    PeerState peerState = keyValue.Value;
-                    int peerId = keyValue.Key;
-            
-                    GameObject newPlayer = Instantiate(_playerPrefab, peerState.position, Quaternion.identity);
-                    
-                    PositionInterp positionInterp = newPlayer.GetComponent<PositionInterp>();
-                    positionInterp.enabled = true;
-                    Debug.Log(keyValue.Value.position);
-                    positionInterp.SetPosition(keyValue.Value.position);
-                    
-                    _peerDatas[peerId] = new ClientPeerData()
-                    {
-                        Id = peerId,
-                        PositionInterp = positionInterp,
-                        AnimationController = newPlayer.GetComponentInChildren<AnimationController>()
-                    };
+                    CreateAndRegisterPlayer(keyValue.Key, keyValue.Value);
                 }
 
                 foreach (var keyValue in initialState.LeafStates)
@@ -129,7 +114,45 @@ public class Client : MonoBehaviour
 
                 break;
             }
+            case 4:
+            {
+                NewPlayer newPlayer = new NewPlayer();
+                newPlayer.Deserialize(ref bitBuffer);
+                
+                CreateAndRegisterPlayer(newPlayer.TheirId, newPlayer.State);
+                
+                break;
+            }
+            case 5:
+            {
+                PlayerDisconnected playerDisconnected = new PlayerDisconnected();
+                playerDisconnected.Deserialize(ref bitBuffer);
+
+                int id = playerDisconnected.TheirId;
+                GameObject playerObjectToDestroy = _peerDatas[id].PositionInterp.gameObject;
+                Destroy(playerObjectToDestroy);
+                _peerDatas.Remove(id);
+                _peerStates.Remove(id);
+
+                break;
+            }
         }
+    }
+
+    private void CreateAndRegisterPlayer(int peerId, PeerState peerState)
+    {
+        GameObject newPlayer = Instantiate(_playerPrefab, peerState.position, Quaternion.identity);
+                    
+        PositionInterp positionInterp = newPlayer.GetComponent<PositionInterp>();
+        positionInterp.enabled = true;
+        positionInterp.SetPosition(peerState.position);
+                    
+        _peerDatas[peerId] = new ClientPeerData()
+        {
+            Id = peerId,
+            PositionInterp = positionInterp,
+            AnimationController = newPlayer.GetComponentInChildren<AnimationController>()
+        };
     }
 
     public void Connect(bool isRemote)
