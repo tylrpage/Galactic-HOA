@@ -1,5 +1,16 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!210 &4003447652160899801
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 956385276338884597}
+  m_Enabled: 1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
 --- !u!1 &4003447652076947638
 GameObject:
   m_ObjectHideFlags: 0
@@ -12,7 +23,7 @@ GameObject:
   - component: {fileID: 4003447652076947643}
   - component: {fileID: 4003447652076947636}
   - component: {fileID: 4003447652076947637}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: leaf
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -84,17 +95,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SortingGroup: {fileID: 4003447652160899801}
---- !u!210 &4003447652160899801
-SortingGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 956385276338884597}
-  m_Enabled: 1
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
 --- !u!1001 &4003447652160899796
 PrefabInstance:
   m_ObjectHideFlags: 0

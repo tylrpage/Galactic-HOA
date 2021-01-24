@@ -11,15 +11,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7765c7f1-5035-4be7-a6f0-b2822cbe470c" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Less is More/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Less is More/.idea/contentModel.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Less is More/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Less is More/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Player.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Player.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Client.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Client.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Constants.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Constants.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Inputs.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Inputs.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Server.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Server.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/ServerPeerData.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/ServerPeerData.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/leaf.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/leaf.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/LeafBlower.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/LeafBlower.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/TagManager.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/TagManager.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,6 +29,7 @@
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Messages/InitialState.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/AnimationController.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Messages/PeerStates.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../Less is More_clone_0/Assets/Scripts/Server.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Messages/BitSerializable.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Inputs.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/FB001E01-371B-4ADC-A200-13E0AC763896/5d/a4156f81/Dictionary`2.cs" root0="SKIP_HIGHLIGHTING" />
@@ -77,10 +73,10 @@
         <option value="$PROJECT_DIR$/Assets/Scripts/YSorting.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Constants.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Inputs.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/LeafBlower.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Client.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/ServerPeerData.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Server.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Client.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/LeafBlower.cs" />
       </list>
     </option>
   </component>
@@ -125,7 +121,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1611420421048</updated>
-      <workItem from="1611420426583" duration="23271000" />
+      <workItem from="1611420426583" duration="25035000" />
     </task>
     <servers />
   </component>
