@@ -8,7 +8,7 @@ public class PositionInterp : MonoBehaviour
     private Vector3 _from;
     private Vector3 _to;
     private float _t;
-    private byte _pushes;
+    private int _pushes;
 
     public void PushNewTo(Vector3 newTo)
     {
@@ -32,9 +32,8 @@ public class PositionInterp : MonoBehaviour
     {
         if (_pushes >= 2)
         {
-            transform.position = Vector3.Lerp(_from, _to, _t);
+            transform.position = Vector3.Lerp(transform.position, _to, _t);
         }
-        
-        _t += Time.deltaTime * Constants.TICK;
+        _t += Time.deltaTime * Constants.TICK * 0.5f;
     }
 }
