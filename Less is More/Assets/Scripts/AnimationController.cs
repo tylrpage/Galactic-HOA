@@ -9,26 +9,29 @@ public class AnimationController : MonoBehaviour
     [SerializeField] private Transform spriteTransform;
 #pragma warning restore 0649 
     
-    private string _currentAnimationState;
+    public string CurrentAnimationState { get; private set; }
+    public bool SpriteFlipped { get; private set; }
 
     public void SetSpriteDirection(bool right)
     {
         Vector3 currentScale = spriteTransform.localScale;
         if (right)
         {
+            SpriteFlipped = true;
             spriteTransform.localScale = new Vector3(Mathf.Abs(currentScale.x) * -1f, currentScale.y, currentScale.z);
         }
         else
         {
+            SpriteFlipped = false;
             spriteTransform.localScale = new Vector3(Mathf.Abs(currentScale.x), currentScale.y, currentScale.z);
         }
     }
 
     public void ChangeAnimationState(string newState)
     {
-        if (_currentAnimationState == newState) return;
+        if (CurrentAnimationState == newState) return;
         
         animator.Play(newState);
-        _currentAnimationState = newState;
+        CurrentAnimationState = newState;
     }
 }

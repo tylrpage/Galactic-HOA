@@ -83,7 +83,8 @@ public class Server : MonoBehaviour
             Inputs = Inputs.EmptyInputs(),
             PlayerMovement = movement,
             PlayerTransform = newPlayer.transform,
-            PlayerBlower = leafBlower
+            PlayerBlower = leafBlower,
+            AnimationController = newPlayer.GetComponentInChildren<AnimationController>()
         };
         _peerDatas[peerId] = peerData;
         _connectedIds.Add(peerId);
@@ -91,7 +92,7 @@ public class Server : MonoBehaviour
         // Give connecting peer his initial handshake data
         InitialState initialState = new InitialState()
         {
-            States = GeneratePeerStates(_peerDatas),
+            States = GeneratePeerStates(_peerDatas, false),
             YourId = peerId
         };
         ArraySegment<byte> bytes = Writer.SerializeToByteSegment(initialState);
@@ -142,22 +143,28 @@ public class Server : MonoBehaviour
             // send states
             PeerStates peerStates = new PeerStates()
             {
-                States = GeneratePeerStates(_peerDatas)
+                States = GeneratePeerStates(_peerDatas, true)
             };
             ArraySegment<byte> bytes = Writer.SerializeToByteSegment(peerStates);
             _webServer.SendAll(_connectedIds, bytes);
         }
     }
 
-    private Dictionary<int, PeerState> GeneratePeerStates(Dictionary<int, ServerPeerData>  peerDatas)
+    private Dictionary<int, PeerState> GeneratePeerStates(Dictionary<int, ServerPeerData> peerDatas, bool onlySendDirty)
     {
         var peerStates = new Dictionary<int, PeerState>();
         foreach (var keyValue in peerDatas)
         {
-            peerStates[keyValue.Key] = new PeerState()
+            // TODO: position and animations are not sent if position doesnt change, can this be a problem for animations?
+            if (keyValue.Value.PlayerMovement.DidPositionChange() || !onlySendDirty)
             {
-                position = keyValue.Value.PlayerTransform.position
-            };
+                peerStates[keyValue.Key] = new PeerState()
+                {
+                    position = keyValue.Value.PlayerTransform.position,
+                    currentAnimation = keyValue.Value.AnimationController.CurrentAnimationState,
+                    spriteFlipped = keyValue.Value.AnimationController.SpriteFlipped
+                };
+            }
         }
 
         return peerStates;

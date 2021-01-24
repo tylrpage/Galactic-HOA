@@ -10,6 +10,14 @@ public class Movement : MonoBehaviour
     private Rigidbody2D _rb;
     private AnimationController _animationController;
     private Inputs _inputs;
+    private Vector2 _previousPostion;
+
+    public bool DidPositionChange()
+    {
+        bool ret = _previousPostion != (Vector2)transform.position;
+        _previousPostion = transform.position;
+        return ret;
+    }
 
     public void SetInputs(Inputs inputs)
     {

@@ -10,4 +10,5 @@ public class ServerPeerData
     public Movement PlayerMovement;
     public Transform PlayerTransform;
     public LeafBlower PlayerBlower;
+    public AnimationController AnimationController;
 }

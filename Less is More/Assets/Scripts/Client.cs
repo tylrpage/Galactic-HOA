@@ -76,7 +76,8 @@ public class Client : MonoBehaviour
                     _peerDatas[peerId] = new ClientPeerData()
                     {
                         Id = peerId,
-                        PositionInterp = positionInterp
+                        PositionInterp = positionInterp,
+                        AnimationController = newPlayer.GetComponentInChildren<AnimationController>()
                     };
                 }
 
@@ -97,6 +98,8 @@ public class Client : MonoBehaviour
                 foreach (var keyValue in peerStates.States)
                 {
                     _peerDatas[keyValue.Key].PositionInterp.PushNewTo(keyValue.Value.position);
+                    _peerDatas[keyValue.Key].AnimationController.ChangeAnimationState(keyValue.Value.currentAnimation);
+                    _peerDatas[keyValue.Key].AnimationController.SetSpriteDirection(keyValue.Value.spriteFlipped);
                 }
 
                 break;
