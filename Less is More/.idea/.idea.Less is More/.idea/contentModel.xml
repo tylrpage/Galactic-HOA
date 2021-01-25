@@ -103,14 +103,19 @@
           <e p="Inputs.cs" t="Include" />
           <e p="LeafBlower.cs" t="Include" />
           <e p="LeafSpawner.cs" t="Include" />
+          <e p="MathUtils.cs" t="Include" />
           <e p="Messages" t="Include">
             <e p="BitSerializable.cs" t="Include" />
             <e p="ClientInputs.cs" t="Include" />
             <e p="InitialState.cs" t="Include" />
             <e p="messages.txt" t="Include" />
+            <e p="NewPlayer.cs" t="Include" />
             <e p="PeerStates.cs" t="Include" />
+            <e p="PlayerDisconnected.cs" t="Include" />
+            <e p="ZoneCountChange.cs" t="Include" />
           </e>
           <e p="Movement.cs" t="Include" />
+          <e p="NonLinearTransform.cs" t="Include" />
           <e p="PositionInterp.cs" t="Include" />
           <e p="Server.cs" t="Include" />
           <e p="ServerPeerData.cs" t="Include" />

@@ -33,6 +33,16 @@ public class CircleDivider : MonoBehaviour
         Segments = 0;
         _activeDividers = new List<DividerInfo>();
     }
+    
+    public float GetAngleOfFirstDivider()
+    {
+        // if (Segments < 2)
+        //     return 0;
+        //
+        // return _activeDividers[0].dividerTransform.rotation.eulerAngles.z;
+
+        return (40 * Segments) % 360;
+    }
 
     public void SetSegments(short newCount)
     {

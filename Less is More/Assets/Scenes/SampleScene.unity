@@ -325,7 +325,7 @@ MonoBehaviour:
   playerPrefab: {fileID: 2717279530534411526, guid: 5117622dbda783a4cbca19fb95e77661,
     type: 3}
   circleDivider: {fileID: 1508845274}
-  nonCloneIsServer: 0
+  nonCloneIsServer: 1
   connectToRemote: 0
 --- !u!20 &519420031
 Camera:

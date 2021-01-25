@@ -148,12 +148,20 @@ public class Server : MonoBehaviour
         // Remove circle division
         CircleDivider circleDivider = _gameController.GetCircleDivider();
         circleDivider.RemoveSegment();
-        // Tell everyone about it
-        ZoneCountChange zoneCountChange = new ZoneCountChange()
+        
+        // Determine everyone's segment and tell everyone about it
+        short nextSegmentToAssign = 0;
+        foreach (var keyValue in _peerDatas)
         {
-            NewZoneCount = circleDivider.Segments
-        };
-        _webServer.SendAll(_connectedIds, Writer.SerializeToByteSegment(zoneCountChange));
+            ZoneCountChange zoneCountChange = new ZoneCountChange()
+            {
+                NewZoneCount = circleDivider.Segments,
+                YourSegment = nextSegmentToAssign
+            };
+            _webServer.SendOne(keyValue.Key, Writer.SerializeToByteSegment(zoneCountChange));
+
+            nextSegmentToAssign++;
+        }
     }
 
     private void WebServerOnonData(int peerId, ArraySegment<byte> data)
@@ -190,15 +198,21 @@ public class Server : MonoBehaviour
         while (_timer >= Constants.STEP)
         {
             _timer -= Constants.STEP;
-            
-            // send states
-            PeerStates peerStates = new PeerStates()
+
+            if (_connectedIds.Count > 0)
             {
-                States = GeneratePeerStates(_peerDatas, true),
-                Leafs = _leafSpawner.GenerateLeafStates(true)
-            };
-            ArraySegment<byte> bytes = Writer.SerializeToByteSegment(peerStates);
-            _webServer.SendAll(_connectedIds, bytes);
+                // send states
+                PeerStates peerStates = new PeerStates()
+                {
+                    States = GeneratePeerStates(_peerDatas, true),
+                    Leafs = _leafSpawner.GenerateLeafStates(true),
+                    SegmentLeafCounts = _leafSpawner.GetSectorLeafCounts(
+                        _gameController.GetCircleDivider().Segments, 
+                        _gameController.GetCircleDivider().GetAngleOfFirstDivider())
+                };
+                ArraySegment<byte> bytes = Writer.SerializeToByteSegment(peerStates);
+                _webServer.SendAll(_connectedIds, bytes);
+            }
         }
     }
 

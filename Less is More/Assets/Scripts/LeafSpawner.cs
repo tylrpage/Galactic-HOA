@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Messages;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -72,5 +73,24 @@ public class LeafSpawner : MonoBehaviour
     {
         GameObject newLeaf = Instantiate(leafPrefab, position, rotation);
         return newLeaf;
+    }
+
+    public List<short> GetSectorLeafCounts(short segments, float offset)
+    {
+        short[] counts = new short[segments];
+        foreach (var leafTransform in _leafTransforms.Values)
+        {
+            Vector2 polar = MathUtils.RectToPolar(leafTransform.position);
+            float degree = MathUtils.RadiansToDegree(polar.x);
+            
+            float leafAngle = degree - offset;
+            if (leafAngle < 0)
+                leafAngle += 360;
+            
+            int segment = Mathf.FloorToInt(leafAngle / (360f / segments));
+            counts[segment]++;
+        }
+
+        return counts.ToList();
     }
 }
