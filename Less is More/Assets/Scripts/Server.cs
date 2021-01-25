@@ -115,12 +115,20 @@ public class Server : MonoBehaviour
         // Divide the circle
         CircleDivider circleDivider = _gameController.GetCircleDivider();
         circleDivider.AddSegment();
-        // Tell everyone about it
-        ZoneCountChange zoneCountChange = new ZoneCountChange()
+        
+        // Determine everyone's segment and tell everyone about it
+        short nextSegmentToAssign = 0;
+        foreach (var keyValue in _peerDatas)
         {
-            NewZoneCount = circleDivider.Segments
-        };
-        _webServer.SendAll(_connectedIds, Writer.SerializeToByteSegment(zoneCountChange));
+            ZoneCountChange zoneCountChange = new ZoneCountChange()
+            {
+                NewZoneCount = circleDivider.Segments,
+                YourSegment = nextSegmentToAssign
+            };
+            _webServer.SendOne(keyValue.Key, Writer.SerializeToByteSegment(zoneCountChange));
+
+            nextSegmentToAssign++;
+        }
     }
 
     private void WebServerOnonDisconnect(int id)

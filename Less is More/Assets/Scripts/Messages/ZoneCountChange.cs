@@ -10,12 +10,14 @@ namespace Messages
         public const ushort id = 6;
 
         public short NewZoneCount;
+        public short YourSegment;
 
         public void Serialize(ref BitBuffer data)
         {
             data.AddUShort(id);
             
-            data.AddShort(NewZoneCount);
+            data.AddShort(NewZoneCount)
+                .AddShort(YourSegment);
         }
 
         public void Deserialize(ref BitBuffer data)
@@ -23,6 +25,7 @@ namespace Messages
             data.ReadUShort();
 
             NewZoneCount = data.ReadShort();
+            YourSegment = data.ReadShort();
         }
     }
 }

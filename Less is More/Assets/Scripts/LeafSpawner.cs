@@ -30,7 +30,7 @@ public class LeafSpawner : MonoBehaviour
             float randomRadius = Random.Range(0, 4.5f);
             Quaternion randomRotation = Quaternion.Euler(0, 0, Random.Range(0, 360f));
 
-            Vector2 position = PolarToRect(randomAngle, randomRadius);
+            Vector2 position = MathUtils.PolarToRect(randomAngle, randomRadius);
             GameObject newLeaf = Instantiate(leafPrefab, position, randomRotation);
 
             LeafState leafState = new LeafState()
@@ -72,10 +72,5 @@ public class LeafSpawner : MonoBehaviour
     {
         GameObject newLeaf = Instantiate(leafPrefab, position, rotation);
         return newLeaf;
-    }
-
-    private Vector2 PolarToRect(float theta, float radius)
-    {
-        return new Vector2(radius * Mathf.Cos(theta), radius * Mathf.Sin(theta));
     }
 }

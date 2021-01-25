@@ -17,11 +17,16 @@ public class CircleDivider : MonoBehaviour
 
 #pragma warning disable 0649 
     [SerializeField] private GameObject dividerPrefab;
-#pragma warning restore 0649 
+    [SerializeField] private GameObject arrow;
+#pragma warning restore 0649
     
     private List<DividerInfo> _activeDividers;
     private Transform _lastDivider;
     private float _t = 0;
+    private short _mySegment = -1;
+    private bool _oneToTwo = false; // Used by the arrow
+    private Vector3 _arrowOriginalPos;
+    private Vector3 _arrowTarget;
 
     private void Awake()
     {
@@ -48,6 +53,11 @@ public class CircleDivider : MonoBehaviour
         }
     }
 
+    public void SetArrowsSegment(short segment)
+    {
+        _mySegment = segment;
+    }
+
     private void Update()
     {
         for (int i = 0; i < _activeDividers.Count; i++)
@@ -58,7 +68,51 @@ public class CircleDivider : MonoBehaviour
             divider.dividerTransform.rotation = Quaternion.Lerp(divider.originalRot, divider.targetRot,
                 NonLinearTransforms.BounceClampTop(DividerCurve.Evaluate(_t)));
         }
+
+        if (Segments > 1)
+        {
+            arrow.transform.position = Vector3.Slerp(_arrowOriginalPos, _arrowTarget,
+                NonLinearTransforms.BounceClampTop(DividerCurve.Evaluate(_t)));
+            arrow.transform.rotation = Quaternion.FromToRotation(Vector3.up, -arrow.transform.position);
+        }
+        
         _t += Time.deltaTime;
+        _t = Mathf.Min(_t, 1);
+    }
+
+    private void LateUpdate()
+    {
+        // if (Segments > 1)
+        // {
+        //     // Figure out the arrows position
+        //     float middleAngle;
+        //
+        //     // Work around edge case of 2 segments
+        //     if (Segments == 2 && (_oneToTwo || _t >= 1))
+        //     {
+        //         if (_mySegment == 0)
+        //         {
+        //             middleAngle = _activeDividers[0].dividerTransform.rotation.eulerAngles.z + 90;
+        //         }
+        //         else
+        //         {
+        //             middleAngle = _activeDividers[0].dividerTransform.rotation.eulerAngles.z - 90;
+        //         }
+        //         Debug.Log("Offset");
+        //     }
+        //     else
+        //     {
+        //         DividerInfo seg1 = _activeDividers[_mySegment];
+        //         DividerInfo seg2 = _activeDividers[(_mySegment + 1) % _activeDividers.Count]; // wrap to zero
+        //         Quaternion middleRot = Quaternion.Slerp(seg1.dividerTransform.rotation, seg2.dividerTransform.rotation, 0.5f);
+        //         middleAngle = middleRot.eulerAngles.z;
+        //     }
+        //     
+        //     
+        //     Vector2 centerPos = MathUtils.PolarToRect(MathUtils.DegreeToRadians(middleAngle), 4);
+        //     arrow.transform.position = centerPos;
+        //     arrow.transform.rotation = Quaternion.FromToRotation(Vector3.up, -centerPos);
+        // }
     }
 
     public void AddSegment()
@@ -70,15 +124,36 @@ public class CircleDivider : MonoBehaviour
         // GUARD, don't do anything for the first segment created
         if (Segments == 1)
             return;
+        else
+        {
+            arrow.SetActive(true);
+        }
         
         if (Segments == 2)
         {
             CreateNewDivider(Quaternion.identity, ref _activeDividers, out _lastDivider);
+            _oneToTwo = true;
+        }
+        else
+        {
+            _oneToTwo = false;
         }
         
         CreateNewDivider(_lastDivider.rotation, ref _activeDividers, out _lastDivider);
 
         UpdateTargetRots(ref _activeDividers);
+
+        _arrowOriginalPos = arrow.transform.position;
+        _arrowTarget = CalcArrowTarget(Segments);
+    }
+
+    private Vector3 CalcArrowTarget(short segments)
+    {
+        if (_mySegment < 0)
+            return Vector3.zero;
+
+        float arrowAngle = _activeDividers[_mySegment].targetRot.eulerAngles.z + ((360f / segments) / 2f);
+        return MathUtils.PolarToRect(MathUtils.DegreeToRadians(arrowAngle), 4);
     }
 
     public void RemoveSegment()
@@ -92,6 +167,8 @@ public class CircleDivider : MonoBehaviour
         Segments--;
         if (Segments == 1)
         {
+            arrow.SetActive(false);
+            
             foreach (var divider in _activeDividers)
             {
                 Destroy(divider.dividerTransform.gameObject);
@@ -106,6 +183,9 @@ public class CircleDivider : MonoBehaviour
         }
 
         UpdateTargetRots(ref _activeDividers);
+        
+        _arrowOriginalPos = arrow.transform.position;
+        _arrowTarget = CalcArrowTarget(Segments);
     }
 
     // Create another divider on top of our last one
