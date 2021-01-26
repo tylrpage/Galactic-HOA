@@ -38,6 +38,12 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Ground
+    uniqueID: 398946235
+    locked: 0
+  - name: GroundedPlayer
+    uniqueID: 960600671
+    locked: 0
   - name: Background
     uniqueID: 3806424471
     locked: 0

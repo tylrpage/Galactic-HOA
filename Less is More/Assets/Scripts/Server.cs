@@ -13,13 +13,14 @@ using NetStack.Serialization;
 public class Server : MonoBehaviour
 {
     private SimpleWebServer _webServer;
-    private Dictionary<int, ServerPeerData> _peerDatas;
+    public Dictionary<int, ServerPeerData> _peerDatas;
     private Dictionary<int, PeerState> _peerStates;
     private List<int> _connectedIds;
     private bool _listening;
     private float _timer;
     private LeafSpawner _leafSpawner;
     private GameController _gameController;
+    private StateMachine _stateMachine;
 
     private void Awake()
     {
@@ -27,6 +28,7 @@ public class Server : MonoBehaviour
         _gameController = GetComponent<GameController>();
         _connectedIds = new List<int>();
         _leafSpawner = GetComponent<LeafSpawner>();
+        _stateMachine = GetComponent<StateMachine>();
     }
 
     // Start is called before the first frame update
@@ -67,6 +69,9 @@ public class Server : MonoBehaviour
 
         Debug.Log("Server started");
         _listening = true;
+
+        _stateMachine.Init(this);
+        _stateMachine.SetState(new Waiting(_stateMachine));
 
         return webServer;
     }
