@@ -90,41 +90,6 @@ public class CircleDivider : MonoBehaviour
         _t = Mathf.Min(_t, 1);
     }
 
-    private void LateUpdate()
-    {
-        // if (Segments > 1)
-        // {
-        //     // Figure out the arrows position
-        //     float middleAngle;
-        //
-        //     // Work around edge case of 2 segments
-        //     if (Segments == 2 && (_oneToTwo || _t >= 1))
-        //     {
-        //         if (_mySegment == 0)
-        //         {
-        //             middleAngle = _activeDividers[0].dividerTransform.rotation.eulerAngles.z + 90;
-        //         }
-        //         else
-        //         {
-        //             middleAngle = _activeDividers[0].dividerTransform.rotation.eulerAngles.z - 90;
-        //         }
-        //         Debug.Log("Offset");
-        //     }
-        //     else
-        //     {
-        //         DividerInfo seg1 = _activeDividers[_mySegment];
-        //         DividerInfo seg2 = _activeDividers[(_mySegment + 1) % _activeDividers.Count]; // wrap to zero
-        //         Quaternion middleRot = Quaternion.Slerp(seg1.dividerTransform.rotation, seg2.dividerTransform.rotation, 0.5f);
-        //         middleAngle = middleRot.eulerAngles.z;
-        //     }
-        //     
-        //     
-        //     Vector2 centerPos = MathUtils.PolarToRect(MathUtils.DegreeToRadians(middleAngle), 4);
-        //     arrow.transform.position = centerPos;
-        //     arrow.transform.rotation = Quaternion.FromToRotation(Vector3.up, -centerPos);
-        // }
-    }
-
     public void AddSegment()
     {
         _t = 0;
