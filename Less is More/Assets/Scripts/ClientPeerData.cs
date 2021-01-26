@@ -8,4 +8,5 @@ public class ClientPeerData
     public int Id;
     public PositionInterp PositionInterp;
     public AnimationController AnimationController;
+    public Transform PlayerTransform;
 }

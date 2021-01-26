@@ -24,10 +24,9 @@ public class Waiting : State
     public override void Update()
     {
         // if players in circle >= 2, start timer to start round
+        var categorized = _stateMachine.GetCategoriesOfPlayers();
         if (_stateMachine.IsServer)
         {
-            var categorized = _stateMachine.GetCategoriesOfPlayers();
-
             if (categorized.OnCircle.Count >= 2)
             {
                 _stateMachine.SetState(new RoundStarting(_stateMachine));
@@ -36,6 +35,10 @@ public class Waiting : State
             {
                 _stateMachine.StatusTextController.SetWaitingForPlayers(categorized.OnCircle.Count);
             }
+        }
+        else
+        {
+            _stateMachine.StatusTextController.SetWaitingForPlayers(categorized.OnCircle.Count);
         }
         
         return;

@@ -17,7 +17,11 @@ public class RoundStarting : State
         // set status text
         var categorized = _stateMachine.GetCategoriesOfPlayers();
         _stateMachine.StatusTextController.SetRoundAboutToStart(Constants.ROUND_BEGIN);
-        _waitToStartRoundCoroutine = _stateMachine.DoCoroutine(WaitToStartRound());
+
+        if (_stateMachine.IsServer)
+        {
+            _waitToStartRoundCoroutine = _stateMachine.DoCoroutine(WaitToStartRound());
+        }
         
         yield break;
     }
@@ -32,7 +36,6 @@ public class RoundStarting : State
             if (categorized.OnCircle.Count < 2)
             {
                 _stateMachine.CancelCoroutine(_waitToStartRoundCoroutine);
-                _stateMachine.StatusTextController.CancelRoundStart();
                 _stateMachine.SetState(new Waiting(_stateMachine));
             }
         }
@@ -44,5 +47,10 @@ public class RoundStarting : State
     {
         yield return new WaitForSeconds(Constants.ROUND_BEGIN);
         _stateMachine.SetState(new Flying(_stateMachine));
+    }
+
+    public override void End()
+    {
+        _stateMachine.StatusTextController.CancelRoundStart();
     }
 }

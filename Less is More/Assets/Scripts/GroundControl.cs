@@ -15,24 +15,24 @@ public class GroundControl : MonoBehaviour
 
     public struct Categorized
     {
-        public List<Transform> OnCircle;
-        public List<Transform> OffCircle;
+        public Dictionary<int, Transform> OnCircle;
+        public Dictionary<int, Transform> OffCircle;
     }
 
-    public Categorized CategorizePlayers(IEnumerable<Transform> players)
+    public Categorized CategorizePlayers(Dictionary<int, Transform> players)
     {
-        List<Transform> onCircle = new List<Transform>();
-        List<Transform> offCircle = new List<Transform>();
+        var onCircle = new Dictionary<int, Transform>();
+        var offCircle = new Dictionary<int, Transform>();
 
         Vector3 circlePos = transform.position;
-        foreach (var player in players)
+        foreach (var keyValue in players)
         {
-            float distance = (circlePos - player.position).magnitude;
+            float distance = (circlePos - keyValue.Value.position).magnitude;
             
             if (distance < CircleRadius)
-                onCircle.Add(player);
+                onCircle[keyValue.Key] = keyValue.Value;
             else
-                offCircle.Add(player);
+                offCircle[keyValue.Key] = keyValue.Value;
         }
         
         Categorized ret = new Categorized()
@@ -53,7 +53,7 @@ public class GroundControl : MonoBehaviour
         CircleBorder.SetActive(false);
     }
 
-    public IEnumerator LiftOff(List<Transform> playersNotOnCircle)
+    public IEnumerator LiftOff(IEnumerable<Transform> playersNotOnCircle)
     {
         // Move everyone on the ground to a lower sprite layer
         Ground.GetComponent<SpriteRenderer>().sortingLayerName = "Ground";

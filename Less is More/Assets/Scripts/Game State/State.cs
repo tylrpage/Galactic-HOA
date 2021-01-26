@@ -21,8 +21,8 @@ public abstract class State
         return;
     }
     
-    public virtual IEnumerator End()
+    public virtual void End()
     {
-        yield break;
+        return;
     }
 }

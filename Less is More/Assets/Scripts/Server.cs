@@ -37,6 +37,8 @@ public class Server : MonoBehaviour
         _leafSpawner.SpawnLeafsRandomly(15);
         
         _webServer = Listen();
+        _stateMachine.Init(this);
+        _stateMachine.SetState(new Waiting(_stateMachine));
 
         _webServer.onConnect += WebServerOnonConnect;
         _webServer.onData += WebServerOnonData;
@@ -70,10 +72,26 @@ public class Server : MonoBehaviour
         Debug.Log("Server started");
         _listening = true;
 
-        _stateMachine.Init(this);
-        _stateMachine.SetState(new Waiting(_stateMachine));
-
         return webServer;
+    }
+
+    public void NotifyClientsOfStateChange(short stateId)
+    {
+        if (!_listening)
+            return;
+        
+        StateChange stateChange = new StateChange()
+        {
+            StateId = stateId
+        };
+        var bytes = Writer.SerializeToByteSegment(stateChange);
+        _webServer.SendAll(_connectedIds, bytes);
+    }
+
+    public void NotifyClientOfZoneCount(int peerId, ZoneCountChange zoneCountChange)
+    {
+        var bytes = Writer.SerializeToByteSegment(zoneCountChange);
+        _webServer.SendOne(peerId, bytes);
     }
 
     private void WebServerOnonConnect(int peerId)
@@ -116,24 +134,6 @@ public class Server : MonoBehaviour
         };
         ArraySegment<byte> bytes = Writer.SerializeToByteSegment(initialState);
         _webServer.SendOne(peerId, bytes);
-        
-        // Divide the circle
-        CircleDivider circleDivider = _gameController.GetCircleDivider();
-        circleDivider.AddSegment();
-        
-        // Determine everyone's segment and tell everyone about it
-        short nextSegmentToAssign = 0;
-        foreach (var keyValue in _peerDatas)
-        {
-            ZoneCountChange zoneCountChange = new ZoneCountChange()
-            {
-                NewZoneCount = circleDivider.Segments,
-                YourSegment = nextSegmentToAssign
-            };
-            _webServer.SendOne(keyValue.Key, Writer.SerializeToByteSegment(zoneCountChange));
-
-            nextSegmentToAssign++;
-        }
     }
 
     private void WebServerOnonDisconnect(int id)

@@ -11,4 +11,5 @@ public class ServerPeerData
     public Transform PlayerTransform;
     public LeafBlower PlayerBlower;
     public AnimationController AnimationController;
+    public bool IsPlaying;
 }

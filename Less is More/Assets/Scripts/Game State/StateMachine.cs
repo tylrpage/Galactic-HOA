@@ -11,6 +11,8 @@ public class StateMachine : MonoBehaviour
 {
     public GroundControl GroundControl;
     public StatusTextController StatusTextController;
+    public GameController GameController;
+    public CircleDivider CircleDivider;
     
     public State State { get; private set; }
     public bool IsServer { get; private set; }
@@ -22,12 +24,22 @@ public class StateMachine : MonoBehaviour
     {
         IsServer = true;
         GameServer = gameServer;
+
+        GetReferencesGameControllers();
     }
     
     public void Init(Client gameClient)
     {
         IsServer = false;
         GameClient = gameClient;
+        
+        GetReferencesGameControllers();
+    }
+
+    private void GetReferencesGameControllers()
+    {
+        GameController = GetComponent<GameController>();
+        CircleDivider = GameController.GetCircleDivider();
     }
 
     public Coroutine DoCoroutine(IEnumerator coroutine)
@@ -45,26 +57,43 @@ public class StateMachine : MonoBehaviour
 
     public GroundControl.Categorized GetCategoriesOfPlayers()
     {
-        IEnumerable<Transform> playerTransform = GameServer._peerDatas.Values.Select(x => x.PlayerTransform);
+        Dictionary<int, Transform> playerTransform;
+        if (IsServer)
+        {
+            playerTransform = GameServer._peerDatas.ToDictionary(x => x.Key, x => x.Value.PlayerTransform);
+        }
+        else
+        {
+            playerTransform = GameClient._peerDatas.ToDictionary(x => x.Key, x => x.Value.PlayerTransform);
+        }
+        
         var categorized = GroundControl.CategorizePlayers(playerTransform);
         return categorized;
     }
 
-    public void SetState(State state)
+    public void SetState(State newState)
     {
-        State = state;
-        StartCoroutine(state.Start());
+        State?.End();
+        
+        State = newState;
+        StartCoroutine(newState.Start());
+
+        if (IsServer)
+        {
+            // notify all clients of the state change
+            GameServer.NotifyClientsOfStateChange(GetStateId(newState));
+        }
     }
 
-    public short GetStateId()
+    public short GetStateId(State state)
     {
-        if (State is Waiting)
+        if (state is Waiting)
             return 1;
-        if (State is Flying)
+        if (state is Flying)
             return 2;
-        if (State is Playing)
+        if (state is Playing)
             return 3;
-        if (State is RoundStarting)
+        if (state is RoundStarting)
             return 4;
         return 0;
     }

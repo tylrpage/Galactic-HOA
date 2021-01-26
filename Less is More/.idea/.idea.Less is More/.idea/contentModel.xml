@@ -99,7 +99,17 @@
               </e>
             </e>
           </e>
+          <e p="FaceCamera.cs" t="Include" />
+          <e p="Game State" t="Include">
+            <e p="Flying.cs" t="Include" />
+            <e p="Playing.cs" t="Include" />
+            <e p="RoundStarting.cs" t="Include" />
+            <e p="State.cs" t="Include" />
+            <e p="StateMachine.cs" t="Include" />
+            <e p="Waiting.cs" t="Include" />
+          </e>
           <e p="GameController.cs" t="Include" />
+          <e p="GroundControl.cs" t="Include" />
           <e p="Inputs.cs" t="Include" />
           <e p="LeafBlower.cs" t="Include" />
           <e p="LeafSpawner.cs" t="Include" />
@@ -112,6 +122,7 @@
             <e p="NewPlayer.cs" t="Include" />
             <e p="PeerStates.cs" t="Include" />
             <e p="PlayerDisconnected.cs" t="Include" />
+            <e p="StateChange.cs" t="Include" />
             <e p="ZoneCountChange.cs" t="Include" />
           </e>
           <e p="Movement.cs" t="Include" />
@@ -119,6 +130,7 @@
           <e p="PositionInterp.cs" t="Include" />
           <e p="Server.cs" t="Include" />
           <e p="ServerPeerData.cs" t="Include" />
+          <e p="StatusTextController.cs" t="Include" />
           <e p="YSorting.cs" t="Include" />
         </e>
       </e>

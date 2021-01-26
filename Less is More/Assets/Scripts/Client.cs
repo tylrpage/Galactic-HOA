@@ -19,12 +19,13 @@ public class Client : MonoBehaviour
     private float _timer;
     private bool _connected;
     private Inputs _polledInputs;
-    private Dictionary<int, ClientPeerData> _peerDatas;
+    public Dictionary<int, ClientPeerData> _peerDatas;
     private Dictionary<int, PeerState> _peerStates;
     private Dictionary<int, LeafState> _leafStates;
     private Dictionary<int, PositionInterp> _leafInterps;
     private Camera _camera;
     private LeafSpawner _leafSpawner;
+    private StateMachine _stateMachine;
 
     void Awake()
     {
@@ -32,15 +33,22 @@ public class Client : MonoBehaviour
         _camera = Camera.main;
         _leafSpawner = GetComponent<LeafSpawner>();
         _leafInterps = new Dictionary<int, PositionInterp>();
+        _stateMachine = GetComponent<StateMachine>();
         
         TcpConfig tcpConfig = new TcpConfig(true, 5000, 20000);
         _ws = SimpleWebClient.Create(16*1024, 1000, tcpConfig);
         
         _ws.onData += WsOnonData;
+        _ws.onConnect += WsOnonConnect;
         _ws.onError += delegate(Exception exception)
         {
             Debug.Log("Error: " + exception.Message);
         };
+    }
+
+    private void WsOnonConnect()
+    {
+        _stateMachine.Init(this);
     }
 
     private void WsOnonData(ArraySegment<byte> data)
@@ -144,6 +152,14 @@ public class Client : MonoBehaviour
                 _gameController.GetCircleDivider().SetSegments(zoneCountChange.NewZoneCount);
                 break;
             }
+            case 7:
+            {
+                StateChange stateChange = new StateChange();
+                stateChange.Deserialize(ref bitBuffer);
+                _stateMachine.SetStateId(stateChange.StateId);
+
+                break;
+            }
         }
     }
 
@@ -159,7 +175,8 @@ public class Client : MonoBehaviour
         {
             Id = peerId,
             PositionInterp = positionInterp,
-            AnimationController = newPlayer.GetComponentInChildren<AnimationController>()
+            AnimationController = newPlayer.GetComponentInChildren<AnimationController>(),
+            PlayerTransform = newPlayer.transform
         };
     }
 

@@ -1,9 +1,9 @@
 ﻿
 using System.Collections;
 
-public class Playing : State
+public class Watching : State
 {
-    public Playing(StateMachine stateMachine) : base(stateMachine)
+    public Watching(StateMachine stateMachine) : base(stateMachine)
     {
     }
     
