@@ -22,10 +22,6 @@ public class StateMachine : MonoBehaviour
     {
         IsServer = true;
         GameServer = gameServer;
-        
-        Debug.Log(new Waiting(this).Id);
-        Debug.Log(new Flying(this).Id);
-        Debug.Log(new Playing(this).Id);
     }
     
     public void Init(Client gameClient)
@@ -68,6 +64,8 @@ public class StateMachine : MonoBehaviour
             return 2;
         if (State is Playing)
             return 3;
+        if (State is RoundStarting)
+            return 4;
         return 0;
     }
 
@@ -83,6 +81,9 @@ public class StateMachine : MonoBehaviour
                 break;
             case 3:
                 SetState(new Playing(this));
+                break;
+            case 4:
+                SetState(new RoundStarting(this));
                 break;
         }
     }

@@ -4,11 +4,8 @@ using UnityEngine;
 
 public class Flying : State
 {
-    public static readonly short ID = 2;
-    
     public Flying(StateMachine stateMachine) : base(stateMachine)
     {
-        Id = ID;
     }
     
     public override IEnumerator Start()

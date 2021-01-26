@@ -3,11 +3,8 @@ using System.Collections;
 
 public class Playing : State
 {
-    public static readonly short ID = 3;
-    
     public Playing(StateMachine stateMachine) : base(stateMachine)
     {
-        Id = ID;
     }
     
     public override IEnumerator Start()
