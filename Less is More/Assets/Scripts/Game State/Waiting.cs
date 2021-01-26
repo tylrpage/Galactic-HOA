@@ -30,6 +30,7 @@ public class Waiting : State
                 if (categorized.OnCircle.Count >= 2)
                 {
                     _stateMachine.DoCoroutine(_stateMachine.GroundControl.LiftOff(categorized.OffCircle));
+                    _stateMachine.GroundControl.EnableBorder();
                     _liftingOff = true;
                     _stateMachine.DoCoroutine(SwitchToFlying());
                 }

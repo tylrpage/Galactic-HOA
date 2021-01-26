@@ -11,6 +11,7 @@ public class GroundControl : MonoBehaviour
     public float TimeToLiftOff;
     public float DistanceToLiftOff;
     public float CircleRadius;
+    public GameObject CircleBorder;
 
     public struct Categorized
     {
@@ -40,6 +41,16 @@ public class GroundControl : MonoBehaviour
             OnCircle = onCircle
         };
         return ret;
+    }
+
+    public void EnableBorder()
+    {
+        CircleBorder.SetActive(true);
+    }
+    
+    public void DisableBorder()
+    {
+        CircleBorder.SetActive(false);
     }
 
     public IEnumerator LiftOff(List<Transform> playersNotOnCircle)
