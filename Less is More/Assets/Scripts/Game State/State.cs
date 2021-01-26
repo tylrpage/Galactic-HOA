@@ -4,6 +4,7 @@ using UnityEngine;
 
 public abstract class State
 {
+    public virtual short Id { get; protected set; }
     protected StateMachine _stateMachine;
 
     public State(StateMachine stateMachine)

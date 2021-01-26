@@ -21,4 +21,6 @@ public static class Constants
 
     public static readonly int TICK = 50;
     public static readonly float STEP = 1f / TICK;
+
+    public static readonly short ROUND_BEGIN = 5;
 }

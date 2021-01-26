@@ -18,5 +18,9 @@ public class FaceCamera : MonoBehaviour
     void Update()
     {
         _myTransform.forward = -(_cameraTransform.position - transform.position);
+        
+        // Set y rotation to 0
+        Vector3 euler = _myTransform.rotation.eulerAngles;
+        _myTransform.rotation = Quaternion.Euler(euler.x, 0, euler.z);
     }
 }

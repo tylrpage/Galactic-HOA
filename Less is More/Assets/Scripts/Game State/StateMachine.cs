@@ -1,11 +1,16 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using Messages;
 using UnityEngine;
+using Debug = UnityEngine.Debug;
 
 public class StateMachine : MonoBehaviour
 {
     public GroundControl GroundControl;
+    public StatusTextController StatusTextController;
     
     public State State { get; private set; }
     public bool IsServer { get; private set; }
@@ -17,6 +22,10 @@ public class StateMachine : MonoBehaviour
     {
         IsServer = true;
         GameServer = gameServer;
+        
+        Debug.Log(new Waiting(this).Id);
+        Debug.Log(new Flying(this).Id);
+        Debug.Log(new Playing(this).Id);
     }
     
     public void Init(Client gameClient)
@@ -25,15 +34,57 @@ public class StateMachine : MonoBehaviour
         GameClient = gameClient;
     }
 
-    public void DoCoroutine(IEnumerator coroutine)
+    public Coroutine DoCoroutine(IEnumerator coroutine)
     {
-        StartCoroutine(coroutine);
+        return StartCoroutine(coroutine);
+    }
+
+    public void CancelCoroutine(Coroutine coroutine)
+    {
+        if (coroutine != null)
+        {
+            StopCoroutine(coroutine);
+        }
+    }
+
+    public GroundControl.Categorized GetCategoriesOfPlayers()
+    {
+        IEnumerable<Transform> playerTransform = GameServer._peerDatas.Values.Select(x => x.PlayerTransform);
+        var categorized = GroundControl.CategorizePlayers(playerTransform);
+        return categorized;
     }
 
     public void SetState(State state)
     {
         State = state;
         StartCoroutine(state.Start());
+    }
+
+    public short GetStateId()
+    {
+        if (State is Waiting)
+            return 1;
+        if (State is Flying)
+            return 2;
+        if (State is Playing)
+            return 3;
+        return 0;
+    }
+
+    public void SetStateId(short id)
+    {
+        switch (id)
+        {
+            case 1:
+                SetState(new Waiting(this));
+                break;
+            case 2:
+                SetState(new Flying(this));
+                break;
+            case 3:
+                SetState(new Playing(this));
+                break;
+        }
     }
 
     private void Update()
