@@ -41,27 +41,32 @@ namespace Messages
     {
         public Vector2 position;
         public Quaternion rotation;
+        public float heightInAir;
         
         public void Serialize(ref BitBuffer data)
         {
             QuantizedVector2 qPosition = BoundedRange.Quantize(position, Constants.WORLD_BOUNDS);
             QuantizedQuaternion qRotation = SmallestThree.Quantize(rotation);
+            ushort qHeightInAir = HalfPrecision.Quantize(heightInAir);
 
             data.AddUInt(qPosition.x)
                 .AddUInt(qPosition.y)
                 .AddUInt(qRotation.m)
                 .AddUInt(qRotation.a)
                 .AddUInt(qRotation.b)
-                .AddUInt(qRotation.c);
+                .AddUInt(qRotation.c)
+                .AddUShort(qHeightInAir);
         }
 
         public void Deserialize(ref BitBuffer data)
         {
             QuantizedVector2 qPosition = new QuantizedVector2(data.ReadUInt(), data.ReadUInt());
             QuantizedQuaternion qRotation = new QuantizedQuaternion(data.ReadUInt(), data.ReadUInt(),data.ReadUInt(), data.ReadUInt());
+            ushort qHeightInAir = data.ReadUShort();
 
             position = BoundedRange.Dequantize(qPosition, Constants.WORLD_BOUNDS);
             rotation = SmallestThree.Dequantize(qRotation);
+            heightInAir = HalfPrecision.Dequantize(qHeightInAir);
         }
     }
     

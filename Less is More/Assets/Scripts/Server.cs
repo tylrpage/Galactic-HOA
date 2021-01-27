@@ -145,13 +145,13 @@ public class Server : MonoBehaviour
         };
         ArraySegment<byte> bytes = Writer.SerializeToByteSegment(playerDisconnected);
         _webServer.SendAll(_connectedIds, bytes);
+        
+        // Remove circle division
+        _stateMachine.HandlePlayerDisconnection(id);
 
         Destroy(_peerDatas[id].PlayerTransform.gameObject);
         _peerDatas.Remove(id);
         _connectedIds.Remove(id);
-        
-        // Remove circle division
-        _stateMachine.HandlePlayerDisconnection(id);
     }
 
     private void WebServerOnonData(int peerId, ArraySegment<byte> data)

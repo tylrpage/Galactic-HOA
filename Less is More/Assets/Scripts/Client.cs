@@ -22,7 +22,7 @@ public class Client : MonoBehaviour
     public Dictionary<int, ClientPeerData> _peerDatas;
     private Dictionary<int, PeerState> _peerStates;
     private Dictionary<int, LeafState> _leafStates;
-    private Dictionary<int, PositionInterp> _leafInterps;
+    private Dictionary<int, LeafInterp> _leafInterps;
     private Camera _camera;
     private LeafSpawner _leafSpawner;
     private StateMachine _stateMachine;
@@ -32,7 +32,7 @@ public class Client : MonoBehaviour
         _gameController = GetComponent<GameController>();
         _camera = Camera.main;
         _leafSpawner = GetComponent<LeafSpawner>();
-        _leafInterps = new Dictionary<int, PositionInterp>();
+        _leafInterps = new Dictionary<int, LeafInterp>();
         _stateMachine = GetComponent<StateMachine>();
         
         TcpConfig tcpConfig = new TcpConfig(true, 5000, 20000);
@@ -88,7 +88,7 @@ public class Client : MonoBehaviour
                 {
                     LeafState leafState = keyValue.Value;
                     GameObject newLeaf = _leafSpawner.SpawnLeaf(leafState.position, leafState.rotation);
-                    _leafInterps[keyValue.Key] = newLeaf.GetComponent<PositionInterp>();
+                    _leafInterps[keyValue.Key] = newLeaf.GetComponent<LeafInterp>();
                 }
 
                 Debug.Log("Client connected");
@@ -118,7 +118,7 @@ public class Client : MonoBehaviour
                 foreach (var keyValue in peerStates.Leafs)
                 {
                     LeafState leafState = keyValue.Value;
-                    _leafInterps[keyValue.Key].PushNewTo(leafState.position);
+                    _leafInterps[keyValue.Key].PushNewTo(leafState.position, leafState.heightInAir);
                     _leafInterps[keyValue.Key].SetRotation(leafState.rotation);
                 }
 

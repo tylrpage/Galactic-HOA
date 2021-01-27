@@ -13,14 +13,22 @@ public class LeafSpawner : MonoBehaviour
     [SerializeField] private GameObject leafPrefab;
 #pragma warning restore 0649
 
-    private Dictionary<int, Transform> _leafTransforms;
+    public struct LeafData
+    {
+        public Transform Transform;
+        public LeafController Controller;
+    }
+
+    private Dictionary<int, LeafData> _leafDatas;
     private Dictionary<int, Vector2> _lastPositions;
+    private Dictionary<int, float> _lastHeightsInAir;
     private int nextIdToUse = 0;
 
     private void Awake()
     {
         _lastPositions = new Dictionary<int, Vector2>();
-        _leafTransforms = new Dictionary<int, Transform>();
+        _lastHeightsInAir = new Dictionary<int, float>();
+        _leafDatas = new Dictionary<int, LeafData>();
     }
 
     public void SpawnLeafsRandomly(int count)
@@ -32,15 +40,22 @@ public class LeafSpawner : MonoBehaviour
             Quaternion randomRotation = Quaternion.Euler(0, 0, Random.Range(0, 360f));
 
             Vector2 position = MathUtils.PolarToRect(randomAngle, randomRadius);
-            GameObject newLeaf = Instantiate(leafPrefab, position, randomRotation);
+            
+            GameObject newLeaf = Instantiate(leafPrefab, position, Quaternion.identity);
+            LeafController controller = newLeaf.GetComponent<LeafController>();
+            controller.HeightInAir = 0;
+            // Set rotation through Leaf so that it can handle the rotation properly (only rotates sprite child)
+            newLeaf.GetComponent<LeafInterp>().SetRotation(randomRotation);
 
-            LeafState leafState = new LeafState()
+            LeafData leafData = new LeafData()
             {
-                position = newLeaf.transform.position,
-                rotation = newLeaf.transform.rotation
+                Transform = newLeaf.transform,
+                Controller = controller
             };
-            _leafTransforms[nextIdToUse] = newLeaf.transform;
+            
+            _leafDatas[nextIdToUse] = leafData;
             _lastPositions[nextIdToUse] = position;
+            _lastHeightsInAir[nextIdToUse] = controller.HeightInAir;
             
             nextIdToUse++;
         }
@@ -49,21 +64,26 @@ public class LeafSpawner : MonoBehaviour
     public Dictionary<int, LeafState> GenerateLeafStates(bool onlySendDirty)
     {
         var leafStates = new Dictionary<int, LeafState>();
-        foreach (var keyValue in _leafTransforms)
+        foreach (var keyValue in _leafDatas)
         {
-            Transform leafTransform = keyValue.Value;
+            Transform leafTransform = keyValue.Value.Transform;
+            LeafController leafController = keyValue.Value.Controller;
+
             int key = keyValue.Key;
-            if (_lastPositions[key] != (Vector2) leafTransform.position || !onlySendDirty)
+            if (_lastPositions[key] != (Vector2) leafTransform.position || _lastHeightsInAir[key] != leafController.HeightInAir || !onlySendDirty)
             {
                 LeafState leafState = new LeafState()
                 {
                     position = leafTransform.position,
-                    rotation = leafTransform.rotation
+                    rotation = leafTransform.rotation,
+                    heightInAir = leafController.HeightInAir
                 };
                 leafStates[key] = leafState;
+                
+                // Update the last positions for next time
+                _lastPositions[key] = leafTransform.position;
+                _lastHeightsInAir[key] = leafController.HeightInAir;
             }
-
-            _lastPositions[key] = _leafTransforms[key].position;
         }
 
         return leafStates;
@@ -81,8 +101,10 @@ public class LeafSpawner : MonoBehaviour
 
         if (segments > 0)
         {
-            foreach (var leafTransform in _leafTransforms.Values)
+            foreach (var leafData in _leafDatas.Values)
             {
+                Transform leafTransform = leafData.Transform;
+                
                 Vector2 polar = MathUtils.RectToPolar(leafTransform.position);
                 float degree = MathUtils.RadiansToDegree(polar.x);
             
