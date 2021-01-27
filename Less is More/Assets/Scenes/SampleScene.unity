@@ -699,7 +699,7 @@ MonoBehaviour:
     type: 3}
   circleDivider: {fileID: 1508845274}
   SpawnPoint: {fileID: 1169377909}
-  nonCloneIsServer: 1
+  nonCloneIsServer: 0
   connectToRemote: 0
 --- !u!20 &519420031
 Camera:

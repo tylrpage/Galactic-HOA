@@ -20,7 +20,8 @@ public class Waiting : State
         
         _stateMachine.GroundControl.DisableBorder();
         _stateMachine.CircleDivider.SetSegments(0);
-        
+        _stateMachine.CircleDivider.SetArrowsSegment(-1);
+
         // TODO: Push everyone out
         
         yield break;

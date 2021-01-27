@@ -46,6 +46,7 @@ public class CircleDivider : MonoBehaviour
 
     public void SetSegments(short newCount)
     {
+        Debug.Log("Setting segments to " + newCount);
         int diff = newCount - Segments;
         if (diff > 0)
         {
@@ -66,6 +67,11 @@ public class CircleDivider : MonoBehaviour
     public void SetArrowsSegment(short segment)
     {
         _mySegment = segment;
+        
+        if (Segments <= 1)
+            arrow.SetActive(false);
+        else
+            arrow.SetActive(true);
     }
 
     private void Update()
@@ -90,7 +96,7 @@ public class CircleDivider : MonoBehaviour
         _t = Mathf.Min(_t, 1);
     }
 
-    public void AddSegment()
+    private void AddSegment()
     {
         _t = 0;
         
@@ -119,19 +125,23 @@ public class CircleDivider : MonoBehaviour
         UpdateTargetRots(ref _activeDividers);
 
         _arrowOriginalPos = arrow.transform.position;
-        _arrowTarget = CalcArrowTarget(Segments);
     }
 
-    private Vector3 CalcArrowTarget(short segments)
+    public void CalcAndSetArrowTarget(short segments)
     {
-        if (_mySegment < 0)
-            return Vector3.zero;
-
+        if (_mySegment < 0 || Segments <= 1)
+        {
+            _arrowTarget = Vector3.zero;
+            return;
+        }
+        
+        Debug.Log("My segment " + _mySegment);
+        
         float arrowAngle = _activeDividers[_mySegment].targetRot.eulerAngles.z + ((360f / segments) / 2f);
-        return MathUtils.PolarToRect(MathUtils.DegreeToRadians(arrowAngle), 4);
+        _arrowTarget = MathUtils.PolarToRect(MathUtils.DegreeToRadians(arrowAngle), 4);
     }
 
-    public void RemoveSegment()
+    private void RemoveSegment()
     {
         _t = 0;
         
@@ -159,7 +169,7 @@ public class CircleDivider : MonoBehaviour
             UpdateTargetRots(ref _activeDividers);
         
             _arrowOriginalPos = arrow.transform.position;
-            _arrowTarget = CalcArrowTarget(Segments);
+            
         }
     }
 

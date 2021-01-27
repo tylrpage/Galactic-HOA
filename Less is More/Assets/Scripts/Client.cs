@@ -150,8 +150,10 @@ public class Client : MonoBehaviour
             {
                 ZoneCountChange zoneCountChange = new ZoneCountChange();
                 zoneCountChange.Deserialize(ref bitBuffer);
-                _gameController.GetCircleDivider().SetArrowsSegment(zoneCountChange.YourSegment);
                 _gameController.GetCircleDivider().SetSegments(zoneCountChange.NewZoneCount);
+                _gameController.GetCircleDivider().SetArrowsSegment(zoneCountChange.YourSegment);
+                _gameController.GetCircleDivider().CalcAndSetArrowTarget(zoneCountChange.NewZoneCount);
+                
                 break;
             }
             case 7:

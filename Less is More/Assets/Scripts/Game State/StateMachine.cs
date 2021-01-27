@@ -63,11 +63,15 @@ public class StateMachine : MonoBehaviour
 
         if (CircleDivider.Segments > 0 && GameServer._peerDatas[id].IsPlaying)
         {
-            CircleDivider.RemoveSegment();
+            CircleDivider.SetSegments((short) (CircleDivider.Segments - 1));
 
             short nextSegmentToAssign = 0;
             foreach (var keyValue in GameServer._peerDatas)
             {
+                // Skip over the person disconnecting
+                if (keyValue.Key == id)
+                    continue;
+                
                 ZoneCountChange zoneCountChange = new ZoneCountChange()
                 {
                     NewZoneCount = CircleDivider.Segments,

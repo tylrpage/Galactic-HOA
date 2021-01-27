@@ -102,6 +102,7 @@
           <e p="FaceCamera.cs" t="Include" />
           <e p="Game State" t="Include">
             <e p="Flying.cs" t="Include" />
+            <e p="Landing.cs" t="Include" />
             <e p="Playing.cs" t="Include" />
             <e p="RoundStarting.cs" t="Include" />
             <e p="State.cs" t="Include" />
@@ -112,6 +113,8 @@
           <e p="GroundControl.cs" t="Include" />
           <e p="Inputs.cs" t="Include" />
           <e p="LeafBlower.cs" t="Include" />
+          <e p="LeafController.cs" t="Include" />
+          <e p="LeafInterp.cs" t="Include" />
           <e p="LeafSpawner.cs" t="Include" />
           <e p="MathUtils.cs" t="Include" />
           <e p="Messages" t="Include">
