@@ -51,7 +51,7 @@ public class LeafSpawner : MonoBehaviour
             LeafData leafData = new LeafData()
             {
                 Transform = newLeaf.transform,
-                Controller = controller
+                Controller = controller,
             };
             
             _leafDatas[nextIdToUse] = leafData;
@@ -76,7 +76,7 @@ public class LeafSpawner : MonoBehaviour
                 LeafState leafState = new LeafState()
                 {
                     position = leafTransform.position,
-                    rotation = leafTransform.rotation,
+                    rotation = leafController.SpriteTransform.rotation,
                     heightInAir = leafController.HeightInAir
                 };
                 leafStates[key] = leafState;
@@ -92,7 +92,8 @@ public class LeafSpawner : MonoBehaviour
 
     public GameObject SpawnLeaf(Vector2 position, Quaternion rotation)
     {
-        GameObject newLeaf = Instantiate(leafPrefab, position, rotation);
+        GameObject newLeaf = Instantiate(leafPrefab, position, Quaternion.identity);
+        newLeaf.GetComponent<LeafInterp>().SetRotation(rotation);
         return newLeaf;
     }
 
