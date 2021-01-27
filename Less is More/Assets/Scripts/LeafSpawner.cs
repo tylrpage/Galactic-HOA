@@ -43,6 +43,7 @@ public class LeafSpawner : MonoBehaviour
             
             GameObject newLeaf = Instantiate(leafPrefab, position, Quaternion.identity);
             LeafController controller = newLeaf.GetComponent<LeafController>();
+            controller.Simulate = true; // allow server to simulate the falling of leaves
             controller.HeightInAir = 0;
             // Set rotation through Leaf so that it can handle the rotation properly (only rotates sprite child)
             newLeaf.GetComponent<LeafInterp>().SetRotation(randomRotation);

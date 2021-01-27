@@ -106,7 +106,7 @@ GameObject:
   - component: {fileID: 699309122147510417}
   - component: {fileID: 5585430527511425724}
   - component: {fileID: -6493858534835575866}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Leaf
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -143,6 +143,51 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShadowTransform: {fileID: 7788498013389152771}
   SpriteTransform: {fileID: 4649605569885387104}
+  FallCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.6981366
+      value: 0.49441788
+      inSlope: 0.5904223
+      outSlope: 0.5904223
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.09235398
+      outWeight: 0.2568579
+    - serializedVersion: 3
+      time: 0.8494063
+      value: -0.09950024
+      inSlope: -0.23898706
+      outSlope: -0.23898706
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.24535015
+      outWeight: 0.24187796
+    - serializedVersion: 3
+      time: 0.99883324
+      value: -0.0025388664
+      inSlope: 0.99037164
+      outSlope: 0.99037164
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.24898902
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  FallFactor: 0.1
+  MaxHeightToEnableCollider: 0.2
+  Simulate: 0
   HeightInAir: 0
 --- !u!58 &6139451199651311491
 CircleCollider2D:
