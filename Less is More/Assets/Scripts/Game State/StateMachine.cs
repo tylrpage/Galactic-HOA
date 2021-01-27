@@ -165,6 +165,15 @@ public class StateMachine : MonoBehaviour
         }
     }
 
+    public bool ShouldLockNonPlayingPlayers()
+    {
+        short id = GetStateId(State);
+        if (id == 1 || id == 5 || id == 4)
+            return false;
+        else
+            return true;
+    }
+
     private void Update()
     {
         if (State != null)

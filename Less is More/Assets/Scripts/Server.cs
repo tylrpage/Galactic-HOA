@@ -169,9 +169,15 @@ public class Server : MonoBehaviour
             {
                 ClientInputs clientInputs = new ClientInputs();
                 clientInputs.Deserialize(ref bitBuffer);
-                _peerDatas[peerId].Inputs = clientInputs.inputs;
-                _peerDatas[peerId].PlayerMovement.SetInputs(clientInputs.inputs);
-                _peerDatas[peerId].PlayerBlower.SetInputs(clientInputs.inputs);
+
+                Inputs inputsToUse;
+                if (_stateMachine.ShouldLockNonPlayingPlayers() && !_peerDatas[peerId].IsPlaying)
+                    inputsToUse = Inputs.EmptyInputs();
+                else
+                    inputsToUse = clientInputs.inputs;
+                _peerDatas[peerId].Inputs = inputsToUse;
+                _peerDatas[peerId].PlayerMovement.SetInputs(inputsToUse);
+                _peerDatas[peerId].PlayerBlower.SetInputs(inputsToUse);
 
                 break;
             }

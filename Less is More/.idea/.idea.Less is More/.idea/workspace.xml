@@ -12,13 +12,8 @@
   <component name="ChangeListManager">
     <list default="true" id="7765c7f1-5035-4be7-a6f0-b2822cbe470c" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Less is More/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Less is More/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Client.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Client.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Constants.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Constants.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game State/StateMachine.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game State/StateMachine.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GroundControl.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GroundControl.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Messages/InitialState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Messages/InitialState.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Server.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Server.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/StatusTextController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/StatusTextController.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../tasks.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../tasks.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -122,8 +117,8 @@
         <option value="$PROJECT_DIR$/Assets/Scripts/StatusTextController.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Client.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Constants.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Game State/StateMachine.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/GroundControl.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Game State/StateMachine.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Server.cs" />
       </list>
     </option>
@@ -173,7 +168,7 @@
       <updated>1611420421048</updated>
       <workItem from="1611420426583" duration="32458000" />
       <workItem from="1611509323536" duration="69897000" />
-      <workItem from="1611767175473" duration="2636000" />
+      <workItem from="1611767175473" duration="3430000" />
     </task>
     <servers />
   </component>
