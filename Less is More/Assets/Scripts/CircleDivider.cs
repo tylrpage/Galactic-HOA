@@ -135,8 +135,6 @@ public class CircleDivider : MonoBehaviour
             return;
         }
         
-        Debug.Log("My segment " + _mySegment);
-        
         float arrowAngle = _activeDividers[_mySegment].targetRot.eulerAngles.z + ((360f / segments) / 2f);
         _arrowTarget = MathUtils.PolarToRect(MathUtils.DegreeToRadians(arrowAngle), 4);
     }

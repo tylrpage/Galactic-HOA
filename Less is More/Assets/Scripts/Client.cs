@@ -15,7 +15,8 @@ public class Client : MonoBehaviour
 {
     private GameController _gameController;
     private SimpleWebClient _ws;
-    private float _myId;
+    private int _myId;
+    private Transform _myPlayerTransform;
     private float _timer;
     private bool _connected;
     private Inputs _polledInputs;
@@ -183,6 +184,9 @@ public class Client : MonoBehaviour
             PlayerTransform = newPlayer.transform,
             IsPlaying = peerState.isPlaying
         };
+
+        if (_myId == peerId)
+            _myPlayerTransform = newPlayer.transform;
     }
 
     public void Connect(bool isRemote)
@@ -261,6 +265,12 @@ public class Client : MonoBehaviour
         if (Input.GetKey(KeyCode.Space))
             polledInputs.Space = true;
 
-        polledInputs.MouseDir = _camera.ScreenToWorldPoint(Input.mousePosition) - transform.position;
+        polledInputs.MouseDir = ScreenToPlane() - (Vector2)_myPlayerTransform.position;
+    }
+
+    private Vector2 ScreenToPlane()
+    {
+        Vector2 viewport = _camera.ScreenToViewportPoint(Input.mousePosition);
+        return new Vector2((viewport.x - 0.5f) * _camera.orthographicSize * _camera.aspect * 2, (viewport.y - 0.5f) * _camera.orthographicSize * 2);
     }
 }
