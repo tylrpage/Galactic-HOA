@@ -22,7 +22,9 @@ public static class Constants
     public static readonly int TICK = 50;
     public static readonly float STEP = 1f / TICK;
 
+    public static readonly short PLAYER_NEEDED = 1;
     public static readonly short ROUND_BEGIN = 2;
     public static readonly short FLYING_LENGTH = 2;
     public static readonly short ROUND_LENGTH = 3;
+    public static readonly short LANDING_LENGTH = 3;
 }

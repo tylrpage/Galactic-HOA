@@ -13,29 +13,33 @@ public class Landing : State
     public override IEnumerator Start()
     {
         // set status text
+        _stateMachine.StatusTextController.SetLandingText();
         
         // land the circle
         IEnumerable<Transform> groundedPlayers;
         if (_stateMachine.IsServer)
         {
             groundedPlayers = _stateMachine.GameServer._peerDatas.Values.Where(x => !x.IsPlaying).Select(x => x.PlayerTransform);
-            
         }
         else
         {
             groundedPlayers = _stateMachine.GameClient._peerDatas.Values.Where(x => !x.IsPlaying)
                 .Select(x => x.PlayerTransform);
         }
-        Debug.Log("Land");
         _stateMachine.DoCoroutine(_stateMachine.GroundControl.Land(groundedPlayers));
-        
+
+        // Start countdown till switching to waiting again
+        if (_stateMachine.IsServer)
+        {
+            _stateMachine.DoCoroutine(WaitThenSwitchToWaiting(Constants.LANDING_LENGTH));
+        }
         
         yield break;
     }
 
-    public override void Update()
+    private IEnumerator WaitThenSwitchToWaiting(short time)
     {
-        // if players in circle >= 2, start timer to end
-        return;
+        yield return new WaitForSeconds(time);
+        _stateMachine.SetState(new Waiting(_stateMachine));
     }
 }

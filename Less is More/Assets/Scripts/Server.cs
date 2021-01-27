@@ -151,22 +151,7 @@ public class Server : MonoBehaviour
         _connectedIds.Remove(id);
         
         // Remove circle division
-        CircleDivider circleDivider = _gameController.GetCircleDivider();
-        circleDivider.RemoveSegment();
-        
-        // Determine everyone's segment and tell everyone about it
-        short nextSegmentToAssign = 0;
-        foreach (var keyValue in _peerDatas)
-        {
-            ZoneCountChange zoneCountChange = new ZoneCountChange()
-            {
-                NewZoneCount = circleDivider.Segments,
-                YourSegment = nextSegmentToAssign
-            };
-            _webServer.SendOne(keyValue.Key, Writer.SerializeToByteSegment(zoneCountChange));
-
-            nextSegmentToAssign++;
-        }
+        _stateMachine.HandlePlayerDisconnection(id);
     }
 
     private void WebServerOnonData(int peerId, ArraySegment<byte> data)

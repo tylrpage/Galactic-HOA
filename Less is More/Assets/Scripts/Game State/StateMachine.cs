@@ -55,6 +55,30 @@ public class StateMachine : MonoBehaviour
         }
     }
 
+    public void HandlePlayerDisconnection(int id)
+    {
+        // GUARD, only server should be calling this
+        if (!IsServer)
+            throw new Exception("Only server should report this");
+
+        if (CircleDivider.Segments > 0 && GameServer._peerDatas[id].IsPlaying)
+        {
+            CircleDivider.RemoveSegment();
+
+            short nextSegmentToAssign = 0;
+            foreach (var keyValue in GameServer._peerDatas)
+            {
+                ZoneCountChange zoneCountChange = new ZoneCountChange()
+                {
+                    NewZoneCount = CircleDivider.Segments,
+                    YourSegment = nextSegmentToAssign++
+                };
+                
+                GameServer.NotifyClientOfZoneCount(keyValue.Key, zoneCountChange);
+            }
+        }
+    }
+
     public GroundControl.Categorized GetCategoriesOfPlayers()
     {
         Dictionary<int, Transform> playerTransform;

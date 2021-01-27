@@ -155,12 +155,12 @@ public class CircleDivider : MonoBehaviour
             _activeDividers.RemoveAt(_activeDividers.Count - 1);
             Destroy(_lastDivider.gameObject);
             _lastDivider = _activeDividers[_activeDividers.Count - 1].dividerTransform;
-        }
-
-        UpdateTargetRots(ref _activeDividers);
+            
+            UpdateTargetRots(ref _activeDividers);
         
-        _arrowOriginalPos = arrow.transform.position;
-        _arrowTarget = CalcArrowTarget(Segments);
+            _arrowOriginalPos = arrow.transform.position;
+            _arrowTarget = CalcArrowTarget(Segments);
+        }
     }
 
     // Create another divider on top of our last one

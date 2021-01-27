@@ -11,7 +11,7 @@ public class StatusTextController : MonoBehaviour
 
     public void SetWaitingForPlayers(int count)
     {
-        StatusText.text = $"Waiting for your neighbors: {count}/2";
+        StatusText.text = $"Waiting for your neighbors: {count}/{Constants.PLAYER_NEEDED}";
     }
 
     public void SetLiftOffCountdown(short time)
@@ -28,6 +28,11 @@ public class StatusTextController : MonoBehaviour
     public void SetRoundCountdown(short time)
     {
         StartCoroutine(RoundCountdown(time));
+    }
+
+    public void SetLandingText()
+    {
+        StatusText.text = $"Landing...";
     }
 
     public void CancelRoundStart()

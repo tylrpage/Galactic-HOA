@@ -18,6 +18,11 @@ public class Waiting : State
         var categorized = _stateMachine.GetCategoriesOfPlayers();
         _stateMachine.StatusTextController.SetWaitingForPlayers(categorized.OnCircle.Count);
         
+        _stateMachine.GroundControl.DisableBorder();
+        _stateMachine.CircleDivider.SetSegments(0);
+        
+        // TODO: Push everyone out
+        
         yield break;
     }
 
@@ -27,7 +32,7 @@ public class Waiting : State
         var categorized = _stateMachine.GetCategoriesOfPlayers();
         if (_stateMachine.IsServer)
         {
-            if (categorized.OnCircle.Count >= 2)
+            if (categorized.OnCircle.Count >= Constants.PLAYER_NEEDED)
             {
                 _stateMachine.SetState(new RoundStarting(_stateMachine));
             }
