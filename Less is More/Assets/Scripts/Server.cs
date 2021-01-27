@@ -96,7 +96,7 @@ public class Server : MonoBehaviour
 
     private void WebServerOnonConnect(int peerId)
     {
-        GameObject newPlayer = Instantiate(_gameController.GetPlayerPrefab(), Vector3.zero, Quaternion.identity);
+        GameObject newPlayer = Instantiate(_gameController.GetPlayerPrefab(), _gameController.SpawnPoint.position, Quaternion.identity);
         
         Movement movement = newPlayer.GetComponent<Movement>();
         movement.enabled = true;
@@ -242,7 +242,8 @@ public class Server : MonoBehaviour
         {
             position = data.PlayerTransform.position,
             currentAnimation = data.AnimationController.CurrentAnimationState,
-            spriteFlipped = data.AnimationController.SpriteFlipped
+            spriteFlipped = data.AnimationController.SpriteFlipped,
+            isPlaying = data.IsPlaying
         };
         return peerState;
     }

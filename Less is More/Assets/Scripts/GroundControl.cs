@@ -13,6 +13,13 @@ public class GroundControl : MonoBehaviour
     public float CircleRadius;
     public GameObject CircleBorder;
 
+    private Vector3 _originalGroundPosition;
+
+    private void Start()
+    {
+        _originalGroundPosition = Ground.position;
+    }
+
     public struct Categorized
     {
         public Dictionary<int, Transform> OnCircle;
@@ -56,7 +63,6 @@ public class GroundControl : MonoBehaviour
     public IEnumerator LiftOff(IEnumerable<Transform> playersNotOnCircle)
     {
         // Move everyone on the ground to a lower sprite layer
-        Ground.GetComponent<SpriteRenderer>().sortingLayerName = "Ground";
         foreach (var player in playersNotOnCircle)
         {
             player.GetComponentInChildren<SortingGroup>().sortingLayerName = "GroundedPlayer";
@@ -76,6 +82,34 @@ public class GroundControl : MonoBehaviour
             
             t += Time.deltaTime / TimeToLiftOff;
             yield return null;
+        }
+    }
+
+    public IEnumerator Land(IEnumerable<Transform> playersNotOnCircle)
+    {
+        float t = 0;
+        
+        while (t <= 1)
+        {
+            float groundOffset = (LiftCurve.Evaluate(t + Time.deltaTime / TimeToLiftOff) - LiftCurve.Evaluate(t)) * DistanceToLiftOff;
+            Ground.position += groundOffset * Vector3.up;
+
+            foreach (var player in playersNotOnCircle)
+            {
+                player.position += groundOffset * Vector3.up;
+            }
+            
+            t += Time.deltaTime / TimeToLiftOff;
+            yield return null;
+        }
+
+        // After landing is complete, move ground to exactly the right position
+        Ground.position = _originalGroundPosition;
+        
+        // Move everyone on the ground back to their normal sorting layer
+        foreach (var player in playersNotOnCircle)
+        {
+            player.GetComponentInChildren<SortingGroup>().sortingLayerName = "Default";
         }
     }
 }

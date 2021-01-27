@@ -14,6 +14,7 @@ public class GameController : MonoBehaviour
     [SerializeField] private CircleDivider circleDivider;
 #pragma warning restore 0649
 
+    public Transform SpawnPoint;
     public bool nonCloneIsServer = false;
     public bool connectToRemote = false;
 

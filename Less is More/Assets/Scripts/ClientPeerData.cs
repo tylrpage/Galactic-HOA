@@ -9,4 +9,5 @@ public class ClientPeerData
     public PositionInterp PositionInterp;
     public AnimationController AnimationController;
     public Transform PlayerTransform;
+    public bool IsPlaying;
 }

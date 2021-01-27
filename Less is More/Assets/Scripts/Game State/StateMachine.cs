@@ -95,6 +95,8 @@ public class StateMachine : MonoBehaviour
             return 3;
         if (state is RoundStarting)
             return 4;
+        if (state is Landing)
+            return 5;
         return 0;
     }
 
@@ -113,6 +115,9 @@ public class StateMachine : MonoBehaviour
                 break;
             case 4:
                 SetState(new RoundStarting(this));
+                break;
+            case 5:
+                SetState(new Landing(this));
                 break;
         }
     }

@@ -11,6 +11,7 @@ namespace Messages
         public Vector2 position;
         public string currentAnimation;
         public bool spriteFlipped;
+        public bool isPlaying;
 
         public void Serialize(ref BitBuffer data)
         {
@@ -22,7 +23,8 @@ namespace Messages
             data.AddUInt(qPosition.x)
                 .AddUInt(qPosition.y)
                 .AddString(currentAnimation)
-                .AddBool(spriteFlipped);
+                .AddBool(spriteFlipped)
+                .AddBool(isPlaying);
         }
 
         public void Deserialize(ref BitBuffer data)
@@ -31,6 +33,7 @@ namespace Messages
             position = BoundedRange.Dequantize(qPosition, Constants.WORLD_BOUNDS);
             currentAnimation = data.ReadString();
             spriteFlipped = data.ReadBool();
+            isPlaying = data.ReadBool();
         }
     }
 

@@ -105,12 +105,14 @@ public class Client : MonoBehaviour
                 };
                 peerStates.Deserialize(ref bitBuffer);
                 
-                // Send new position to the player's interpolation controller
+                // Translate deserialized to peer data
                 foreach (var keyValue in peerStates.States)
                 {
-                    _peerDatas[keyValue.Key].PositionInterp.PushNewTo(keyValue.Value.position);
-                    _peerDatas[keyValue.Key].AnimationController.ChangeAnimationState(keyValue.Value.currentAnimation);
-                    _peerDatas[keyValue.Key].AnimationController.SetSpriteDirection(keyValue.Value.spriteFlipped);
+                    ClientPeerData peerData = _peerDatas[keyValue.Key];
+                    peerData.PositionInterp.PushNewTo(keyValue.Value.position);
+                    peerData.AnimationController.ChangeAnimationState(keyValue.Value.currentAnimation);
+                    peerData.AnimationController.SetSpriteDirection(keyValue.Value.spriteFlipped);
+                    peerData.IsPlaying = keyValue.Value.isPlaying;
                 }
 
                 foreach (var keyValue in peerStates.Leafs)
@@ -176,7 +178,8 @@ public class Client : MonoBehaviour
             Id = peerId,
             PositionInterp = positionInterp,
             AnimationController = newPlayer.GetComponentInChildren<AnimationController>(),
-            PlayerTransform = newPlayer.transform
+            PlayerTransform = newPlayer.transform,
+            IsPlaying = peerState.isPlaying
         };
     }
 

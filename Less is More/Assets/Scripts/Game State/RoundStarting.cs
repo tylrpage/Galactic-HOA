@@ -16,7 +16,7 @@ public class RoundStarting : State
     {
         // set status text
         var categorized = _stateMachine.GetCategoriesOfPlayers();
-        _stateMachine.StatusTextController.SetRoundAboutToStart(Constants.ROUND_BEGIN);
+        _stateMachine.StatusTextController.SetLiftOffCountdown(Constants.ROUND_BEGIN);
 
         if (_stateMachine.IsServer)
         {

@@ -19,32 +19,43 @@ public class Flying : State
         var categorized = _stateMachine.GetCategoriesOfPlayers();
         if (_stateMachine.IsServer)
         {
-            // Decide who is on the circle and in this round (playing or watching)
             // Create segments for each person
             // Tell each person their segment
-            
-            
+
             _stateMachine.CircleDivider.SetSegments((short)categorized.OnCircle.Count);
 
             short nextSegmentToAssign = 0;
             foreach (var keyValue in _stateMachine.GameServer._peerDatas)
             {
                 // They are playing this round if their id is in OnCircle
-                keyValue.Value.IsPlaying = categorized.OnCircle.ContainsKey(keyValue.Key);
+                bool isPlaying = categorized.OnCircle.ContainsKey(keyValue.Key);
+                keyValue.Value.IsPlaying = isPlaying;
                 
                 ZoneCountChange zoneCountChange = new ZoneCountChange()
                 {
                     NewZoneCount = (short)categorized.OnCircle.Count,
                     YourSegment = nextSegmentToAssign
                 };
-                _stateMachine.GameServer.NotifyClientOfZoneCount(keyValue.Key, zoneCountChange);
 
-                nextSegmentToAssign++;
+                if (isPlaying)
+                {
+                    zoneCountChange.YourSegment = nextSegmentToAssign;
+                    nextSegmentToAssign++;
+                }
+                else
+                {
+                    zoneCountChange.YourSegment = -1;
+                }
+                
+                _stateMachine.GameServer.NotifyClientOfZoneCount(keyValue.Key, zoneCountChange);
             }
+
+            _stateMachine.DoCoroutine(WaitThenSwitchToPlaying(Constants.FLYING_LENGTH));
         }
         
         _stateMachine.DoCoroutine(_stateMachine.GroundControl.LiftOff(categorized.OffCircle.Values));
         _stateMachine.GroundControl.EnableBorder();
+        _stateMachine.StatusTextController.SetFlyingCountdown(Constants.FLYING_LENGTH);
 
         yield break;
     }
@@ -53,5 +64,11 @@ public class Flying : State
     {
         // spawn some leaves
         return;
+    }
+
+    private IEnumerator WaitThenSwitchToPlaying(short time)
+    {
+        yield return new WaitForSeconds(time);
+        _stateMachine.SetState(new Playing(_stateMachine));
     }
 }

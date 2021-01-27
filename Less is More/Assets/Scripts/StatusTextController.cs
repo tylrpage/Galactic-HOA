@@ -11,13 +11,23 @@ public class StatusTextController : MonoBehaviour
 
     public void SetWaitingForPlayers(int count)
     {
-        StatusText.text = $"Players in circle: {count}/2";
+        StatusText.text = $"Waiting for your neighbors: {count}/2";
     }
 
-    public void SetRoundAboutToStart(short time)
+    public void SetLiftOffCountdown(short time)
     {
         CancelRoundStart();
-        _roundCountdown = StartCoroutine(RoundCountdown(time));
+        _roundCountdown = StartCoroutine(LiftOffCountdown(time));
+    }
+
+    public void SetFlyingCountdown(short time)
+    {
+        StartCoroutine(RoundFlyingCountdown(time));
+    }
+
+    public void SetRoundCountdown(short time)
+    {
+        StartCoroutine(RoundCountdown(time));
     }
 
     public void CancelRoundStart()
@@ -26,12 +36,31 @@ public class StatusTextController : MonoBehaviour
             StopCoroutine(_roundCountdown);
     }
     
+    private IEnumerator LiftOffCountdown(short time)
+    {
+        for (int i = time; i >= 1; i--)
+        {
+            StatusText.text = $"Commencing lift off in: {i}";
+            yield return new WaitForSeconds(1);
+        }
+    }
+
+    private IEnumerator RoundFlyingCountdown(short time)
+    {
+        for (int i = time; i >= 1; i--)
+        {
+            StatusText.text = $"Round starts in: {i}";
+            yield return new WaitForSeconds(1);
+        }
+    }
+
     private IEnumerator RoundCountdown(short time)
     {
         for (int i = time; i >= 1; i--)
         {
-            StatusText.text = $"Round starting in: {i}";
+            StatusText.text = $"Time left in round: {i}";
             yield return new WaitForSeconds(1);
         }
+        StatusText.text = $"Round over!";
     }
 }
