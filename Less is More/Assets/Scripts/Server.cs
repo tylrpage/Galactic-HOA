@@ -96,7 +96,8 @@ public class Server : MonoBehaviour
 
     private void WebServerOnonConnect(int peerId)
     {
-        GameObject newPlayer = Instantiate(_gameController.GetPlayerPrefab(), _gameController.SpawnPoint.position, Quaternion.identity);
+        Vector3 spawnPosition = _gameController.SpawnPoint.position + _stateMachine.GroundControl.GetGroundOffset();
+        GameObject newPlayer = Instantiate(_gameController.GetPlayerPrefab(), spawnPosition, Quaternion.identity);
         
         Movement movement = newPlayer.GetComponent<Movement>();
         movement.enabled = true;
@@ -130,7 +131,8 @@ public class Server : MonoBehaviour
         {
             States = GeneratePeerStates(_peerDatas, false),
             LeafStates = _leafSpawner.GenerateLeafStates(false),
-            YourId = peerId
+            YourId = peerId,
+            GameStateId = _stateMachine.GetStateId(_stateMachine.State)
         };
         ArraySegment<byte> bytes = Writer.SerializeToByteSegment(initialState);
         _webServer.SendOne(peerId, bytes);

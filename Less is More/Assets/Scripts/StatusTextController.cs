@@ -35,6 +35,11 @@ public class StatusTextController : MonoBehaviour
         StatusText.text = $"Landing...";
     }
 
+    public void SetWaitForRoundToFinishText()
+    {
+        StatusText.text = $"Your neighbors are in flight. They will be back soon.";
+    }
+
     public void CancelRoundStart()
     {
         if (_roundCountdown != null)

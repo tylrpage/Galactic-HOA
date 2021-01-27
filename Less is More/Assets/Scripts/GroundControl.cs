@@ -26,6 +26,11 @@ public class GroundControl : MonoBehaviour
         public Dictionary<int, Transform> OffCircle;
     }
 
+    public Vector3 GetGroundOffset()
+    {
+        return Ground.position - _originalGroundPosition;
+    }
+
     public Categorized CategorizePlayers(Dictionary<int, Transform> players)
     {
         var onCircle = new Dictionary<int, Transform>();
@@ -58,6 +63,11 @@ public class GroundControl : MonoBehaviour
     public void DisableBorder()
     {
         CircleBorder.SetActive(false);
+    }
+
+    public void InstantLiftOff()
+    {
+        Ground.position = _originalGroundPosition + DistanceToLiftOff * Vector3.up;
     }
 
     public IEnumerator LiftOff(IEnumerable<Transform> playersNotOnCircle)

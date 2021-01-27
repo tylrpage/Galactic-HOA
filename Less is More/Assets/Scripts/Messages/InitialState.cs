@@ -12,6 +12,7 @@ namespace Messages
         public int YourId;
         public Dictionary<int, PeerState> States;
         public Dictionary<int, LeafState> LeafStates;
+        public short GameStateId;
 
         public void Serialize(ref BitBuffer data)
         {
@@ -31,6 +32,8 @@ namespace Messages
                 data.AddInt(leaf.Key);
                 leaf.Value.Serialize(ref data);
             }
+
+            data.AddShort(GameStateId);
         }
 
         public void Deserialize(ref BitBuffer data)
@@ -58,6 +61,8 @@ namespace Messages
                 leafState.Deserialize(ref data);
                 LeafStates[leafId] = leafState;
             }
+
+            GameStateId = data.ReadShort();
         }
     }
 }

@@ -150,6 +150,21 @@ public class StateMachine : MonoBehaviour
         }
     }
 
+    // Handle special cases for clients coming in mid game
+    public void SetJoiningState(short id)
+    {
+        if (id == 1 || id == 4 || id == 5)
+        {
+            SetState(new Waiting(this));
+        }
+        else if (id == 2 || id == 3)
+        {
+            //Flying
+            GroundControl.InstantLiftOff();
+            StatusTextController.SetWaitForRoundToFinishText();
+        }
+    }
+
     private void Update()
     {
         if (State != null)

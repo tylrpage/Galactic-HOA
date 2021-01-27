@@ -91,6 +91,8 @@ public class Client : MonoBehaviour
                     GameObject newLeaf = _leafSpawner.SpawnLeaf(leafState.position, leafState.rotation);
                     _leafInterps[keyValue.Key] = newLeaf.GetComponent<LeafInterp>();
                 }
+                
+                _stateMachine.SetJoiningState(initialState.GameStateId);
 
                 Debug.Log("Client connected");
                 _connected = true;
