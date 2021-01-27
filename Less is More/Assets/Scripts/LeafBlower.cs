@@ -6,6 +6,8 @@ using UnityEngine;
 public class LeafBlower : MonoBehaviour
 {
     private static readonly int MaxLeafsThatCanBeBlown = 20;
+
+    public float LiftPower;
     
     [SerializeField] private PolygonCollider2D windCollider;
     private Inputs _inputs;
@@ -37,9 +39,14 @@ public class LeafBlower : MonoBehaviour
 
             for (int i = 0; i < leafCount; i++)
             {
-                Rigidbody2D rb = colliders[i].attachedRigidbody;
-                Vector2 dir = (colliders[i].transform.position - transform.position);
-                rb.AddForce(dir.normalized / dir.magnitude);
+                LeafController leafController = colliders[i].GetComponent<LeafController>();
+                if (leafController.Blowable())
+                {
+                    Rigidbody2D rb = colliders[i].attachedRigidbody;
+                    Vector2 dir = (colliders[i].transform.position - transform.position);
+                    rb.AddForce(dir.normalized / Mathf.Pow(dir.magnitude, 2), ForceMode2D.Impulse);
+                    leafController.PushUp(LiftPower / Mathf.Pow(dir.magnitude, 2));
+                }
             }
         }
         else

@@ -8,8 +8,10 @@ public class LeafController : MonoBehaviour
     public Transform ShadowTransform;
     public Transform SpriteTransform;
     public AnimationCurve FallCurve;
+    public AnimationCurve RiseCurve;
+    public float TimeToRise;
     public float FallFactor;
-    public float MaxHeightToEnableCollider;
+    public float MaxHeightToEnableBlowing;
     public bool Simulate = false;
 
     public float HeightInAir;
@@ -18,6 +20,7 @@ public class LeafController : MonoBehaviour
     private Vector3 _originalShadowScale;
     private CircleCollider2D _circleCollider;
     private float _t;
+    private float _upwardVel;
 
     private void Start()
     {
@@ -37,6 +40,27 @@ public class LeafController : MonoBehaviour
         ShadowTransform.localScale = new Vector3(_originalShadowScale.x * growthFactor, _originalShadowScale.y * growthFactor, 1);
     }
 
+    public bool Blowable()
+    {
+        return HeightInAir <= MaxHeightToEnableBlowing;
+    }
+
+    public void PushUp(float force)
+    {
+        StartCoroutine(PushRoutine(force));
+    }
+
+    private IEnumerator PushRoutine(float force)
+    {
+        float t = 0;
+        while (t < 1)
+        {
+            HeightInAir += (RiseCurve.Evaluate(t + Time.deltaTime) - RiseCurve.Evaluate(t)) * force;
+            t += Time.deltaTime / TimeToRise;
+            yield return null;
+        }
+    }
+
     private void SimulateFrame()
     {
         // Make leaf fall
@@ -44,17 +68,12 @@ public class LeafController : MonoBehaviour
         {
             _t += Time.deltaTime;
             _t %= 1f;
-            HeightInAir -= FallCurve.Evaluate(_t) / FallFactor;
+            HeightInAir -= FallCurve.Evaluate(_t) * FallFactor;
         }
         else
         {
             HeightInAir = 0;
             _t = 0;
-        }
-        
-        if (HeightInAir > MaxHeightToEnableCollider)
-        {
-            _circleCollider.enabled = true;
         }
     }
 }

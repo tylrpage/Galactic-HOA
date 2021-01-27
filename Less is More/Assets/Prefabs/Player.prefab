@@ -223,6 +223,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c62442f8fefee64a87470431113cd2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  LiftPower: 3
   windCollider: {fileID: 2630992872432226470}
 --- !u!114 &6848648411998528489
 MonoBehaviour:
