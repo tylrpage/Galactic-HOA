@@ -31,6 +31,14 @@ public class ConnectUIController : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        if (ConnectScreenGroup.activeInHierarchy && Input.GetKeyDown(KeyCode.Return) && ConnectButton.interactable)
+        {
+            ConnectButton.onClick.Invoke();
+        }
+    }
+
     public void OnConnectPressed()
     {
         ConnectPressed?.Invoke(NameInput.text);

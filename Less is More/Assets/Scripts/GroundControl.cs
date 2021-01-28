@@ -85,7 +85,8 @@ public class GroundControl : MonoBehaviour
         // Move everyone on the ground to a lower sprite layer
         foreach (var player in _playersNotInCircle)
         {
-            player.GetComponentInChildren<SortingGroup>().sortingLayerName = "GroundedPlayer";
+            if (player != null)
+                player.GetComponentInChildren<SortingGroup>().sortingLayerName = "GroundedPlayer";
         }
         
         float t = 0;
@@ -117,7 +118,8 @@ public class GroundControl : MonoBehaviour
 
             foreach (var player in _playersNotInCircle)
             {
-                player.position += groundOffset * Vector3.up;
+                if (player != null)
+                    player.position += groundOffset * Vector3.up;
             }
             
             t += Time.deltaTime / TimeToLiftOff;
@@ -130,7 +132,8 @@ public class GroundControl : MonoBehaviour
         // Move everyone on the ground back to their normal sorting layer
         foreach (var player in _playersNotInCircle)
         {
-            player.GetComponentInChildren<SortingGroup>().sortingLayerName = "Default";
+            if (player != null)
+                player.GetComponentInChildren<SortingGroup>().sortingLayerName = "Default";
         }
     }
 }

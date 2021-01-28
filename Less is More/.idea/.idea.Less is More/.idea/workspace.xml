@@ -13,12 +13,10 @@
     <list default="true" id="7765c7f1-5035-4be7-a6f0-b2822cbe470c" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Less is More/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Less is More/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Client.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Client.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/ConnectUIController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/ConnectUIController.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Constants.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Constants.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game State/Landing.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game State/Landing.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game State/StateMachine.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game State/StateMachine.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/GroundControl.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GroundControl.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Server.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Server.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../tasks.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../tasks.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -107,7 +105,6 @@
         <option value="$PROJECT_DIR$/Assets/Scripts/Game State/Playing.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Shadow.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/LeafInterp.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/CircleDivider.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Messages/InitialState.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/LeafController.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/LeafBlower.cs" />
@@ -115,7 +112,6 @@
         <option value="$PROJECT_DIR$/Assets/Scripts/Movement.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Messages/ClearLeafs.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/AnimationController.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/ConnectUIController.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Messages/messages.txt" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Messages/ClientInitialData.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Messages/NewPlayer.cs" />
@@ -131,11 +127,13 @@
         <option value="$PROJECT_DIR$/Assets/Scripts/StatusTextController.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/ScoreController.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Game State/Landing.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/GroundControl.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Constants.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Client.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Game State/StateMachine.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Server.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Client.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/CircleDivider.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/GroundControl.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/ConnectUIController.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Constants.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Game State/StateMachine.cs" />
       </list>
     </option>
   </component>
@@ -186,7 +184,7 @@
       <workItem from="1611509323536" duration="69897000" />
       <workItem from="1611767175473" duration="16950000" />
       <workItem from="1611805262510" duration="3930000" />
-      <workItem from="1611847065854" duration="9285000" />
+      <workItem from="1611847065854" duration="11160000" />
     </task>
     <servers />
   </component>

@@ -160,14 +160,14 @@ public class StateMachine : MonoBehaviour
     {
         int stateId = GetCurrentStateId();
         
-        if (stateId != 1 && stateId != 4 && stateId != 5)
+        if (stateId == 2 || stateId == 3 || stateId == 5)
             GroundControl.AddAnotherPlayerNotOnCircle(peerTransform);
     }
 
     // Handle special cases for clients coming in mid game on client
     public void SetOtherClientsJoiningState(short stateId, Transform playerTransform)
     {
-        if (stateId == 2 || stateId == 3)
+        if (stateId == 2 || stateId == 3 || stateId == 5)
         {
             GroundControl.AddAnotherPlayerNotOnCircle(playerTransform);
         }
