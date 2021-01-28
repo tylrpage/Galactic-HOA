@@ -32,7 +32,7 @@ public class ScoreController : MonoBehaviour
             if (other == null)
                 return -1;
             
-            return other.Score.CompareTo(this.Score);
+            return this.Score.CompareTo(other.Score);
         }
     }
 
