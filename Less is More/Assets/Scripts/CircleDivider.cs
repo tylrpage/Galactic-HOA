@@ -46,7 +46,6 @@ public class CircleDivider : MonoBehaviour
 
     public void SetSegments(short newCount)
     {
-        Debug.Log("Setting segments to " + newCount);
         int diff = newCount - Segments;
         if (diff > 0)
         {

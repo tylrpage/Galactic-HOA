@@ -96,7 +96,7 @@ public class Client : MonoBehaviour
 
                 foreach (var keyValue in initialState.States)
                 {
-                    CreateAndRegisterPlayer(keyValue.Key, keyValue.Value);
+                    CreateAndRegisterPlayer(keyValue.Key, keyValue.Value, initialState.GameStateId);
                 }
 
                 foreach (var keyValue in initialState.LeafStates)
@@ -105,8 +105,6 @@ public class Client : MonoBehaviour
                     GameObject newLeaf = _leafSpawner.SpawnLeaf(keyValue.Key, leafState.position, leafState.heightInAir, leafState.rotation);
                     _leafInterps[keyValue.Key] = newLeaf.GetComponent<LeafInterp>();
                 }
-
-                _stateMachine.SetJoiningState(initialState.GameStateId);
 
                 Debug.Log("Client connected");
                 _connected = true;
@@ -161,7 +159,7 @@ public class Client : MonoBehaviour
                 NewPlayer newPlayer = new NewPlayer();
                 newPlayer.Deserialize(ref bitBuffer);
                 
-                CreateAndRegisterPlayer(newPlayer.TheirId, newPlayer.State);
+                CreateAndRegisterPlayer(newPlayer.TheirId, newPlayer.State, _stateMachine.GetCurrentStateId());
                 
                 break;
             }
@@ -209,7 +207,7 @@ public class Client : MonoBehaviour
         }
     }
 
-    private void CreateAndRegisterPlayer(int peerId, PeerState peerState)
+    private void CreateAndRegisterPlayer(int peerId, PeerState peerState, short gameStateId)
     {
         GameObject newPlayer = Instantiate(_gameController.GetPlayerPrefab(), peerState.position, Quaternion.identity);
                     
@@ -238,6 +236,11 @@ public class Client : MonoBehaviour
         if (_myId == peerId)
         {
             _myPlayerTransform = newPlayer.transform;
+            _stateMachine.SetMyClientJoiningState(gameStateId, newPlayer.transform);
+        }
+        else
+        {
+            _stateMachine.SetOtherClientsJoiningState(gameStateId, newPlayer.transform);
         }
     }
 

@@ -26,7 +26,7 @@ public class Landing : State
             groundedPlayers = _stateMachine.GameClient._peerDatas.Values.Where(x => !x.IsPlaying)
                 .Select(x => x.PlayerTransform);
         }
-        _stateMachine.DoCoroutine(_stateMachine.GroundControl.Land(groundedPlayers));
+        _stateMachine.DoCoroutine(_stateMachine.GroundControl.Land());
 
         // Start countdown till switching to waiting again
         if (_stateMachine.IsServer)

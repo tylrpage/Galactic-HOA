@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -14,10 +15,12 @@ public class GroundControl : MonoBehaviour
     public GameObject CircleBorder;
 
     private Vector3 _originalGroundPosition;
+    private List<Transform> _playersNotInCircle;
 
     private void Start()
     {
         _originalGroundPosition = Ground.position;
+        _playersNotInCircle = new List<Transform>();
     }
 
     public struct Categorized
@@ -70,10 +73,17 @@ public class GroundControl : MonoBehaviour
         Ground.position = _originalGroundPosition + DistanceToLiftOff * Vector3.up;
     }
 
+    public void AddAnotherPlayerNotOnCircle(Transform playerNotOnCircle)
+    {
+        _playersNotInCircle.Add(playerNotOnCircle);
+    }
+
     public IEnumerator LiftOff(IEnumerable<Transform> playersNotOnCircle)
     {
+        _playersNotInCircle = playersNotOnCircle.ToList();
+        
         // Move everyone on the ground to a lower sprite layer
-        foreach (var player in playersNotOnCircle)
+        foreach (var player in _playersNotInCircle)
         {
             player.GetComponentInChildren<SortingGroup>().sortingLayerName = "GroundedPlayer";
         }
@@ -85,9 +95,10 @@ public class GroundControl : MonoBehaviour
             float groundOffset = -(LiftCurve.Evaluate(t + Time.deltaTime / TimeToLiftOff) - LiftCurve.Evaluate(t)) * DistanceToLiftOff;
             Ground.position += groundOffset * Vector3.up;
 
-            foreach (var player in playersNotOnCircle)
+            foreach (var player in _playersNotInCircle)
             {
-                player.position += groundOffset * Vector3.up;
+                if (player != null)
+                    player.position += groundOffset * Vector3.up;
             }
             
             t += Time.deltaTime / TimeToLiftOff;
@@ -95,7 +106,7 @@ public class GroundControl : MonoBehaviour
         }
     }
 
-    public IEnumerator Land(IEnumerable<Transform> playersNotOnCircle)
+    public IEnumerator Land()
     {
         float t = 0;
         
@@ -104,7 +115,7 @@ public class GroundControl : MonoBehaviour
             float groundOffset = (LiftCurve.Evaluate(t + Time.deltaTime / TimeToLiftOff) - LiftCurve.Evaluate(t)) * DistanceToLiftOff;
             Ground.position += groundOffset * Vector3.up;
 
-            foreach (var player in playersNotOnCircle)
+            foreach (var player in _playersNotInCircle)
             {
                 player.position += groundOffset * Vector3.up;
             }
@@ -117,7 +128,7 @@ public class GroundControl : MonoBehaviour
         Ground.position = _originalGroundPosition;
         
         // Move everyone on the ground back to their normal sorting layer
-        foreach (var player in playersNotOnCircle)
+        foreach (var player in _playersNotInCircle)
         {
             player.GetComponentInChildren<SortingGroup>().sortingLayerName = "Default";
         }

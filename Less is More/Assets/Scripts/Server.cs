@@ -92,9 +92,13 @@ public class Server : MonoBehaviour
     public void ScoreLeafCounts(List<ushort> leafCounts)
     {
         List<ServerPeerData> playingPeers = _peerDatas.Values.Where(x => x.IsPlaying).ToList();
-        for (int i = 0; i < leafCounts.Count; i++)
+
+        if (playingPeers.Count > 0)
         {
-            playingPeers[i].Score += (ushort)(leafCounts[i] * Constants.FINE_PER_LEAF);
+            for (int i = 0; i < leafCounts.Count; i++)
+            {
+                playingPeers[i].Score += (ushort)(leafCounts[i] * Constants.FINE_PER_LEAF);
+            }
         }
     }
 
@@ -167,7 +171,10 @@ public class Server : MonoBehaviour
                 _unHandShakenPeers.Remove(peerId);
                 
                 Vector3 spawnPosition = _gameController.SpawnPoint.position + _stateMachine.GroundControl.GetGroundOffset();
+
                 GameObject newPlayer = Instantiate(_gameController.GetPlayerPrefab(), spawnPosition, Quaternion.identity);
+
+                _stateMachine.SetServerJoiningState(newPlayer.transform);
         
                 Movement movement = newPlayer.GetComponent<Movement>();
                 movement.enabled = true;
@@ -204,7 +211,7 @@ public class Server : MonoBehaviour
                     States = GeneratePeerStates(_peerDatas, false),
                     LeafStates = _leafSpawner.GenerateLeafStates(false),
                     YourId = peerId,
-                    GameStateId = _stateMachine.GetStateId(_stateMachine.State)
+                    GameStateId = _stateMachine.GetCurrentStateId()
                 };
                 ArraySegment<byte> bytes = Writer.SerializeToByteSegment(initialState);
                 _webServer.SendOne(peerId, bytes);

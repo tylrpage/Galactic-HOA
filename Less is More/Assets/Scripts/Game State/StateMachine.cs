@@ -150,16 +150,39 @@ public class StateMachine : MonoBehaviour
         }
     }
 
-    // Handle special cases for clients coming in mid game
-    public void SetJoiningState(short id)
+    public short GetCurrentStateId()
     {
-        if (id == 1 || id == 4 || id == 5)
+        return GetStateId(State);
+    }
+
+    // Handle special cases for clients coming in mid game on server
+    public void SetServerJoiningState(Transform peerTransform)
+    {
+        int stateId = GetCurrentStateId();
+        
+        if (stateId != 1 && stateId != 4 && stateId != 5)
+            GroundControl.AddAnotherPlayerNotOnCircle(peerTransform);
+    }
+
+    // Handle special cases for clients coming in mid game on client
+    public void SetOtherClientsJoiningState(short stateId, Transform playerTransform)
+    {
+        if (stateId == 2 || stateId == 3)
+        {
+            GroundControl.AddAnotherPlayerNotOnCircle(playerTransform);
+        }
+    }
+
+    public void SetMyClientJoiningState(short stateId, Transform playerTransform)
+    {
+        if (stateId == 1 || stateId == 4 || stateId == 5)
         {
             SetState(new Waiting(this));
         }
-        else if (id == 2 || id == 3)
+        else if (stateId == 2 || stateId == 3)
         {
             //Flying
+            GroundControl.AddAnotherPlayerNotOnCircle(playerTransform);
             GroundControl.InstantLiftOff();
             StatusTextController.SetWaitForRoundToFinishText();
         }
