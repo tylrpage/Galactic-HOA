@@ -134,6 +134,7 @@
           <e p="Movement.cs" t="Include" />
           <e p="NametagController.cs" t="Include" />
           <e p="NonLinearTransform.cs" t="Include" />
+          <e p="PlayerColorController.cs" t="Include" />
           <e p="PositionInterp.cs" t="Include" />
           <e p="ScoreController.cs" t="Include" />
           <e p="Server.cs" t="Include" />

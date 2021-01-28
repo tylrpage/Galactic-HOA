@@ -18,6 +18,7 @@ public class Waiting : State
         var categorized = _stateMachine.GetCategoriesOfPlayers();
         _stateMachine.StatusTextController.SetWaitingForPlayers(categorized.OnCircle.Count);
         
+        _stateMachine.GroundControl.EnableFenceColliders();
         _stateMachine.GroundControl.DisableBorder();
         _stateMachine.CircleDivider.SetSegments(0);
         _stateMachine.CircleDivider.SetArrowsSegment(-1);
@@ -27,7 +28,7 @@ public class Waiting : State
             _stateMachine.GameServer._leafSpawner.ClearAllLeafs();
             _stateMachine.GameServer.NotifyClientsToClearLeafs();
         }
-        
+
         // TODO maybe Push everyone out
         
         yield break;

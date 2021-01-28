@@ -16,6 +16,11 @@ namespace Messages
         public Vector2 mouseDir;
         public string displayName;
         public ushort score;
+        public bool isColorsDirty;
+        public ushort headColorCode;
+        public ushort bodyColorCode;
+        public ushort feetColorCode;
+
 
         public void Serialize(ref BitBuffer data)
         {
@@ -35,6 +40,14 @@ namespace Messages
                 .AddBool(pressingSpace)
                 .AddString(displayName)
                 .AddUShort(score);
+            
+            data.AddBool(isColorsDirty);
+            if (isColorsDirty)
+            {
+                data.AddUShort(headColorCode)
+                    .AddUShort(bodyColorCode)
+                    .AddUShort(feetColorCode);
+            }
         }
 
         public void Deserialize(ref BitBuffer data)
@@ -49,6 +62,14 @@ namespace Messages
             pressingSpace = data.ReadBool();
             displayName = data.ReadString();
             score = data.ReadUShort();
+
+            isColorsDirty = data.ReadBool();
+            if (isColorsDirty)
+            {
+                headColorCode = data.ReadUShort();
+                bodyColorCode = data.ReadUShort();
+                feetColorCode = data.ReadUShort();
+            }
         }
     }
 

@@ -13,6 +13,7 @@ public class GroundControl : MonoBehaviour
     public float DistanceToLiftOff;
     public float CircleRadius;
     public GameObject CircleBorder;
+    public GameObject FenceColliderObject;
 
     private Vector3 _originalGroundPosition;
     private List<Transform> _playersNotInCircle;
@@ -34,6 +35,16 @@ public class GroundControl : MonoBehaviour
         return Ground.position - _originalGroundPosition;
     }
 
+    public void DisableFenceColliders()
+    {
+        FenceColliderObject.SetActive(false);
+    }
+    
+    public void EnableFenceColliders()
+    {
+        FenceColliderObject.SetActive(true);
+    }
+    
     public Categorized CategorizePlayers(Dictionary<int, Transform> players)
     {
         var onCircle = new Dictionary<int, Transform>();

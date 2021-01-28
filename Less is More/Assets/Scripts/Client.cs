@@ -217,6 +217,12 @@ public class Client : MonoBehaviour
         
         NametagController nametagController = newPlayer.GetComponent<NametagController>();
         nametagController.SetName(peerState.displayName);
+
+        if (peerState.isColorsDirty)
+        {
+            PlayerColorController colorController = newPlayer.GetComponent<PlayerColorController>();
+            colorController.SetPlayerColors(peerState.headColorCode, peerState.bodyColorCode, peerState.feetColorCode);
+        }
                     
         _peerDatas[peerId] = new ClientPeerData()
         {

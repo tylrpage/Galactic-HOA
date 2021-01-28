@@ -56,6 +56,7 @@ public class Flying : State
         }
         
         _stateMachine.DoCoroutine(_stateMachine.GroundControl.LiftOff(categorized.OffCircle.Values));
+        _stateMachine.GroundControl.DisableFenceColliders();
         _stateMachine.GroundControl.EnableBorder();
         _stateMachine.StatusTextController.SetFlyingCountdown(Constants.FLYING_LENGTH);
 

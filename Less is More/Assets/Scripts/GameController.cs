@@ -7,6 +7,7 @@ using ParrelSync;
 #endif
 
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class GameController : MonoBehaviour
 {
@@ -15,6 +16,7 @@ public class GameController : MonoBehaviour
     [SerializeField] private CircleDivider circleDivider;
 #pragma warning restore 0649
 
+    public Color[] PossiblePlayerColors;
     public string PlayerName { get; private set; }
     
     public ConnectUIController ConnectUiController;
@@ -22,6 +24,18 @@ public class GameController : MonoBehaviour
     public Transform SpawnPoint;
     public bool NonCloneIsServer = false;
     public bool ConnectToRemote = false;
+
+    public ushort GetRandomPlayerColorCode()
+    {
+        ushort count = (ushort)PossiblePlayerColors.Length;
+        ushort randomIndex = (ushort)Random.Range(0, count);
+        return randomIndex;
+    }
+
+    public Color ConvertColorCodeToColor(ushort code)
+    {
+        return PossiblePlayerColors[code];
+    }
 
     public GameObject GetPlayerPrefab()
     {

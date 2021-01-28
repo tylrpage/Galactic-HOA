@@ -14,4 +14,7 @@ public class ServerPeerData
     public bool IsPlaying;
     public string displayName;
     public ushort Score;
+    public ushort HeadColor;
+    public ushort BodyColor;
+    public ushort FeetColor;
 }

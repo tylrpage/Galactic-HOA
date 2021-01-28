@@ -7,3 +7,4 @@
 7 - server telling clients about a state change
 8 - server telling clients to clear all leafs
 9 - client telling server its initial data, like display name
+10 - server telling clients a player's color changed

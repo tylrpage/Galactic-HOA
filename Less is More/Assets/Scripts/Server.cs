@@ -191,9 +191,17 @@ public class Server : MonoBehaviour
                     PlayerTransform = newPlayer.transform,
                     PlayerBlower = leafBlower,
                     AnimationController = newPlayer.GetComponentInChildren<AnimationController>(),
-                    displayName = clientInitialData.DisplayName
+                    displayName = clientInitialData.DisplayName,
+                    HeadColor = _gameController.GetRandomPlayerColorCode(),
+                    BodyColor = _gameController.GetRandomPlayerColorCode(),
+                    FeetColor = _gameController.GetRandomPlayerColorCode()
                 };
                 _peerDatas[peerId] = newPeerData;
+                
+                newPlayer.GetComponent<PlayerColorController>().SetPlayerColors(
+                    newPeerData.HeadColor,
+                    newPeerData.BodyColor,
+                    newPeerData.FeetColor);
         
                 // Send everyone a message about this player
                 NewPlayer newPlayerMessage = new NewPlayer()
@@ -266,7 +274,7 @@ public class Server : MonoBehaviour
         return peerStates;
     }
 
-    private PeerState GenerateSinglePeerState(ServerPeerData data, bool includeDisplayName)
+    private PeerState GenerateSinglePeerState(ServerPeerData data, bool includeDisplayNameAndColor)
     {
         PeerState peerState = new PeerState()
         {
@@ -278,7 +286,20 @@ public class Server : MonoBehaviour
             mouseDir = data.Inputs.MouseDir,
             score = data.Score
         };
-        peerState.displayName = includeDisplayName ? data.displayName : "";
+        
+        peerState.displayName = includeDisplayNameAndColor ? data.displayName : "";
+        if (includeDisplayNameAndColor)
+        {
+            peerState.isColorsDirty = true;
+            peerState.headColorCode = data.HeadColor;
+            peerState.bodyColorCode = data.BodyColor;
+            peerState.feetColorCode = data.FeetColor;
+        }
+        else
+        {
+            peerState.isColorsDirty = false;
+        }
+        
         
         return peerState;
     }
