@@ -12,6 +12,7 @@
           <e p="CircleDivider.cs" t="Include" />
           <e p="Client.cs" t="Include" />
           <e p="ClientPeerData.cs" t="Include" />
+          <e p="ConnectUIController.cs" t="Include" />
           <e p="Constants.cs" t="Include" />
           <e p="Deps" t="Include">
             <e p="NetStack-master" t="Include">
@@ -120,6 +121,7 @@
           <e p="Messages" t="Include">
             <e p="BitSerializable.cs" t="Include" />
             <e p="ClearLeafs.cs" t="Include" />
+            <e p="ClientInitialData.cs" t="Include" />
             <e p="ClientInputs.cs" t="Include" />
             <e p="InitialState.cs" t="Include" />
             <e p="messages.txt" t="Include" />
@@ -130,6 +132,7 @@
             <e p="ZoneCountChange.cs" t="Include" />
           </e>
           <e p="Movement.cs" t="Include" />
+          <e p="NametagController.cs" t="Include" />
           <e p="NonLinearTransform.cs" t="Include" />
           <e p="PositionInterp.cs" t="Include" />
           <e p="Server.cs" t="Include" />

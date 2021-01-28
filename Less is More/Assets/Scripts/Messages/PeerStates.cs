@@ -14,6 +14,7 @@ namespace Messages
         public bool isPlaying;
         public bool pressingSpace;
         public Vector2 mouseDir;
+        public string displayName;
 
         public void Serialize(ref BitBuffer data)
         {
@@ -30,7 +31,8 @@ namespace Messages
                 .AddString(currentAnimation)
                 .AddBool(spriteFlipped)
                 .AddBool(isPlaying)
-                .AddBool(pressingSpace);
+                .AddBool(pressingSpace)
+                .AddString(displayName);
         }
 
         public void Deserialize(ref BitBuffer data)
@@ -43,6 +45,7 @@ namespace Messages
             spriteFlipped = data.ReadBool();
             isPlaying = data.ReadBool();
             pressingSpace = data.ReadBool();
+            displayName = data.ReadString();
         }
     }
 

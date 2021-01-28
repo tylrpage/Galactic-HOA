@@ -12,4 +12,5 @@ public class ServerPeerData
     public LeafBlower PlayerBlower;
     public AnimationController AnimationController;
     public bool IsPlaying;
+    public string displayName;
 }

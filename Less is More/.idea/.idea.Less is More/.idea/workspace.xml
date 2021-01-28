@@ -11,11 +11,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7765c7f1-5035-4be7-a6f0-b2822cbe470c" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Less is More/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Less is More/.idea/contentModel.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Less is More/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Less is More/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Player.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Player.prefab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/AnimationController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/AnimationController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/Krita/jovi.kra" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Sprites/Krita/jovi.kra" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Client.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Client.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/ClientPeerData.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/ClientPeerData.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Messages/PeerStates.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Messages/PeerStates.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Messages/messages.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Messages/messages.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Server.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Server.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/ServerPeerData.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/ServerPeerData.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../tasks.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../tasks.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -30,6 +36,7 @@
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/ServerPeerData.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Game State/RoundStarting.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/NonLinearTransform.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Messages/ClientInitialData.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Messages/NewPlayer.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/FB001E01-371B-4ADC-A200-13E0AC763896/5d/a4156f81/Dictionary`2.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/YSorting.cs" root0="FORCE_HIGHLIGHTING" />
@@ -38,6 +45,7 @@
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/ClientPeerData.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/LeafBlower.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Client.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/ConnectUIController.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/PositionInterp.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Server.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/GroundControl.cs" root0="FORCE_HIGHLIGHTING" />
@@ -78,6 +86,7 @@
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/LeafController.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Deps/NetStack-master/Source.meta" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/LeafInterp.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/NametagController.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
@@ -89,7 +98,6 @@
         <option value="$PROJECT_DIR$/Assets/Scripts/Messages/BitSerializable.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/YSorting.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/PositionInterp.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Messages/NewPlayer.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Messages/PlayerDisconnected.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/NonLinearTransform.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Messages/ZoneCountChange.cs" />
@@ -97,7 +105,6 @@
         <option value="$PROJECT_DIR$/Assets/Scripts/FaceCamera.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Messages/StateChange.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Game State/State.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/ServerPeerData.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Game State/Watching.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Game State/Playing.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Game State/Landing.cs" />
@@ -110,21 +117,26 @@
         <option value="$PROJECT_DIR$/Assets/Scripts/GroundControl.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Game State/StateMachine.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/LeafController.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/ClientPeerData.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/LeafBlower.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Inputs.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Movement.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/GameController.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Game State/Flying.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Messages/messages.txt" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Messages/ClearLeafs.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Server.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/LeafSpawner.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Client.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Messages/PeerStates.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Game State/Waiting.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Constants.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/AnimationController.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/ConnectUIController.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/GameController.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Messages/messages.txt" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Messages/ClientInitialData.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/ServerPeerData.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Messages/PeerStates.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Messages/NewPlayer.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/NametagController.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/ClientPeerData.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Client.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Server.cs" />
       </list>
     </option>
   </component>
@@ -174,7 +186,8 @@
       <workItem from="1611420426583" duration="32458000" />
       <workItem from="1611509323536" duration="69897000" />
       <workItem from="1611767175473" duration="16950000" />
-      <workItem from="1611805262510" duration="1870000" />
+      <workItem from="1611805262510" duration="3930000" />
+      <workItem from="1611847065854" duration="2318000" />
     </task>
     <servers />
   </component>

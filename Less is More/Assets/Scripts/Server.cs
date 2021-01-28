@@ -14,6 +14,7 @@ public class Server : MonoBehaviour
 {
     private SimpleWebServer _webServer;
     public Dictionary<int, ServerPeerData> _peerDatas;
+    private HashSet<int> _unHandShakenPeers;
     private Dictionary<int, PeerState> _peerStates;
     private List<int> _connectedIds;
     private bool _listening;
@@ -29,6 +30,7 @@ public class Server : MonoBehaviour
         _connectedIds = new List<int>();
         _leafSpawner = GetComponent<LeafSpawner>();
         _stateMachine = GetComponent<StateMachine>();
+        _unHandShakenPeers = new HashSet<int>();
     }
 
     // Start is called before the first frame update
@@ -101,47 +103,7 @@ public class Server : MonoBehaviour
 
     private void WebServerOnonConnect(int peerId)
     {
-        Vector3 spawnPosition = _gameController.SpawnPoint.position + _stateMachine.GroundControl.GetGroundOffset();
-        GameObject newPlayer = Instantiate(_gameController.GetPlayerPrefab(), spawnPosition, Quaternion.identity);
-        
-        Movement movement = newPlayer.GetComponent<Movement>();
-        movement.enabled = true;
-        LeafBlower leafBlower = newPlayer.GetComponent<LeafBlower>();
-        leafBlower.enabled = true;
-        newPlayer.GetComponent<CircleCollider2D>().enabled = true;
-        newPlayer.GetComponent<LeafBlower>().Simulate = true;
-
-        ServerPeerData newPeerData = new ServerPeerData()
-        {
-            Id = peerId,
-            Inputs = Inputs.EmptyInputs(),
-            PlayerMovement = movement,
-            PlayerTransform = newPlayer.transform,
-            PlayerBlower = leafBlower,
-            AnimationController = newPlayer.GetComponentInChildren<AnimationController>()
-        };
-        _peerDatas[peerId] = newPeerData;
-        
-        // Send everyone a message about this player
-        NewPlayer newPlayerMessage = new NewPlayer()
-        {
-            TheirId = peerId,
-            State = GenerateSinglePeerState(newPeerData)
-        };
-        ArraySegment<byte> newPlayerMessageBytes = Writer.SerializeToByteSegment(newPlayerMessage);
-        _webServer.SendAll(_connectedIds, newPlayerMessageBytes);
-        
-        // Give connecting peer his initial handshake data
-        _connectedIds.Add(peerId);
-        InitialState initialState = new InitialState()
-        {
-            States = GeneratePeerStates(_peerDatas, false),
-            LeafStates = _leafSpawner.GenerateLeafStates(false),
-            YourId = peerId,
-            GameStateId = _stateMachine.GetStateId(_stateMachine.State)
-        };
-        ArraySegment<byte> bytes = Writer.SerializeToByteSegment(initialState);
-        _webServer.SendOne(peerId, bytes);
+        _unHandShakenPeers.Add(peerId);
     }
 
     private void WebServerOnonDisconnect(int id)
@@ -187,6 +149,58 @@ public class Server : MonoBehaviour
 
                 break;
             }
+            case 9:
+            {
+                ClientInitialData clientInitialData = new ClientInitialData();
+                clientInitialData.Deserialize(ref bitBuffer);
+
+                _unHandShakenPeers.Remove(peerId);
+                
+                Vector3 spawnPosition = _gameController.SpawnPoint.position + _stateMachine.GroundControl.GetGroundOffset();
+                GameObject newPlayer = Instantiate(_gameController.GetPlayerPrefab(), spawnPosition, Quaternion.identity);
+        
+                Movement movement = newPlayer.GetComponent<Movement>();
+                movement.enabled = true;
+                LeafBlower leafBlower = newPlayer.GetComponent<LeafBlower>();
+                leafBlower.enabled = true;
+                newPlayer.GetComponent<CircleCollider2D>().enabled = true;
+                newPlayer.GetComponent<LeafBlower>().Simulate = true;
+
+                ServerPeerData newPeerData = new ServerPeerData()
+                {
+                    Id = peerId,
+                    Inputs = Inputs.EmptyInputs(),
+                    PlayerMovement = movement,
+                    PlayerTransform = newPlayer.transform,
+                    PlayerBlower = leafBlower,
+                    AnimationController = newPlayer.GetComponentInChildren<AnimationController>(),
+                    displayName = clientInitialData.DisplayName
+                };
+                _peerDatas[peerId] = newPeerData;
+        
+                // Send everyone a message about this player
+                NewPlayer newPlayerMessage = new NewPlayer()
+                {
+                    TheirId = peerId,
+                    State = GenerateSinglePeerState(newPeerData, true),
+                };
+                ArraySegment<byte> newPlayerMessageBytes = Writer.SerializeToByteSegment(newPlayerMessage);
+                _webServer.SendAll(_connectedIds, newPlayerMessageBytes);
+        
+                // Give connecting peer his initial handshake data
+                _connectedIds.Add(peerId);
+                InitialState initialState = new InitialState()
+                {
+                    States = GeneratePeerStates(_peerDatas, false),
+                    LeafStates = _leafSpawner.GenerateLeafStates(false),
+                    YourId = peerId,
+                    GameStateId = _stateMachine.GetStateId(_stateMachine.State)
+                };
+                ArraySegment<byte> bytes = Writer.SerializeToByteSegment(initialState);
+                _webServer.SendOne(peerId, bytes);
+
+                break;
+            }
         }
     }
 
@@ -228,14 +242,14 @@ public class Server : MonoBehaviour
             // TODO: position and animations are not sent if position doesnt change, can this be a problem for animations?
             if (keyValue.Value.PlayerMovement.DidInputsChange(keyValue.Value.Inputs) || !onlySendDirty)
             {
-                peerStates[keyValue.Key] = GenerateSinglePeerState(keyValue.Value);
+                peerStates[keyValue.Key] = GenerateSinglePeerState(keyValue.Value, !onlySendDirty);
             }
         }
 
         return peerStates;
     }
 
-    private PeerState GenerateSinglePeerState(ServerPeerData data)
+    private PeerState GenerateSinglePeerState(ServerPeerData data, bool includeDisplayName)
     {
         PeerState peerState = new PeerState()
         {
@@ -246,6 +260,8 @@ public class Server : MonoBehaviour
             pressingSpace = data.Inputs.Space,
             mouseDir = data.Inputs.MouseDir
         };
+        peerState.displayName = includeDisplayName ? data.displayName : "";
+        
         return peerState;
     }
 

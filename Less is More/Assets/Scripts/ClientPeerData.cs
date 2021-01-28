@@ -12,4 +12,6 @@ public class ClientPeerData
     public bool IsPlaying;
     public Inputs Inputs;
     public LeafBlower LeafBlower;
+    public string DisplayName;
+    public NametagController NametagController;
 }

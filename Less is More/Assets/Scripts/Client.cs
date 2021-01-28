@@ -13,6 +13,9 @@ using Debug = UnityEngine.Debug;
 
 public class Client : MonoBehaviour
 {
+    public event Action Connected;
+    public event Action Disconnected;
+    
     private GameController _gameController;
     private SimpleWebClient _ws;
     private int _myId;
@@ -27,6 +30,7 @@ public class Client : MonoBehaviour
     private Camera _camera;
     public LeafSpawner _leafSpawner;
     private StateMachine _stateMachine;
+    private ClientInitialData _clientInitialData;
 
     void Awake()
     {
@@ -40,6 +44,7 @@ public class Client : MonoBehaviour
         _ws = SimpleWebClient.Create(16*1024, 1000, tcpConfig);
         
         _ws.onData += WsOnonData;
+        _ws.onDisconnect += WsOnonDisconnect;
         _ws.onConnect += WsOnonConnect;
         _ws.onError += delegate(Exception exception)
         {
@@ -47,9 +52,18 @@ public class Client : MonoBehaviour
         };
     }
 
+    private void WsOnonDisconnect()
+    {
+        Disconnected?.Invoke();
+    }
+
     private void WsOnonConnect()
     {
+        var bytes = Writer.SerializeToByteSegment(_clientInitialData);
+        _ws.Send(bytes);
+        
         _stateMachine.Init(this);
+        Connected?.Invoke();
     }
 
     private void WsOnonData(ArraySegment<byte> data)
@@ -199,6 +213,9 @@ public class Client : MonoBehaviour
         PositionInterp positionInterp = newPlayer.GetComponent<PositionInterp>();
         positionInterp.enabled = true;
         positionInterp.SetPosition(peerState.position);
+        
+        NametagController nametagController = newPlayer.GetComponent<NametagController>();
+        nametagController.SetName(peerState.displayName);
                     
         _peerDatas[peerId] = new ClientPeerData()
         {
@@ -207,7 +224,9 @@ public class Client : MonoBehaviour
             AnimationController = newPlayer.GetComponentInChildren<AnimationController>(),
             PlayerTransform = newPlayer.transform,
             IsPlaying = peerState.isPlaying,
-            LeafBlower = newPlayer.GetComponent<LeafBlower>()
+            LeafBlower = newPlayer.GetComponent<LeafBlower>(),
+            DisplayName = peerState.displayName,
+            NametagController = nametagController
         };
 
         if (_myId == peerId)
@@ -225,9 +244,14 @@ public class Client : MonoBehaviour
         _leafInterps.Clear();
     }
 
-    public void Connect(bool isRemote)
+    public void Connect(bool isRemote, string displayName)
     {
         UriBuilder builder;
+        
+        _clientInitialData = new ClientInitialData()
+        {
+            DisplayName = displayName
+        };
         
         if (isRemote)
         {

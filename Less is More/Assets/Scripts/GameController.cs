@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 
 #if UNITY_EDITOR
@@ -14,6 +15,9 @@ public class GameController : MonoBehaviour
     [SerializeField] private CircleDivider circleDivider;
 #pragma warning restore 0649
 
+    public string PlayerName { get; private set; }
+    
+    public ConnectUIController ConnectUiController;
     public Transform SpawnPoint;
     public bool NonCloneIsServer = false;
     public bool ConnectToRemote = false;
@@ -27,16 +31,22 @@ public class GameController : MonoBehaviour
     {
         return circleDivider;
     }
-    
-    private void Start()
+
+    private void Awake()
     {
+        ConnectUiController.ConnectPressed += ConnectUiControllerOnConnectPressed;
+    }
+
+    private void ConnectUiControllerOnConnectPressed(string name)
+    {
+        PlayerName = name;
         #if UNITY_EDITOR
         if (!ClonesManager.IsClone())
         {
             if (NonCloneIsServer)
                 StartServer();
             else
-                StartClient(ConnectToRemote);
+                StartClient(ConnectToRemote, name);
         }
         else
         {
@@ -44,28 +54,50 @@ public class GameController : MonoBehaviour
             if (arg.Equals("server"))
                 StartServer();
             else
-                StartClient(ConnectToRemote);
+                StartClient(ConnectToRemote, name);
         }
         #else
-        if (Application.isBatchMode)
+        StartClient(true);
+        #endif
+    }
+
+    private void Start()
+    {
+        #if UNITY_EDITOR
+        if (!ClonesManager.IsClone() && NonCloneIsServer)
         {
             StartServer();
         }
         else
         {
-            StartClient(true);
+            string arg = ClonesManager.GetArgument();
+            if (arg.Equals("server"))
+                StartServer();
         }
         #endif
+        if (Application.isBatchMode)
+        {
+            StartServer();
+        }
     }
 
-    private void StartClient(bool connectToRemote)
+    private void StartClient(bool connectToRemote, string displayName)
     {
         Client client = gameObject.AddComponent<Client>();
-        client.Connect(connectToRemote);
+        client.Connect(connectToRemote, displayName);
+
+        client.Connected += () => ConnectUiController.HideConnectScreen();
+        client.Disconnected += () =>
+        {
+            ConnectUiController.ShowConnectScreen();
+            ConnectUiController.SwitchToConnectButtonSprite();
+            ConnectUiController.EnableConnectButton();
+        };
     }
 
     private void StartServer()
     {
         gameObject.AddComponent<Server>();
+        ConnectUiController.HideConnectScreen();
     }
 }
