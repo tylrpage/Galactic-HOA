@@ -12,6 +12,8 @@ namespace Messages
         public string currentAnimation;
         public bool spriteFlipped;
         public bool isPlaying;
+        public bool pressingSpace;
+        public Vector2 mouseDir;
 
         public void Serialize(ref BitBuffer data)
         {
@@ -19,21 +21,28 @@ namespace Messages
                 currentAnimation = "idle";
             
             QuantizedVector2 qPosition = BoundedRange.Quantize(position, Constants.WORLD_BOUNDS);
+            QuantizedVector2 qMouseDir = BoundedRange.Quantize(mouseDir, Constants.MOUSEDIR_BOUNDS);
 
             data.AddUInt(qPosition.x)
                 .AddUInt(qPosition.y)
+                .AddUInt(qMouseDir.x)
+                .AddUInt(qMouseDir.y)
                 .AddString(currentAnimation)
                 .AddBool(spriteFlipped)
-                .AddBool(isPlaying);
+                .AddBool(isPlaying)
+                .AddBool(pressingSpace);
         }
 
         public void Deserialize(ref BitBuffer data)
         {
             QuantizedVector2 qPosition = new QuantizedVector2(data.ReadUInt(), data.ReadUInt());
+            QuantizedVector2 qMouseDir = new QuantizedVector2(data.ReadUInt(), data.ReadUInt());
             position = BoundedRange.Dequantize(qPosition, Constants.WORLD_BOUNDS);
+            mouseDir = BoundedRange.Dequantize(qMouseDir, Constants.MOUSEDIR_BOUNDS);
             currentAnimation = data.ReadString();
             spriteFlipped = data.ReadBool();
             isPlaying = data.ReadBool();
+            pressingSpace = data.ReadBool();
         }
     }
 
@@ -42,6 +51,7 @@ namespace Messages
         public Vector2 position;
         public Quaternion rotation;
         public float heightInAir;
+        public bool IsNew;
         
         public void Serialize(ref BitBuffer data)
         {
@@ -55,7 +65,8 @@ namespace Messages
                 .AddUInt(qRotation.a)
                 .AddUInt(qRotation.b)
                 .AddUInt(qRotation.c)
-                .AddUShort(qHeightInAir);
+                .AddUShort(qHeightInAir)
+                .AddBool(IsNew);
         }
 
         public void Deserialize(ref BitBuffer data)
@@ -67,6 +78,7 @@ namespace Messages
             position = BoundedRange.Dequantize(qPosition, Constants.WORLD_BOUNDS);
             rotation = SmallestThree.Dequantize(qRotation);
             heightInAir = HalfPrecision.Dequantize(qHeightInAir);
+            IsNew = data.ReadBool();
         }
     }
     

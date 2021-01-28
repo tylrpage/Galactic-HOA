@@ -10,4 +10,6 @@ public class ClientPeerData
     public AnimationController AnimationController;
     public Transform PlayerTransform;
     public bool IsPlaying;
+    public Inputs Inputs;
+    public LeafBlower LeafBlower;
 }

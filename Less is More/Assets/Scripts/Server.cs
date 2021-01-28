@@ -18,7 +18,7 @@ public class Server : MonoBehaviour
     private List<int> _connectedIds;
     private bool _listening;
     private float _timer;
-    private LeafSpawner _leafSpawner;
+    public LeafSpawner _leafSpawner;
     private GameController _gameController;
     private StateMachine _stateMachine;
 
@@ -34,8 +34,6 @@ public class Server : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        _leafSpawner.SpawnLeafsRandomly(15);
-        
         _webServer = Listen();
         _stateMachine.Init(this);
         _stateMachine.SetState(new Waiting(_stateMachine));
@@ -88,6 +86,13 @@ public class Server : MonoBehaviour
         _webServer.SendAll(_connectedIds, bytes);
     }
 
+    public void NotifyClientsToClearLeafs()
+    {
+        ClearLeafs clearLeafs = new ClearLeafs();
+        var bytes = Writer.SerializeToByteSegment(clearLeafs);
+        _webServer.SendAll(_connectedIds, bytes);
+    }
+
     public void NotifyClientOfZoneCount(int peerId, ZoneCountChange zoneCountChange)
     {
         var bytes = Writer.SerializeToByteSegment(zoneCountChange);
@@ -104,6 +109,7 @@ public class Server : MonoBehaviour
         LeafBlower leafBlower = newPlayer.GetComponent<LeafBlower>();
         leafBlower.enabled = true;
         newPlayer.GetComponent<CircleCollider2D>().enabled = true;
+        newPlayer.GetComponent<LeafBlower>().Simulate = true;
 
         ServerPeerData newPeerData = new ServerPeerData()
         {
@@ -177,7 +183,7 @@ public class Server : MonoBehaviour
                     inputsToUse = clientInputs.inputs;
                 _peerDatas[peerId].Inputs = inputsToUse;
                 _peerDatas[peerId].PlayerMovement.SetInputs(inputsToUse);
-                _peerDatas[peerId].PlayerBlower.SetInputs(inputsToUse);
+                _peerDatas[peerId].PlayerBlower.SetInputs(inputsToUse.Space, inputsToUse.MouseDir);
 
                 break;
             }
@@ -220,7 +226,7 @@ public class Server : MonoBehaviour
         foreach (var keyValue in peerDatas)
         {
             // TODO: position and animations are not sent if position doesnt change, can this be a problem for animations?
-            if (keyValue.Value.PlayerMovement.DidPositionChange() || !onlySendDirty)
+            if (keyValue.Value.PlayerMovement.DidInputsChange(keyValue.Value.Inputs) || !onlySendDirty)
             {
                 peerStates[keyValue.Key] = GenerateSinglePeerState(keyValue.Value);
             }
@@ -236,7 +242,9 @@ public class Server : MonoBehaviour
             position = data.PlayerTransform.position,
             currentAnimation = data.AnimationController.CurrentAnimationState,
             spriteFlipped = data.AnimationController.SpriteFlipped,
-            isPlaying = data.IsPlaying
+            isPlaying = data.IsPlaying,
+            pressingSpace = data.Inputs.Space,
+            mouseDir = data.Inputs.MouseDir
         };
         return peerState;
     }

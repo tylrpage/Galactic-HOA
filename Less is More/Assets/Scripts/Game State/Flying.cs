@@ -14,14 +14,15 @@ public class Flying : State
     {
         // Lift up map from ground
         // divide circle
-        // drop leaves from sky
 
         var categorized = _stateMachine.GetCategoriesOfPlayers();
         if (_stateMachine.IsServer)
         {
+            // Spawn leafs
+            _stateMachine.GameServer._leafSpawner.SpawnLeafsOverTime();
+            
             // Create segments for each person
             // Tell each person their segment
-
             _stateMachine.CircleDivider.SetSegments((short)categorized.OnCircle.Count);
 
             short nextSegmentToAssign = 0;

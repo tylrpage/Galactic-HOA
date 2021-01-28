@@ -119,6 +119,7 @@
           <e p="MathUtils.cs" t="Include" />
           <e p="Messages" t="Include">
             <e p="BitSerializable.cs" t="Include" />
+            <e p="ClearLeafs.cs" t="Include" />
             <e p="ClientInputs.cs" t="Include" />
             <e p="InitialState.cs" t="Include" />
             <e p="messages.txt" t="Include" />

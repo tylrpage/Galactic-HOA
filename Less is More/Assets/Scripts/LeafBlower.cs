@@ -7,11 +7,17 @@ public class LeafBlower : MonoBehaviour
 {
     private static readonly int MaxLeafsThatCanBeBlown = 20;
 
+    public bool Simulate;
     public float LiftPower;
+    public Animator WindAnimator;
     
     [SerializeField] private PolygonCollider2D windCollider;
-    private Inputs _inputs;
     private ContactFilter2D _filter;
+    private bool _blowing = false;
+    private static readonly int Start = Animator.StringToHash("Start");
+    private static readonly int Stop = Animator.StringToHash("Stop");
+    private bool _isPressingSpace;
+    private Vector2 _mouseDir;
 
     private void Awake()
     {
@@ -20,18 +26,39 @@ public class LeafBlower : MonoBehaviour
         _filter.useLayerMask = true;
     }
 
-    public void SetInputs(Inputs inputs)
+    public void SetInputs(bool isPressingSpace, Vector2 mouseDir)
     {
-        _inputs = inputs;
+        _isPressingSpace = isPressingSpace;
+        _mouseDir = mouseDir;
     }
 
     private void FixedUpdate()
     {
-        if (_inputs.Space)
+        if (Simulate)
         {
-            windCollider.GetComponent<SpriteRenderer>().enabled = true;
-            windCollider.transform.up = _inputs.MouseDir;
-            
+            SimulateLeafBlowing();
+        }
+
+        windCollider.transform.up = _mouseDir;
+        if (_isPressingSpace)
+        {
+            if (!_blowing)
+            {
+                WindAnimator.Play("blow_start");
+                _blowing = true;
+            }
+        }
+        else if (_blowing)
+        {
+            WindAnimator.Play("blow_stop");
+            _blowing = false;
+        }
+    }
+
+    private void SimulateLeafBlowing()
+    {
+        if (_isPressingSpace)
+        {
             ContactFilter2D filter = new ContactFilter2D();
 
             Collider2D[] colliders = new Collider2D[MaxLeafsThatCanBeBlown];
@@ -48,10 +75,6 @@ public class LeafBlower : MonoBehaviour
                     leafController.PushUp(LiftPower / Mathf.Pow(dir.magnitude, 2));
                 }
             }
-        }
-        else
-        {
-            windCollider.GetComponent<SpriteRenderer>().enabled = false;
         }
     }
 }

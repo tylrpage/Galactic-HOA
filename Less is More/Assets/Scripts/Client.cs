@@ -25,7 +25,7 @@ public class Client : MonoBehaviour
     private Dictionary<int, LeafState> _leafStates;
     private Dictionary<int, LeafInterp> _leafInterps;
     private Camera _camera;
-    private LeafSpawner _leafSpawner;
+    public LeafSpawner _leafSpawner;
     private StateMachine _stateMachine;
 
     void Awake()
@@ -88,10 +88,10 @@ public class Client : MonoBehaviour
                 foreach (var keyValue in initialState.LeafStates)
                 {
                     LeafState leafState = keyValue.Value;
-                    GameObject newLeaf = _leafSpawner.SpawnLeaf(leafState.position, leafState.rotation);
+                    GameObject newLeaf = _leafSpawner.SpawnLeaf(keyValue.Key, leafState.position, leafState.heightInAir, leafState.rotation);
                     _leafInterps[keyValue.Key] = newLeaf.GetComponent<LeafInterp>();
                 }
-                
+
                 _stateMachine.SetJoiningState(initialState.GameStateId);
 
                 Debug.Log("Client connected");
@@ -116,13 +116,26 @@ public class Client : MonoBehaviour
                     peerData.AnimationController.ChangeAnimationState(keyValue.Value.currentAnimation);
                     peerData.AnimationController.SetSpriteDirection(keyValue.Value.spriteFlipped);
                     peerData.IsPlaying = keyValue.Value.isPlaying;
+                    peerData.LeafBlower.SetInputs(keyValue.Value.pressingSpace, keyValue.Value.mouseDir);
                 }
 
                 foreach (var keyValue in peerStates.Leafs)
                 {
                     LeafState leafState = keyValue.Value;
-                    _leafInterps[keyValue.Key].PushNewTo(leafState.position, leafState.heightInAir);
-                    _leafInterps[keyValue.Key].SetRotation(leafState.rotation);
+                    
+                    if (!_leafInterps.ContainsKey(keyValue.Key))
+                    {
+                        if (leafState.IsNew)
+                        {
+                            GameObject newLeaf = _leafSpawner.SpawnLeaf(keyValue.Key, leafState.position, leafState.heightInAir, leafState.rotation);
+                            _leafInterps[keyValue.Key] = newLeaf.GetComponent<LeafInterp>();
+                        }
+                    }
+                    else
+                    {
+                        _leafInterps[keyValue.Key].PushNewTo(leafState.position, leafState.heightInAir);
+                        _leafInterps[keyValue.Key].SetRotation(leafState.rotation);
+                    }
                 }
 
                 break;
@@ -167,6 +180,14 @@ public class Client : MonoBehaviour
 
                 break;
             }
+            case 8:
+            {
+                ClearLeafs clearLeafs = new ClearLeafs();
+                clearLeafs.Deserialize(ref bitBuffer);
+                DestroyAllLeafs();
+                
+                break;
+            }
         }
     }
 
@@ -184,11 +205,23 @@ public class Client : MonoBehaviour
             PositionInterp = positionInterp,
             AnimationController = newPlayer.GetComponentInChildren<AnimationController>(),
             PlayerTransform = newPlayer.transform,
-            IsPlaying = peerState.isPlaying
+            IsPlaying = peerState.isPlaying,
+            LeafBlower = newPlayer.GetComponent<LeafBlower>()
         };
 
         if (_myId == peerId)
+        {
             _myPlayerTransform = newPlayer.transform;
+        }
+    }
+
+    private void DestroyAllLeafs()
+    {
+        foreach (var leafInterp in _leafInterps)
+        {
+            Destroy(leafInterp.Value.gameObject);
+        }
+        _leafInterps.Clear();
     }
 
     public void Connect(bool isRemote)
@@ -250,7 +283,7 @@ public class Client : MonoBehaviour
 
             _polledInputs = Inputs.EmptyInputs();
 
-            // Maybe Tell character controller 2D to do client predicted movement
+            // TODO: Maybe Tell character controller 2D to do client predicted movement
         }
     }
 

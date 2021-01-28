@@ -22,7 +22,13 @@ public class Waiting : State
         _stateMachine.CircleDivider.SetSegments(0);
         _stateMachine.CircleDivider.SetArrowsSegment(-1);
 
-        // TODO: Push everyone out
+        if (_stateMachine.IsServer)
+        {
+            _stateMachine.GameServer._leafSpawner.ClearAllLeafs();
+            _stateMachine.GameServer.NotifyClientsToClearLeafs();
+        }
+        
+        // TODO maybe Push everyone out
         
         yield break;
     }

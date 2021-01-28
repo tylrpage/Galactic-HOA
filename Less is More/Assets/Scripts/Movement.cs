@@ -10,13 +10,13 @@ public class Movement : MonoBehaviour
     private Rigidbody2D _rb;
     private AnimationController _animationController;
     private Inputs _inputs;
-    private Vector2 _previousPostion;
+    private Inputs _previousInputs;
 
-    public bool DidPositionChange()
+    public bool DidInputsChange(Inputs inputs)
     {
-        bool ret = _previousPostion != (Vector2)transform.position;
-        _previousPostion = transform.position;
-        return ret;
+        bool ret = !inputs.Equals(_previousInputs);
+        _previousInputs = inputs;
+        return ret || inputs.Space;
     }
 
     public void SetInputs(Inputs inputs)

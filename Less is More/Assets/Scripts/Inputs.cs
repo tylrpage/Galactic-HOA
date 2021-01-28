@@ -44,4 +44,17 @@ public struct Inputs
     {
         return new Inputs();
     }
+
+    public override bool Equals(object obj)
+    {
+        if (!(obj is Inputs))
+            return false;
+
+        Inputs otherInputs = (Inputs) obj;
+        return (otherInputs.W != W ||
+                otherInputs.A != A ||
+                otherInputs.S != S ||
+                otherInputs.D != D ||
+                otherInputs.Space != Space);
+    }
 }

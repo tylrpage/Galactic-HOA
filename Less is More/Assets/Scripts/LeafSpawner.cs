@@ -13,11 +13,17 @@ public class LeafSpawner : MonoBehaviour
     [SerializeField] private GameObject leafPrefab;
 #pragma warning restore 0649
 
-    public struct LeafData
+    public class LeafData
     {
         public Transform Transform;
         public LeafController Controller;
+        public bool IsNew;
     }
+
+    public float MinSpawningHeight;
+    public float MaxSpawningHeight;
+    public float SpawningDuration;
+    public short RoughlyNumberOfLeafsToSpawn;
 
     private Dictionary<int, LeafData> _leafDatas;
     private Dictionary<int, Vector2> _lastPositions;
@@ -31,35 +37,75 @@ public class LeafSpawner : MonoBehaviour
         _leafDatas = new Dictionary<int, LeafData>();
     }
 
-    public void SpawnLeafsRandomly(int count)
+    public void ClearAllLeafs()
     {
-        for (int i = 0; i < count; i++)
+        nextIdToUse = 0;
+        foreach (var leafData in _leafDatas.Values)
         {
-            float randomAngle = Random.Range(0, 2f * Mathf.PI);
-            float randomRadius = Random.Range(0, 4.5f);
-            Quaternion randomRotation = Quaternion.Euler(0, 0, Random.Range(0, 360f));
-
-            Vector2 position = MathUtils.PolarToRect(randomAngle, randomRadius);
-            
-            GameObject newLeaf = Instantiate(leafPrefab, position, Quaternion.identity);
-            LeafController controller = newLeaf.GetComponent<LeafController>();
-            controller.Simulate = true; // allow server to simulate the falling of leaves
-            controller.HeightInAir = 0;
-            // Set rotation through Leaf so that it can handle the rotation properly (only rotates sprite child)
-            newLeaf.GetComponent<LeafInterp>().SetRotation(randomRotation);
-
-            LeafData leafData = new LeafData()
-            {
-                Transform = newLeaf.transform,
-                Controller = controller,
-            };
-            
-            _leafDatas[nextIdToUse] = leafData;
-            _lastPositions[nextIdToUse] = position;
-            _lastHeightsInAir[nextIdToUse] = controller.HeightInAir;
-            
-            nextIdToUse++;
+            Destroy(leafData.Transform.gameObject);
         }
+        _leafDatas.Clear();
+        _lastPositions.Clear();
+        _lastHeightsInAir.Clear();
+    }
+
+    public void SpawnLeafsOverTime()
+    {
+        StartCoroutine(SpawnLeafsOverTimeRoutine(SpawningDuration, RoughlyNumberOfLeafsToSpawn));
+    }
+
+    private IEnumerator SpawnLeafsOverTimeRoutine(float duration, short numberOfLeafs)
+    {
+        int leafsSpawned = 0;
+        for (int i = 0; i < duration / 0.5f; i++)
+        {
+            int leafsToSpawn = Random.Range(1, (numberOfLeafs - leafsSpawned) / 2);
+            leafsSpawned += leafsToSpawn;
+            for (int j = 0; j < leafsToSpawn; j++)
+            {
+                SpawnRandomLeaf();
+            }
+            yield return new WaitForSeconds(0.5f);
+        }
+    }
+
+    public GameObject SpawnLeaf(int id, Vector2 position, float height, Quaternion rotation)
+    {
+        GameObject newLeaf = Instantiate(leafPrefab, position, Quaternion.identity);
+        LeafController controller = newLeaf.GetComponent<LeafController>();
+        controller.HeightInAir = height;
+        
+        // Set rotation through Leaf so that it can handle the rotation properly (only rotates sprite child)
+        newLeaf.GetComponent<LeafInterp>().SetRotation(rotation);
+        
+        LeafData leafData = new LeafData()
+        {
+            Transform = newLeaf.transform,
+            Controller = controller,
+            IsNew = true
+        };
+            
+        _leafDatas[id] = leafData;
+        _lastPositions[id] = position;
+        _lastHeightsInAir[id] = controller.HeightInAir;
+
+        return newLeaf;
+    }
+
+    private void SpawnRandomLeaf()
+    {
+        float randomAngle = Random.Range(0, 2f * Mathf.PI);
+        float randomRadius = Random.Range(0, 4.5f);
+        Quaternion randomRotation = Quaternion.Euler(0, 0, Random.Range(0, 360f));
+
+        Vector2 position = MathUtils.PolarToRect(randomAngle, randomRadius);
+        
+        float randomHeight = Random.Range(MinSpawningHeight, MaxSpawningHeight);
+        GameObject newLeaf = SpawnLeaf(nextIdToUse, position, randomHeight, randomRotation);
+        LeafController controller = newLeaf.GetComponent<LeafController>();
+        controller.Simulate = true; // allow server to simulate the falling of leaves
+
+        nextIdToUse++;
     }
 
     public Dictionary<int, LeafState> GenerateLeafStates(bool onlySendDirty)
@@ -77,24 +123,20 @@ public class LeafSpawner : MonoBehaviour
                 {
                     position = leafTransform.position,
                     rotation = leafController.SpriteTransform.rotation,
-                    heightInAir = leafController.HeightInAir
+                    heightInAir = leafController.HeightInAir,
+                    IsNew = keyValue.Value.IsNew
                 };
                 leafStates[key] = leafState;
                 
                 // Update the last positions for next time
                 _lastPositions[key] = leafTransform.position;
                 _lastHeightsInAir[key] = leafController.HeightInAir;
+                // Leaf is no longer new
+                keyValue.Value.IsNew = false;
             }
         }
 
         return leafStates;
-    }
-
-    public GameObject SpawnLeaf(Vector2 position, Quaternion rotation)
-    {
-        GameObject newLeaf = Instantiate(leafPrefab, position, Quaternion.identity);
-        newLeaf.GetComponent<LeafInterp>().SetRotation(rotation);
-        return newLeaf;
     }
 
     public List<short> GetSectorLeafCounts(short segments, float offset)

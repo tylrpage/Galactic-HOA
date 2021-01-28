@@ -15,8 +15,8 @@ public class GameController : MonoBehaviour
 #pragma warning restore 0649
 
     public Transform SpawnPoint;
-    public bool nonCloneIsServer = false;
-    public bool connectToRemote = false;
+    public bool NonCloneIsServer = false;
+    public bool ConnectToRemote = false;
 
     public GameObject GetPlayerPrefab()
     {
@@ -33,10 +33,10 @@ public class GameController : MonoBehaviour
         #if UNITY_EDITOR
         if (!ClonesManager.IsClone())
         {
-            if (nonCloneIsServer)
+            if (NonCloneIsServer)
                 StartServer();
             else
-                StartClient();
+                StartClient(ConnectToRemote);
         }
         else
         {
@@ -44,7 +44,7 @@ public class GameController : MonoBehaviour
             if (arg.Equals("server"))
                 StartServer();
             else
-                StartClient();
+                StartClient(ConnectToRemote);
         }
         #else
         if (Application.isBatchMode)
@@ -53,12 +53,12 @@ public class GameController : MonoBehaviour
         }
         else
         {
-            StartClient();
+            StartClient(true);
         }
         #endif
     }
 
-    private void StartClient()
+    private void StartClient(bool connectToRemote)
     {
         Client client = gameObject.AddComponent<Client>();
         client.Connect(connectToRemote);

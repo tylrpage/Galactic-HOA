@@ -560,7 +560,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -488542825
-  m_SortingLayer: -1
+  m_SortingLayer: -2
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: f9eb59c73df4628408e2cac97aa253a9, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -641,7 +641,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -488542825
-  m_SortingLayer: -1
+  m_SortingLayer: -2
   m_SortingOrder: -2
   m_Sprite: {fileID: 21300000, guid: f534b65dd58a8d849baec75069f56c1d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -699,8 +699,8 @@ MonoBehaviour:
     type: 3}
   circleDivider: {fileID: 1508845274}
   SpawnPoint: {fileID: 1169377909}
-  nonCloneIsServer: 1
-  connectToRemote: 0
+  NonCloneIsServer: 1
+  ConnectToRemote: 0
 --- !u!20 &519420031
 Camera:
   m_ObjectHideFlags: 0
@@ -772,6 +772,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   leafPrefab: {fileID: 7788498014673138915, guid: b09bcfebd84a6734193975da46bade1d,
     type: 3}
+  MinSpawningHeight: 1
+  MaxSpawningHeight: 5
+  SpawningDuration: 3
+  RoughlyNumberOfLeafsToSpawn: 20
 --- !u!114 &519420034
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -957,7 +961,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 398946235
-  m_SortingLayer: -3
+  m_SortingLayer: -4
   m_SortingOrder: -3
   m_Sprite: {fileID: 21300000, guid: f8526542dc35be3418195629ebddef1d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
