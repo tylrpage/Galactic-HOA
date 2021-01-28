@@ -23,9 +23,9 @@ public static class Constants
     public static readonly float STEP = 1f / TICK;
 
     public static readonly ushort FINE_PER_LEAF = 10;
-    public static readonly short PLAYERS_NEEDED = 1;
+    public static readonly short PLAYERS_NEEDED = 2;
     public static readonly short ROUND_BEGIN = 5;
     public static readonly short FLYING_LENGTH = 4;
-    public static readonly short ROUND_LENGTH = 5;
+    public static readonly short ROUND_LENGTH = 15;
     public static readonly short LANDING_LENGTH = 4;
 }
