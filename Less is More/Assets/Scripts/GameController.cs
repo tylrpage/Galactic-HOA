@@ -18,6 +18,7 @@ public class GameController : MonoBehaviour
     public string PlayerName { get; private set; }
     
     public ConnectUIController ConnectUiController;
+    public ScoreController ScoreController;
     public Transform SpawnPoint;
     public bool NonCloneIsServer = false;
     public bool ConnectToRemote = false;
@@ -63,6 +64,8 @@ public class GameController : MonoBehaviour
 
     private void Start()
     {
+        ConnectUiController.ShowConnectScreen();
+        
         #if UNITY_EDITOR
         if (!ClonesManager.IsClone() && NonCloneIsServer)
         {

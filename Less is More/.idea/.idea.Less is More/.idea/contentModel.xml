@@ -135,6 +135,7 @@
           <e p="NametagController.cs" t="Include" />
           <e p="NonLinearTransform.cs" t="Include" />
           <e p="PositionInterp.cs" t="Include" />
+          <e p="ScoreController.cs" t="Include" />
           <e p="Server.cs" t="Include" />
           <e p="ServerPeerData.cs" t="Include" />
           <e p="StatusTextController.cs" t="Include" />

@@ -13,4 +13,5 @@ public class ServerPeerData
     public AnimationController AnimationController;
     public bool IsPlaying;
     public string displayName;
+    public ushort Score;
 }

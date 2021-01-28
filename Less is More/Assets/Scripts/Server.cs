@@ -258,7 +258,8 @@ public class Server : MonoBehaviour
             spriteFlipped = data.AnimationController.SpriteFlipped,
             isPlaying = data.IsPlaying,
             pressingSpace = data.Inputs.Space,
-            mouseDir = data.Inputs.MouseDir
+            mouseDir = data.Inputs.MouseDir,
+            score = data.Score
         };
         peerState.displayName = includeDisplayName ? data.displayName : "";
         

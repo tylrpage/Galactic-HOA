@@ -132,6 +132,7 @@ public class Client : MonoBehaviour
                     peerData.AnimationController.SetSpriteDirection(keyValue.Value.spriteFlipped);
                     peerData.IsPlaying = keyValue.Value.isPlaying;
                     peerData.LeafBlower.SetInputs(keyValue.Value.pressingSpace, keyValue.Value.mouseDir);
+                    _gameController.ScoreController.SetPlayerScore(keyValue.Key, keyValue.Value.score);
                 }
 
                 foreach (var keyValue in peerStates.Leafs)
@@ -174,6 +175,8 @@ public class Client : MonoBehaviour
                 Destroy(playerObjectToDestroy);
                 _peerDatas.Remove(id);
                 _peerStates.Remove(id);
+                
+                _gameController.ScoreController.RemovePlayer(playerDisconnected.TheirId);
 
                 break;
             }
@@ -228,6 +231,9 @@ public class Client : MonoBehaviour
             DisplayName = peerState.displayName,
             NametagController = nametagController
         };
+        
+        _gameController.ScoreController.AddPlayer(peerId, peerState.displayName);
+        _gameController.ScoreController.SetPlayerScore(peerId, peerState.score);
 
         if (_myId == peerId)
         {
