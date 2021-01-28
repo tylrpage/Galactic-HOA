@@ -25,7 +25,7 @@ public class ScoreController : MonoBehaviour
             this.Score = score;
         }
 
-        // descending order
+        // ascending order
         public int CompareTo(object obj)
         {
             ScoreEntry other = obj as ScoreEntry;
