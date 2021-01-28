@@ -11,8 +11,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7765c7f1-5035-4be7-a6f0-b2822cbe470c" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Less is More/.idea/indexLayout.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Less is More/.idea/indexLayout.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Less is More/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Less is More/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Player.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Player.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/AnimationController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/AnimationController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites/Krita/jovi.kra" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Sprites/Krita/jovi.kra" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../tasks.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../tasks.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -85,7 +88,6 @@
         <option value="$PROJECT_DIR$/Assets/Scripts/PeerData.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Messages/BitSerializable.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/YSorting.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/AnimationController.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/PositionInterp.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Messages/NewPlayer.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Messages/PlayerDisconnected.cs" />
@@ -114,7 +116,6 @@
         <option value="$PROJECT_DIR$/Assets/Scripts/Movement.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/GameController.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Game State/Flying.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Constants.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Messages/messages.txt" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Messages/ClearLeafs.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Server.cs" />
@@ -122,6 +123,8 @@
         <option value="$PROJECT_DIR$/Assets/Scripts/Client.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Messages/PeerStates.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Game State/Waiting.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Constants.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/AnimationController.cs" />
       </list>
     </option>
   </component>
@@ -171,6 +174,7 @@
       <workItem from="1611420426583" duration="32458000" />
       <workItem from="1611509323536" duration="69897000" />
       <workItem from="1611767175473" duration="16950000" />
+      <workItem from="1611805262510" duration="1870000" />
     </task>
     <servers />
   </component>

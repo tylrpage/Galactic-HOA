@@ -114,6 +114,7 @@ public class Client : MonoBehaviour
                     ClientPeerData peerData = _peerDatas[keyValue.Key];
                     peerData.PositionInterp.PushNewTo(keyValue.Value.position);
                     peerData.AnimationController.ChangeAnimationState(keyValue.Value.currentAnimation);
+                    peerData.AnimationController.SetFace(keyValue.Value.pressingSpace);
                     peerData.AnimationController.SetSpriteDirection(keyValue.Value.spriteFlipped);
                     peerData.IsPlaying = keyValue.Value.isPlaying;
                     peerData.LeafBlower.SetInputs(keyValue.Value.pressingSpace, keyValue.Value.mouseDir);

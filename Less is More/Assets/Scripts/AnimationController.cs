@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,6 +12,13 @@ public class AnimationController : MonoBehaviour
     
     public string CurrentAnimationState { get; private set; }
     public bool SpriteFlipped { get; private set; }
+
+    private int _faceLayerId;
+
+    private void Awake()
+    {
+        _faceLayerId = animator.GetLayerIndex("Face Layer");
+    }
 
     public void SetSpriteDirection(bool right)
     {
@@ -27,11 +35,23 @@ public class AnimationController : MonoBehaviour
         }
     }
 
-    public void ChangeAnimationState(string newState)
+    public void SetFace(bool isBlowing)
+    {
+        if (isBlowing)
+        {
+            ChangeAnimationState("face_blow", _faceLayerId);
+        }
+        else
+        {
+            ChangeAnimationState("face_neutral", _faceLayerId);
+        }
+    }
+
+    public void ChangeAnimationState(string newState, int layer = 0)
     {
         if (CurrentAnimationState == newState) return;
         
-        animator.Play(newState);
+        animator.Play(newState, layer);
         CurrentAnimationState = newState;
     }
 }
