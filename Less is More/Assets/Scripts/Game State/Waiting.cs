@@ -39,7 +39,7 @@ public class Waiting : State
         var categorized = _stateMachine.GetCategoriesOfPlayers();
         if (_stateMachine.IsServer)
         {
-            if (categorized.OnCircle.Count >= Constants.PLAYER_NEEDED)
+            if (categorized.OnCircle.Count >= Constants.PLAYERS_NEEDED)
             {
                 _stateMachine.SetState(new RoundStarting(_stateMachine));
             }

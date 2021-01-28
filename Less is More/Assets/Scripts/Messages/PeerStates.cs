@@ -93,7 +93,7 @@ namespace Messages
         public const ushort id = 3;
         public Dictionary<int, PeerState> States;
         public Dictionary<int, LeafState> Leafs;
-        public List<short> SegmentLeafCounts;
+        public List<ushort> SegmentLeafCounts;
 
         public void Serialize(ref BitBuffer data)
         {
@@ -114,9 +114,9 @@ namespace Messages
             }
 
             data.AddShort((short)SegmentLeafCounts.Count);
-            foreach (var segmentCount in SegmentLeafCounts)
+            foreach (var segmentLeafCount in SegmentLeafCounts)
             {
-                data.AddShort(segmentCount);
+                data.AddUShort(segmentLeafCount);
             }
         }
 
@@ -143,10 +143,10 @@ namespace Messages
             }
 
             int segmentCount = data.ReadShort();
-            SegmentLeafCounts = new List<short>();
+            SegmentLeafCounts = new List<ushort>();
             for (int i = 0; i < segmentCount; i++)
             {
-                SegmentLeafCounts.Add(data.ReadShort());
+                SegmentLeafCounts.Add(data.ReadUShort());
             }
         }
     }

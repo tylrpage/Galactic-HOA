@@ -33,7 +33,7 @@ public class RoundStarting : State
         {
             var categorized = _stateMachine.GetCategoriesOfPlayers();
 
-            if (categorized.OnCircle.Count < Constants.PLAYER_NEEDED)
+            if (categorized.OnCircle.Count < Constants.PLAYERS_NEEDED)
             {
                 _stateMachine.CancelCoroutine(_waitToStartRoundCoroutine);
                 _stateMachine.SetState(new Waiting(_stateMachine));

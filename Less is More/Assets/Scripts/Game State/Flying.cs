@@ -1,5 +1,6 @@
 ﻿
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using Messages;
 using UnityEngine;
@@ -66,10 +67,11 @@ public class Flying : State
         // spawn some leaves
         return;
     }
-
+    
     private IEnumerator WaitThenSwitchToPlaying(short time)
     {
         yield return new WaitForSeconds(time);
+        
         _stateMachine.SetState(new Playing(_stateMachine));
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Security.Authentication;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
@@ -86,6 +87,15 @@ public class Server : MonoBehaviour
         };
         var bytes = Writer.SerializeToByteSegment(stateChange);
         _webServer.SendAll(_connectedIds, bytes);
+    }
+
+    public void ScoreLeafCounts(List<ushort> leafCounts)
+    {
+        List<ServerPeerData> playingPeers = _peerDatas.Values.Where(x => x.IsPlaying).ToList();
+        for (int i = 0; i < leafCounts.Count; i++)
+        {
+            playingPeers[i].Score += (ushort)(leafCounts[i] * Constants.FINE_PER_LEAF);
+        }
     }
 
     public void NotifyClientsToClearLeafs()

@@ -139,9 +139,9 @@ public class LeafSpawner : MonoBehaviour
         return leafStates;
     }
 
-    public List<short> GetSectorLeafCounts(short segments, float offset)
+    public List<ushort> GetSectorLeafCounts(short segments, float offset)
     {
-        short[] counts = new short[segments];
+        ushort[] counts = new ushort[segments];
 
         if (segments > 0)
         {
