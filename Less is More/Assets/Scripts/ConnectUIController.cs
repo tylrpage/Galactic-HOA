@@ -30,7 +30,7 @@ public class ConnectUIController : MonoBehaviour
             NameInput.gameObject.SetActive(false);
             tutoralOverrideActive = true;
             ConnectButton.GetComponent<Image>().sprite = TutorialSprite;
-            TutorialButton.SetActive(TutorialButton);
+            TutorialButton.SetActive(false);
         }
     }
 
