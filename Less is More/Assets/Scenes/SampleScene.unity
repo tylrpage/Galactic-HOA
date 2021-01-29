@@ -1361,7 +1361,7 @@ MonoBehaviour:
   ConnectSprite: {fileID: 21300000, guid: b9fce18127638374ab2a6b2a9cbd638e, type: 3}
   ConnectingSprite: {fileID: 21300000, guid: 4666f2f0cd029f74387d3d88ba838a77, type: 3}
   TutorialSprite: {fileID: 21300000, guid: 36a712ba0667a9940b1bda9ad24a70a7, type: 3}
-  TutorialButton: {fileID: 0}
+  TutorialButton: {fileID: 1681488214}
 --- !u!114 &542220366
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2079,7 +2079,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 542220365}
-        m_MethodName: OnConnectPressed
+        m_MethodName: OnTutorialButtonPressed
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

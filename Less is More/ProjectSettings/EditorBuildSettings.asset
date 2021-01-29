@@ -11,4 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Tutorial.unity
     guid: 91dce25c20936cc46953ff74b1140ace
+  - enabled: 1
+    path: Assets/Scenes/MuteButton.unity
+    guid: 68c9203d7678e4f4495999ca3fbd1305
   m_configObjects: {}

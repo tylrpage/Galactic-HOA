@@ -14,4 +14,5 @@ public class ClientPeerData
     public LeafBlower LeafBlower;
     public string DisplayName;
     public NametagController NametagController;
+    public PlayerSounds PlayerSounds;
 }

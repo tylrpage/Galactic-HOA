@@ -14,6 +14,7 @@ public class TutorialController : MonoBehaviour
     public ScoreController ScoreController;
     public GameObject[] TutorialCards;
     public float CircleRadius = 4.75f;
+    public PlayerSounds PlayerSounds;
 
     private Camera _camera;
     private Movement _movement;
@@ -158,6 +159,7 @@ public class TutorialController : MonoBehaviour
         _movement.SetInputs(inputs);
         _leafBlower.SetInputs(inputs.Space, inputs.MouseDir);
         _animationController.SetFace(inputs.Space);
+        PlayerSounds.SetAnimation(inputs.Space, (inputs.W || inputs.A || inputs.S || inputs.D) ? "run" : "idle");
     }
 
     private bool InCircle()

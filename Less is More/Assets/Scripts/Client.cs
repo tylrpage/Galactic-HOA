@@ -135,6 +135,7 @@ public class Client : MonoBehaviour
                     peerData.IsPlaying = keyValue.Value.isPlaying;
                     peerData.LeafBlower.SetInputs(keyValue.Value.pressingSpace, keyValue.Value.mouseDir);
                     _gameController.ScoreController.SetPlayerScore(keyValue.Key, keyValue.Value.score);
+                    peerData.PlayerSounds.SetAnimation(keyValue.Value.pressingSpace, keyValue.Value.currentAnimation);
                 }
 
                 foreach (var keyValue in peerStates.Leafs)
@@ -237,7 +238,8 @@ public class Client : MonoBehaviour
             IsPlaying = peerState.isPlaying,
             LeafBlower = newPlayer.GetComponent<LeafBlower>(),
             DisplayName = peerState.displayName,
-            NametagController = nametagController
+            NametagController = nametagController,
+            PlayerSounds = newPlayer.GetComponent<PlayerSounds>()
         };
         
         _gameController.ScoreController.AddPlayer(peerId, peerState.displayName);

@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-
+using System.Net.Configuration;
 #if UNITY_EDITOR
 using ParrelSync;
 #endif
 
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
 
 public class GameController : MonoBehaviour
@@ -24,6 +25,8 @@ public class GameController : MonoBehaviour
     public Transform SpawnPoint;
     public bool NonCloneIsServer = false;
     public bool ConnectToRemote = false;
+    
+    private static bool AdditiveLoaded = false;
 
     public ushort GetRandomPlayerColorCode()
     {
@@ -96,6 +99,15 @@ public class GameController : MonoBehaviour
         {
             StartServer();
         }
+        
+        // Load in mute button scene
+        if (!AdditiveLoaded)
+        {
+            Debug.Log("loading additive");
+            SceneManager.LoadScene("MuteButton", LoadSceneMode.Additive);
+            AdditiveLoaded = true;
+        }
+        
     }
 
     private void StartClient(bool connectToRemote, string displayName)

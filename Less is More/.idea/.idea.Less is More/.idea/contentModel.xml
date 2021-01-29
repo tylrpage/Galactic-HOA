@@ -132,9 +132,12 @@
             <e p="ZoneCountChange.cs" t="Include" />
           </e>
           <e p="Movement.cs" t="Include" />
+          <e p="MusicController.cs" t="Include" />
+          <e p="MuteController.cs" t="Include" />
           <e p="NametagController.cs" t="Include" />
           <e p="NonLinearTransform.cs" t="Include" />
           <e p="PlayerColorController.cs" t="Include" />
+          <e p="PlayerSounds.cs" t="Include" />
           <e p="PositionInterp.cs" t="Include" />
           <e p="ScoreController.cs" t="Include" />
           <e p="Server.cs" t="Include" />
