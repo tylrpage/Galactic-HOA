@@ -226,6 +226,15 @@ public class Server : MonoBehaviour
 
                 break;
             }
+            case 11:
+            {
+                NewChatMessage newChatMessage = new NewChatMessage();
+                newChatMessage.Deserialize(ref bitBuffer);
+
+                var bytes = Writer.SerializeToByteSegment(newChatMessage);
+                _webServer.SendAll(_connectedIds, bytes);
+                break;
+            }
         }
     }
 

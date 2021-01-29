@@ -8,3 +8,4 @@
 8 - server telling clients to clear all leafs
 9 - client telling server its initial data, like display name
 10 - server telling clients a player's color changed
+11 - Chat message from client to server AND server to client

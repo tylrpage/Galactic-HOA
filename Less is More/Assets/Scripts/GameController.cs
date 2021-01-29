@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Net.Configuration;
 #if UNITY_EDITOR
 using ParrelSync;
 #endif
@@ -25,6 +24,7 @@ public class GameController : MonoBehaviour
     public Transform SpawnPoint;
     public bool NonCloneIsServer = false;
     public bool ConnectToRemote = false;
+    public ChatController ChatController;
     
     private static bool AdditiveLoaded = false;
 

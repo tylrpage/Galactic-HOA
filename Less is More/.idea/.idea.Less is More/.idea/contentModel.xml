@@ -9,6 +9,7 @@
         <e p="Scripts" t="Include">
           <e p="AnimationController.cs" t="Include" />
           <e p="BufferPool.cs" t="Include" />
+          <e p="ChatController.cs" t="Include" />
           <e p="CircleDivider.cs" t="Include" />
           <e p="Client.cs" t="Include" />
           <e p="ClientPeerData.cs" t="Include" />
@@ -125,6 +126,7 @@
             <e p="ClientInputs.cs" t="Include" />
             <e p="InitialState.cs" t="Include" />
             <e p="messages.txt" t="Include" />
+            <e p="NewChatMessage.cs" t="Include" />
             <e p="NewPlayer.cs" t="Include" />
             <e p="PeerStates.cs" t="Include" />
             <e p="PlayerDisconnected.cs" t="Include" />

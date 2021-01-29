@@ -109,6 +109,11 @@ public class Client : MonoBehaviour
                     GameObject newLeaf = _leafSpawner.SpawnLeaf(keyValue.Key, leafState.position, leafState.heightInAir, leafState.rotation);
                     _leafInterps[keyValue.Key] = newLeaf.GetComponent<LeafInterp>();
                 }
+                
+                // setup chat box
+                _gameController.ChatController.ShowChat();
+                _gameController.ChatController.PollForEnter = true;
+                _gameController.ChatController.MessageEntered += ChatControllerOnMessageEntered;
 
                 Debug.Log("Client connected");
                 _connected = true;
@@ -209,7 +214,27 @@ public class Client : MonoBehaviour
                 
                 break;
             }
+            case 11:
+            {
+                NewChatMessage newChatMessage = new NewChatMessage();
+                newChatMessage.Deserialize(ref bitBuffer);
+                Debug.Log("Client received message" + newChatMessage.message);
+                _gameController.ChatController.PushNewMessage(_peerDatas[newChatMessage.senderId].DisplayName, newChatMessage.message);
+
+                break;
+            }
         }
+    }
+
+    private void ChatControllerOnMessageEntered(string message)
+    {
+        NewChatMessage newChatMessage = new NewChatMessage()
+        {
+            message = message,
+            senderId = _myId
+        };
+        var bytes = Writer.SerializeToByteSegment(newChatMessage);
+        _ws.Send(bytes);
     }
 
     private void CreateAndRegisterPlayer(int peerId, PeerState peerState, short gameStateId)
