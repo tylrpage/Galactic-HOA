@@ -72,7 +72,7 @@ public class GameController : MonoBehaviour
                 StartClient(ConnectToRemote, name);
         }
         #else
-        StartClient(true);
+        StartClient(true, name);
         #endif
     }
 

@@ -11,21 +11,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7765c7f1-5035-4be7-a6f0-b2822cbe470c" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Less is More/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Less is More/.idea/contentModel.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Less is More/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Less is More/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Client.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Client.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/ConnectUIController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/ConnectUIController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/StatusTextController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/StatusTextController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/Krita/arrow.kra" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Sprites/Krita/arrow.kra" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/Krita/jovi.kra" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Sprites/Krita/jovi.kra" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/arrow.png" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Sprites/arrow.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/ground.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Sprites/ground.png.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/jovi-new.psb" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Sprites/jovi-new.psb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/jovi.psb" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Sprites/jovi.psb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/jovi.psb.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Sprites/jovi.psb.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/jovi.psd" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Sprites/jovi.psd" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites/Krita/connect.kra" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Sprites/Krita/connect.kra" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites/Krita/connect.kra-autosave.kra" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites/Krita/connect.kra-autosave.kra.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites/Krita/manager-split.kra" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Sprites/Krita/manager-split.kra" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../tasks.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../tasks.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -199,7 +188,7 @@
       <workItem from="1611509323536" duration="69897000" />
       <workItem from="1611767175473" duration="16950000" />
       <workItem from="1611805262510" duration="3930000" />
-      <workItem from="1611847065854" duration="29996000" />
+      <workItem from="1611847065854" duration="30650000" />
     </task>
     <servers />
   </component>
