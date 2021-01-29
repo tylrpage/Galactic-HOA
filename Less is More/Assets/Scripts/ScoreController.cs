@@ -10,6 +10,7 @@ public class ScoreController : MonoBehaviour
     public GameObject ScorePanelParent;
     public Text NamesText;
     public Text FinesText;
+    public Text RoundsText;
 
     private bool _showingPanel;
     private bool _outOfDate; // To avoid updating panel
@@ -18,11 +19,13 @@ public class ScoreController : MonoBehaviour
     {
         public string Name;
         public int Score;
+        public int Rounds;
 
-        public ScoreEntry(string name, int score)
+        public ScoreEntry(string name, int score, int rounds)
         {
             this.Name = name;
             this.Score = score;
+            this.Rounds = rounds;
         }
 
         // ascending order
@@ -84,17 +87,21 @@ public class ScoreController : MonoBehaviour
 
     public void AddPlayer(int id, string playerName)
     {
-        Scores[id] = new ScoreEntry(playerName, 0);
+        Scores[id] = new ScoreEntry(playerName, 0, 0);
         _outOfDate = true;
         
         if (_showingPanel)
             UpdatePanels();
     }
 
-    public void SetPlayerScore(int id, int score)
+    public void SetPlayerScore(int id, int score, int roundsPlayed)
     {
         if (Scores.ContainsKey(id))
+        {
             Scores[id].Score = score;
+            Scores[id].Rounds = roundsPlayed;
+        }
+            
         _outOfDate = true;
 
         if (_showingPanel)
@@ -108,14 +115,17 @@ public class ScoreController : MonoBehaviour
 
         string names = "";
         string fines = "";
+        string rounds = "";
         foreach (var entry in sortedEntries)
         {
             names += entry.Name + "\n";
             fines += "$" + entry.Score + "\n";
+            rounds += entry.Rounds + "\n";
         }
 
         NamesText.text = names;
         FinesText.text = fines;
+        RoundsText.text = rounds;
         
         _outOfDate = false;
     }

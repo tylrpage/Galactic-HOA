@@ -100,6 +100,11 @@ public class Server : MonoBehaviour
                 playingPeers[i].Score += (ushort)(leafCounts[i] * Constants.FINE_PER_LEAF);
             }
         }
+
+        foreach (var playingPeer in playingPeers)
+        {
+            playingPeer.RoundsPlayed++;
+        }
     }
 
     public void NotifyClientsToClearLeafs()
@@ -293,7 +298,8 @@ public class Server : MonoBehaviour
             isPlaying = data.IsPlaying,
             pressingSpace = data.Inputs.Space,
             mouseDir = data.Inputs.MouseDir,
-            score = data.Score
+            score = data.Score,
+            roundsPlayed = data.RoundsPlayed
         };
         
         peerState.displayName = includeDisplayNameAndColor ? data.displayName : "";

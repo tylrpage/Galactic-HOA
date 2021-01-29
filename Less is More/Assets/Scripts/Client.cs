@@ -139,7 +139,7 @@ public class Client : MonoBehaviour
                     peerData.AnimationController.SetSpriteDirection(keyValue.Value.spriteFlipped);
                     peerData.IsPlaying = keyValue.Value.isPlaying;
                     peerData.LeafBlower.SetInputs(keyValue.Value.pressingSpace, keyValue.Value.mouseDir);
-                    _gameController.ScoreController.SetPlayerScore(keyValue.Key, keyValue.Value.score);
+                    _gameController.ScoreController.SetPlayerScore(keyValue.Key, keyValue.Value.score, keyValue.Value.roundsPlayed);
                     peerData.PlayerSounds.SetAnimation(keyValue.Value.pressingSpace, keyValue.Value.currentAnimation);
                 }
 
@@ -268,7 +268,7 @@ public class Client : MonoBehaviour
         };
         
         _gameController.ScoreController.AddPlayer(peerId, peerState.displayName);
-        _gameController.ScoreController.SetPlayerScore(peerId, peerState.score);
+        _gameController.ScoreController.SetPlayerScore(peerId, peerState.score, peerState.roundsPlayed);
 
         if (_myId == peerId)
         {

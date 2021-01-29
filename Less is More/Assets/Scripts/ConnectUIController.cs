@@ -41,7 +41,7 @@ public class ConnectUIController : MonoBehaviour
 
     public void OnNameInputChanged(string newName)
     {
-        Regex rg = new Regex(@"^[a-zA-Z0-9]{2,20}$");
+        Regex rg = new Regex(@"^[a-zA-Z0-9]{2,10}$");
         if (rg.IsMatch(newName))
         {
             DisplayName = newName;

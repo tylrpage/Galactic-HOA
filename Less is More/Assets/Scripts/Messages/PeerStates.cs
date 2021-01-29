@@ -16,6 +16,7 @@ namespace Messages
         public Vector2 mouseDir;
         public string displayName;
         public ushort score;
+        public ushort roundsPlayed;
         public bool isColorsDirty;
         public ushort headColorCode;
         public ushort bodyColorCode;
@@ -39,7 +40,8 @@ namespace Messages
                 .AddBool(isPlaying)
                 .AddBool(pressingSpace)
                 .AddString(displayName)
-                .AddUShort(score);
+                .AddUShort(score)
+                .AddUShort(roundsPlayed);
             
             data.AddBool(isColorsDirty);
             if (isColorsDirty)
@@ -62,6 +64,7 @@ namespace Messages
             pressingSpace = data.ReadBool();
             displayName = data.ReadString();
             score = data.ReadUShort();
+            roundsPlayed = data.ReadUShort();
 
             isColorsDirty = data.ReadBool();
             if (isColorsDirty)

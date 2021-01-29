@@ -17,4 +17,5 @@ public class ServerPeerData
     public ushort HeadColor;
     public ushort BodyColor;
     public ushort FeetColor;
+    public ushort RoundsPlayed;
 }
