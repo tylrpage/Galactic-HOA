@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class ConnectUIController : MonoBehaviour
@@ -12,10 +13,31 @@ public class ConnectUIController : MonoBehaviour
     [SerializeField] private GameObject ConnectScreenGroup;
     [SerializeField] private Sprite ConnectSprite;
     [SerializeField] private Sprite ConnectingSprite;
+    [SerializeField] private Sprite TutorialSprite;
+    [SerializeField] private GameObject TutorialButton;
+
+    private bool tutoralOverrideActive = false;
 
     public event Action<string> ConnectPressed;
     
     public string DisplayName { get; private set; }
+
+    private void Start()
+    {
+        if (!PlayerPrefs.HasKey("playedBefore"))
+        {
+            ConnectButton.interactable = true;
+            NameInput.gameObject.SetActive(false);
+            tutoralOverrideActive = true;
+            ConnectButton.GetComponent<Image>().sprite = TutorialSprite;
+            TutorialButton.SetActive(TutorialButton);
+        }
+    }
+
+    public void OnTutorialButtonPressed()
+    {
+        SceneManager.LoadScene("Tutorial");
+    }
 
     public void OnNameInputChanged(string newName)
     {
@@ -41,9 +63,16 @@ public class ConnectUIController : MonoBehaviour
 
     public void OnConnectPressed()
     {
-        ConnectPressed?.Invoke(NameInput.text);
-        ConnectButton.GetComponent<Image>().sprite = ConnectingSprite;
-        DisableConnectButton();
+        if (tutoralOverrideActive)
+        {
+            SceneManager.LoadScene("Tutorial");
+        }
+        else
+        {
+            ConnectPressed?.Invoke(NameInput.text);
+            ConnectButton.GetComponent<Image>().sprite = ConnectingSprite;
+            DisableConnectButton();
+        }
     }
 
     public void SwitchToConnectButtonSprite()

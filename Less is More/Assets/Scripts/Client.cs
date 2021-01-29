@@ -55,6 +55,10 @@ public class Client : MonoBehaviour
     private void WsOnonDisconnect()
     {
         Disconnected?.Invoke();
+        if (_connected)
+            _stateMachine.StatusTextController.SetDisconnected();
+        else
+            _stateMachine.StatusTextController.SetServerCouldNotBeReached();
     }
 
     private void WsOnonConnect()

@@ -9,6 +9,16 @@ public class StatusTextController : MonoBehaviour
 
     private Coroutine _roundCountdown;
 
+    public void SetServerCouldNotBeReached()
+    {
+        StatusText.text = $"Server could not be reached";
+    }
+    
+    public void SetDisconnected()
+    {
+        StatusText.text = $"You were disconnected. Refresh to rejoin";
+    }
+
     public void SetWaitingForPlayers(int count)
     {
         StatusText.text = $"Waiting for your neighbors: {count}/{Constants.PLAYERS_NEEDED}";

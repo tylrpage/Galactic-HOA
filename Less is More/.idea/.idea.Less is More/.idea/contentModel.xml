@@ -140,6 +140,7 @@
           <e p="Server.cs" t="Include" />
           <e p="ServerPeerData.cs" t="Include" />
           <e p="StatusTextController.cs" t="Include" />
+          <e p="TutorialController.cs" t="Include" />
           <e p="YSorting.cs" t="Include" />
         </e>
       </e>

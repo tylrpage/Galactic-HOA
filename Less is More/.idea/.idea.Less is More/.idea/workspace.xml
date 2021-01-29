@@ -11,8 +11,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7765c7f1-5035-4be7-a6f0-b2822cbe470c" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/Krita/ground.kra" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Sprites/Krita/ground.kra" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sprites/ground.png" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Sprites/ground.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Less is More/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Less is More/.idea/contentModel.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Less is More/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Less is More/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Client.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Client.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/ConnectUIController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/ConnectUIController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/StatusTextController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/StatusTextController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites/Krita/arrow.kra" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Sprites/Krita/arrow.kra" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites/Krita/jovi.kra" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Sprites/Krita/jovi.kra" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites/arrow.png" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Sprites/arrow.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites/ground.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Sprites/ground.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites/jovi-new.psb" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Sprites/jovi-new.psb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites/jovi.psb" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Sprites/jovi.psb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites/jovi.psb.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Sprites/jovi.psb.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites/jovi.psd" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Sprites/jovi.psd" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../tasks.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../tasks.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -46,6 +59,7 @@
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/GameController.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Game State/Flying.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Messages/ClearLeafs.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/EE47BE73-F7EF-409C-A5E5-CE4B121745B7/9b/cc378163/MonoBehaviour.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Game State/Playing.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Deps/SimpleWebTransport/Server/SimpleWebServer.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/MathUtils.cs" root0="FORCE_HIGHLIGHTING" />
@@ -62,6 +76,7 @@
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Game State/State.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Messages/BitSerializable.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Inputs.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/TutorialController.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Messages/ZoneCountChange.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/PlayerColorController.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Messages/ClientInputs.cs" root0="FORCE_HIGHLIGHTING" />
@@ -115,12 +130,9 @@
         <option value="$PROJECT_DIR$/Assets/Scripts/ClientPeerData.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Game State/RoundStarting.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/LeafSpawner.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/StatusTextController.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/ScoreController.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Game State/Landing.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/CircleDivider.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/ConnectUIController.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Constants.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Game State/StateMachine.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/GroundControl.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Game State/Waiting.cs" />
@@ -130,9 +142,13 @@
         <option value="$PROJECT_DIR$/Assets/Scripts/Messages/PeerStates.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/ServerPeerData.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/GameController.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Client.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/PlayerColorController.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Server.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Constants.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/TutorialController.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/ConnectUIController.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/StatusTextController.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Client.cs" />
       </list>
     </option>
   </component>
@@ -183,7 +199,7 @@
       <workItem from="1611509323536" duration="69897000" />
       <workItem from="1611767175473" duration="16950000" />
       <workItem from="1611805262510" duration="3930000" />
-      <workItem from="1611847065854" duration="17618000" />
+      <workItem from="1611847065854" duration="29996000" />
     </task>
     <servers />
   </component>
@@ -292,9 +308,9 @@
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
     <state x="958" y="299" width="644" height="801" key="find.popup/0.0.2560.1400@0.0.2560.1400" timestamp="1611715020503" />
-    <state x="1474" y="320" width="672" height="678" key="search.everywhere.popup" timestamp="1611684913804">
+    <state x="1474" y="320" width="672" height="678" key="search.everywhere.popup" timestamp="1611886227192">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
-    <state x="1474" y="320" width="672" height="678" key="search.everywhere.popup/0.0.2560.1400@0.0.2560.1400" timestamp="1611684913804" />
+    <state x="1474" y="320" width="672" height="678" key="search.everywhere.popup/0.0.2560.1400@0.0.2560.1400" timestamp="1611886227192" />
   </component>
 </project>
