@@ -18,3 +18,38 @@ Less is more
  - Interp the postions
  - Don't send unchanged positions
 - leafs and leaf blower
+- give robot guide a mustache
+
+Game States:
+- Waiting for players
+- Pre-round (walk onto the circle to join)
+- Game
+ - Start: circle flying up "cutscene" with leave generation
+ - End: circle returns, scores are set
+
+TODO:
+- Reduce bytes sent for leaf rotation
+- Show round count in scoreboard
+
+BUGS:
+- Animations are jank, sometimes incorrect
+- Jenn from original tab couldnt see her second player
+- Movement is kind of choppy
+
+IMPROVEMENTS:
+- Create base class for Server and Client PeerData so that state machine can access
+  common fields (see GetCategoriesOfPlayer)
+- On and Off circle just need to be hashsets of ids?
+- A more extendable way to do the state machine id's
+- Cache leaf controllers for leaf blower
+- Improve handeling of joining players while circle is lifting off
+- Seperate jovis paint and outlines so that coloring him doesnt darken the outline
+
+credits:
+Track: A Turning Point — Artificial.Music [Audio Library Release]
+Music provided by Audio Library Plus
+Watch: https://youtu.be/gMyMGPD04sE​
+Free Download / Stream: https://alplus.io/turning-point
+
+Notes:
+- not clear that you need to keep leaves out of arrow

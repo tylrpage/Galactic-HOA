@@ -65,7 +65,6 @@ public class ChatController : MonoBehaviour
 
     public void OnInputChanged(string newText)
     {
-        Debug.Log(newText);
         Regex rg = new Regex(@"^[a-zA-Z0-9 ]{0,17}$");
         if (!rg.IsMatch(newText))
         {
