@@ -1,6 +1,6 @@
 # Galactic-HOA
+🍂 Online multiplayer, in-browser "lawn-keeping" party game, Unity
 ![Gameplay screenshot 1](https://i.imgur.com/mlkUjO5.png)
-Online multiplayer, in-browser "lawn-keeping" party game, Unity
 
 [Play the game here!](https://tylr.itch.io/galactic-hoa)
 
