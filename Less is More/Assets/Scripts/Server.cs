@@ -37,6 +37,8 @@ public class Server : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Application.targetFrameRate = Constants.TICK;
+        
         _webServer = Listen();
         _stateMachine.Init(this);
         _stateMachine.SetState(new Waiting(_stateMachine));
@@ -251,25 +253,19 @@ public class Server : MonoBehaviour
         if (!_listening)
             return;
         
-        _timer += Time.deltaTime;
-        while (_timer >= Constants.STEP)
+        if (_connectedIds.Count > 0)
         {
-            _timer -= Constants.STEP;
-
-            if (_connectedIds.Count > 0)
+            // send states
+            PeerStates peerStates = new PeerStates()
             {
-                // send states
-                PeerStates peerStates = new PeerStates()
-                {
-                    States = GeneratePeerStates(_peerDatas, true),
-                    Leafs = _leafSpawner.GenerateLeafStates(true),
-                    SegmentLeafCounts = _leafSpawner.GetSectorLeafCounts(
-                        _gameController.GetCircleDivider().Segments, 
-                        _gameController.GetCircleDivider().GetAngleOfFirstDivider())
-                };
-                ArraySegment<byte> bytes = Writer.SerializeToByteSegment(peerStates);
-                _webServer.SendAll(_connectedIds, bytes);
-            }
+                States = GeneratePeerStates(_peerDatas, true),
+                Leafs = _leafSpawner.GenerateLeafStates(true),
+                SegmentLeafCounts = _leafSpawner.GetSectorLeafCounts(
+                    _gameController.GetCircleDivider().Segments, 
+                    _gameController.GetCircleDivider().GetAngleOfFirstDivider())
+            };
+            ArraySegment<byte> bytes = Writer.SerializeToByteSegment(peerStates);
+            _webServer.SendAll(_connectedIds, bytes);
         }
     }
 

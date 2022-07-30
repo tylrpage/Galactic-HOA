@@ -19,7 +19,7 @@ public static class Constants
         new BoundedRange(-1f, 1f, 0.005f),
     };
 
-    public static readonly int TICK = 50;
+    public static readonly int TICK = 15;
     public static readonly float STEP = 1f / TICK;
 
     public static readonly ushort FINE_PER_LEAF = 10;
