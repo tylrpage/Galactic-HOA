@@ -24,6 +24,7 @@ ScriptedImporter:
     isReadable: 0
     streamingMipmaps: 1
     streamingMipmapsPriority: 0
+    vTOnly: 0
     nPOTScale: 1
     sRGBTexture: 1
     spriteMode: 2
@@ -42,6 +43,9 @@ ScriptedImporter:
     textureType: 8
     textureShape: 1
     singleChannelComponent: 0
+    flipbookRows: 0
+    flipbookColumns: 0
+    ignorePngGamma: 0
     filterMode: 1
     aniso: 1
     mipBias: 0
@@ -94,8 +98,8 @@ ScriptedImporter:
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
       serializedVersion: 2
-      x: 4
-      y: 399
+      x: 524
+      y: 370
       width: 91
       height: 133
     spriteID: 2b6a6df6522d4a640ae66fcd51c78dcf
@@ -108,7 +112,7 @@ ScriptedImporter:
     edges: []
     tessellationDetail: 0
     parentGroupIndex: -1
-    uvTransform: {x: -183, y: 99}
+    uvTransform: {x: 337, y: 70}
   - name: blow_face
     originalName: 
     pivot: {x: 0.5, y: 0.5}
@@ -182,8 +186,8 @@ ScriptedImporter:
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
       serializedVersion: 2
-      x: 4
-      y: 301
+      x: 524
+      y: 272
       width: 153
       height: 90
     spriteID: 956f87d10ab58ee47babde70b865a3d9
@@ -196,7 +200,7 @@ ScriptedImporter:
     edges: []
     tessellationDetail: 0
     parentGroupIndex: -1
-    uvTransform: {x: -99, y: 295}
+    uvTransform: {x: 421, y: 266}
   - name: body
     originalName: 
     pivot: {x: 0.5, y: 0.5}
@@ -225,14 +229,14 @@ ScriptedImporter:
   documentAlignment: 7
   importHiddenLayers: 0
   importedTextureWidth: 1024
-  importedTextureHeight: 1024
+  importedTextureHeight: 512
   documentSize: {x: 543, y: 534}
   paperDollMode: 0
   keepDupilcateSpriteName: 0
   spriteCategoryList:
     categories: []
   textureActualWidth: 1024
-  textureActualHeight: 1024
+  textureActualHeight: 512
   spritePackingTag: 
   resliceFromLayer: 0
   characterMode: 1
@@ -244,7 +248,7 @@ ScriptedImporter:
     parentIndex: -1
     spriteID: 2b6a6df6522d4a640ae66fcd51c78dcf
     layerID: 0
-    mosaicPosition: {x: 4, y: 399}
+    mosaicPosition: {x: 524, y: 370}
   - name: blow_face
     spriteName: blow_face
     isGroup: 0
@@ -272,7 +276,7 @@ ScriptedImporter:
     parentIndex: -1
     spriteID: 956f87d10ab58ee47babde70b865a3d9
     layerID: 850311397
-    mosaicPosition: {x: 4, y: 301}
+    mosaicPosition: {x: 524, y: 272}
   - name: body
     spriteName: body
     isGroup: 0
