@@ -21,8 +21,6 @@ public class PositionInterp : MonoBehaviour
             transform.position = newTo;
             _pushes++;
         }
-        
-        Debug.Log("RESET");
     }
 
     public void SetPosition(Vector2 pos)
@@ -40,7 +38,7 @@ public class PositionInterp : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        _t += Time.deltaTime * Constants.TICK;
+        _t += Time.deltaTime * Constants.TICK * 0.5f;
         
         if (_pushes >= 2)
         {
