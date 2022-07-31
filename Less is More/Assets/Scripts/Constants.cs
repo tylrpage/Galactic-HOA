@@ -28,4 +28,5 @@ public static class Constants
     public static readonly short FLYING_LENGTH = 4;
     public static readonly short ROUND_LENGTH = 15;
     public static readonly short LANDING_LENGTH = 4;
+    public static readonly float MAX_LEAFBLOW_FORCE = 5;
 }
