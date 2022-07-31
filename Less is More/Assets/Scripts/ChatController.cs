@@ -15,7 +15,7 @@ public class ChatController : MonoBehaviour
 
     private List<string> messages;
     private string oldText = "";
-    private bool typing;
+    public bool typing;
 
     public event Action<string> MessageEntered;
 
@@ -65,7 +65,7 @@ public class ChatController : MonoBehaviour
 
     public void OnInputChanged(string newText)
     {
-        Regex rg = new Regex(@"^[a-zA-Z0-9 ]{0,17}$");
+        Regex rg = new Regex(@"^[\w\[\] `!@#$%\^&*()={}:;<>+'-]{0,50}$");
         if (!rg.IsMatch(newText))
         {
             InputField.SetTextWithoutNotify(oldText);

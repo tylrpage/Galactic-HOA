@@ -13,6 +13,7 @@ public class Movement : MonoBehaviour
     private PlayerSounds _playerSounds;
     private Camera _camera;
     private Vector2 _physicsInputDir;
+    private ChatController _chatController;
 
     private void Awake()
     {
@@ -21,6 +22,7 @@ public class Movement : MonoBehaviour
         _leafBlower = GetComponent<LeafBlower>();
         _playerSounds = GetComponent<PlayerSounds>();
         _camera = Camera.main;
+        _chatController = _camera.GetComponent<GameController>().ChatController;
     }
 
     private void FixedUpdate()
@@ -54,8 +56,11 @@ public class Movement : MonoBehaviour
         }
         
         Vector2 mouseDir = ScreenToPlane() - (Vector2)transform.position;
-        _leafBlower.SetInputs(Input.GetKey(KeyCode.Space), mouseDir);
-        _animationController.SetFace(Input.GetKey(KeyCode.Space));
+
+        bool blowing = !_chatController.typing && Input.GetKey(KeyCode.Space);
+        
+        _leafBlower.SetInputs(blowing, mouseDir);
+        _animationController.SetFace(blowing);
     }
     
     private Vector2 ScreenToPlane()
@@ -66,6 +71,9 @@ public class Movement : MonoBehaviour
 
     private Vector2 GetInputDir()
     {
-        return new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+        if (!_chatController.typing)
+            return new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+        else
+            return Vector2.zero;
     }
 }
