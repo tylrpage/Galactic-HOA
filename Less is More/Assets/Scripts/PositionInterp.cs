@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class PositionInterp : MonoBehaviour
 {
+    private Vector2 _from;
     private Vector2 _to;
     private float _t;
     private int _pushes;
@@ -12,12 +13,16 @@ public class PositionInterp : MonoBehaviour
     public void PushNewTo(Vector2 newTo)
     {
         _t = 0;
+        _from = transform.position;
         _to = newTo;
 
         if (_pushes < 2)
         {
+            transform.position = newTo;
             _pushes++;
         }
+        
+        Debug.Log("RESET");
     }
 
     public void SetPosition(Vector2 pos)
@@ -35,10 +40,11 @@ public class PositionInterp : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        _t += Time.deltaTime * Constants.TICK;
+        
         if (_pushes >= 2)
         {
-            transform.position = Vector3.Lerp(transform.position, _to, _t);
+            transform.position = Vector3.Lerp(_from, _to, _t);
         }
-        _t += Time.deltaTime * Constants.TICK * 0.5f;
     }
 }

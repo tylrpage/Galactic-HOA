@@ -7,22 +7,19 @@ using UnityEngine;
 
 public struct Inputs
 {
-    public bool W;
-    public bool A;
-    public bool S;
-    public bool D;
+    public Vector2 Position;
     public bool Space;
     public Vector2 MouseDir;
 
     public void Serialize(ref BitBuffer bitBuffer)
     {
         MouseDir = MouseDir.normalized;
+        QuantizedVector2 qPosition = BoundedRange.Quantize(Position, Constants.WORLD_BOUNDS);
         QuantizedVector2 qMouseDir = BoundedRange.Quantize(MouseDir, Constants.MOUSEDIR_BOUNDS);
         
-        bitBuffer.AddBool(W)
-            .AddBool(A)
-            .AddBool(S)
-            .AddBool(D)
+        bitBuffer
+            .AddUInt(qPosition.x)
+            .AddUInt(qPosition.y)
             .AddBool(Space)
             .AddUInt(qMouseDir.x)
             .AddUInt(qMouseDir.y);
@@ -30,10 +27,9 @@ public struct Inputs
 
     public void Deserialize(ref BitBuffer bitBuffer)
     {
-        W = bitBuffer.ReadBool();
-        A = bitBuffer.ReadBool();
-        S = bitBuffer.ReadBool();
-        D = bitBuffer.ReadBool();
+        QuantizedVector2 qPosition = new QuantizedVector2(bitBuffer.ReadUInt(), bitBuffer.ReadUInt());
+        Position = BoundedRange.Dequantize(qPosition, Constants.WORLD_BOUNDS);
+        
         Space = bitBuffer.ReadBool();
 
         QuantizedVector2 qMouseDir = new QuantizedVector2(bitBuffer.ReadUInt(), bitBuffer.ReadUInt());
@@ -51,10 +47,7 @@ public struct Inputs
             return false;
 
         Inputs otherInputs = (Inputs) obj;
-        return (otherInputs.W != W ||
-                otherInputs.A != A ||
-                otherInputs.S != S ||
-                otherInputs.D != D ||
-                otherInputs.Space != Space);
+        return (otherInputs.Position == Position &&
+                otherInputs.Space == Space);
     }
 }

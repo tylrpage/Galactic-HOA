@@ -68,7 +68,7 @@ public class LeafController : MonoBehaviour
         {
             _t += Time.deltaTime;
             _t %= 1f;
-            HeightInAir -= FallCurve.Evaluate(_t) * FallFactor;
+            HeightInAir -= FallCurve.Evaluate(_t) * FallFactor * Time.deltaTime;
         }
         else
         {

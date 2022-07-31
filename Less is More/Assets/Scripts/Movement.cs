@@ -9,31 +9,30 @@ public class Movement : MonoBehaviour
 
     private Rigidbody2D _rb;
     private AnimationController _animationController;
-    private Inputs _inputs;
-    private Inputs _previousInputs;
-
-    public bool DidInputsChange(Inputs inputs)
-    {
-        bool ret = !inputs.Equals(_previousInputs);
-        _previousInputs = inputs;
-        return ret || inputs.Space;
-    }
-
-    public void SetInputs(Inputs inputs)
-    {
-        _inputs = inputs;
-    }
+    private LeafBlower _leafBlower;
+    private PlayerSounds _playerSounds;
+    private Camera _camera;
+    private Vector2 _physicsInputDir;
 
     private void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
         _animationController = GetComponent<AnimationController>();
+        _leafBlower = GetComponent<LeafBlower>();
+        _playerSounds = GetComponent<PlayerSounds>();
+        _camera = Camera.main;
     }
 
     private void FixedUpdate()
     {
-        Vector2 inputDir = GetInputDir(_inputs);
-        _rb.AddForce(inputDir * speedMult, ForceMode2D.Force);
+        _rb.MovePosition((Vector2)transform.position + _physicsInputDir);
+        _physicsInputDir = Vector2.zero;
+    }
+
+    private void Update()
+    {
+        Vector2 inputDir = GetInputDir();
+        _physicsInputDir += inputDir * (speedMult * Time.deltaTime);
         
         // Animation stuff
         if (inputDir == Vector2.zero)
@@ -53,12 +52,20 @@ public class Movement : MonoBehaviour
                 _animationController.SetSpriteDirection(false);
             }
         }
+        
+        Vector2 mouseDir = ScreenToPlane() - (Vector2)transform.position;
+        _leafBlower.SetInputs(Input.GetKey(KeyCode.Space), mouseDir);
+        _animationController.SetFace(Input.GetKey(KeyCode.Space));
+    }
+    
+    private Vector2 ScreenToPlane()
+    {
+        Vector2 viewport = _camera.ScreenToViewportPoint(Input.mousePosition);
+        return new Vector2((viewport.x - 0.5f) * _camera.orthographicSize * _camera.aspect * 2, (viewport.y - 0.5f) * _camera.orthographicSize * 2);
     }
 
-    private Vector2 GetInputDir(Inputs inputs)
+    private Vector2 GetInputDir()
     {
-        return new Vector2(
-            (inputs.D ? 1f : 0) - (inputs.A ? 1f : 0),
-            (inputs.W ? 1f : 0) - (inputs.S ? 1f : 0));
+        return new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
     }
 }

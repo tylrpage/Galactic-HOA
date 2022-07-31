@@ -1,11 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
 using NetStack.Serialization;
-using UnityEngine;
 
 namespace Messages
 {
-    public struct ClientInputs : BitSerializable
+    public class ClientState : BitSerializable
     {
         public const ushort id = 2;
         
@@ -24,4 +21,3 @@ namespace Messages
         }
     }
 }
-

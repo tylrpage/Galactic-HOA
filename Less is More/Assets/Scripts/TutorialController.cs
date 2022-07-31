@@ -14,11 +14,7 @@ public class TutorialController : MonoBehaviour
     public ScoreController ScoreController;
     public GameObject[] TutorialCards;
     public float CircleRadius = 4.75f;
-    public PlayerSounds PlayerSounds;
-
-    private Camera _camera;
-    private Movement _movement;
-    private LeafBlower _leafBlower;
+    
     private AnimationController _animationController;
     private LeafController _leafController;
     private Animator _gregAnimator;
@@ -46,9 +42,6 @@ public class TutorialController : MonoBehaviour
     {
         _tutorialPhase = TutorialPhase.Move;
         
-        _camera = Camera.main;
-        _movement = TutorialPlayer.GetComponent<Movement>();
-        _leafBlower = TutorialPlayer.GetComponent<LeafBlower>();
         _animationController = TutorialPlayer.GetComponent<AnimationController>();
         _leafController = Leaf.GetComponent<LeafController>();
         _gregAnimator = Greg.GetComponent<Animator>();
@@ -105,11 +98,10 @@ public class TutorialController : MonoBehaviour
             }
         }
         
-        PollInputs(ref inputs);
-        
         if (_tutorialPhase == TutorialPhase.Move)
         {
-            if (inputs.W || inputs.A || inputs.S || inputs.D)
+            // Check if moving
+            if (Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0)
             {
                 StartCoroutine(MovingRoutine());
                 _tutorialPhase = TutorialPhase.MoveToCircle;
@@ -155,11 +147,6 @@ public class TutorialController : MonoBehaviour
                 SceneManager.LoadScene("SampleScene");
             }
         }
-
-        _movement.SetInputs(inputs);
-        _leafBlower.SetInputs(inputs.Space, inputs.MouseDir);
-        _animationController.SetFace(inputs.Space);
-        PlayerSounds.SetAnimation(inputs.Space, (inputs.W || inputs.A || inputs.S || inputs.D) ? "run" : "idle");
     }
 
     private bool InCircle()
@@ -205,30 +192,6 @@ public class TutorialController : MonoBehaviour
         yield return new WaitForSeconds(7f);
         _tutorialPhase = TutorialPhase.Finish;
         _newPhase = true;
-    }
-    
-    private void PollInputs(ref Inputs polledInputs)
-    {
-        if (Input.GetKey(KeyCode.W))
-            polledInputs.W = true;
-        if (Input.GetKey(KeyCode.A))
-            polledInputs.A = true;
-        if (Input.GetKey(KeyCode.S))
-            polledInputs.S = true;
-        if (Input.GetKey(KeyCode.D))
-            polledInputs.D = true;
-        if (Input.GetKey(KeyCode.Space))
-            polledInputs.Space = true;
-        if (!_canBlow)
-            polledInputs.Space = false;
-
-        polledInputs.MouseDir = ScreenToPlane() - (Vector2)TutorialPlayer.transform.position;
-    }
-    
-    private Vector2 ScreenToPlane()
-    {
-        Vector2 viewport = _camera.ScreenToViewportPoint(Input.mousePosition);
-        return new Vector2((viewport.x - 0.5f) * _camera.orthographicSize * _camera.aspect * 2, (viewport.y - 0.5f) * _camera.orthographicSize * 2);
     }
     
     private void DropLeaf()

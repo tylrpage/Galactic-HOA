@@ -1,16 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!210 &2856874884535966545
-SortingGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6259040959691823326}
-  m_Enabled: 1
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
 --- !u!1 &7788498013389152768
 GameObject:
   m_ObjectHideFlags: 0
@@ -57,6 +46,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -79,7 +69,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -488542825
-  m_SortingLayer: -1
+  m_SortingLayer: -2
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: a30aac4bc1a96464784274e4e77889dd, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -107,7 +97,7 @@ GameObject:
   - component: {fileID: 5585430527511425724}
   - component: {fileID: -6493858534835575866}
   m_Layer: 8
-  m_Name: Leaf
+  m_Name: leaf
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -210,7 +200,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   TimeToRise: 0.2
-  FallFactor: 0.1
+  FallFactor: 10
   MaxHeightToEnableBlowing: 0.2
   Simulate: 0
   HeightInAir: 0
@@ -326,6 +316,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3211341463908836511, guid: 96a759692ecd2874b8ed3fe2d305ab87,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3211341463908836511, guid: 96a759692ecd2874b8ed3fe2d305ab87,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -341,6 +336,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3211341463908836511, guid: 96a759692ecd2874b8ed3fe2d305ab87,
         type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3211341463908836511, guid: 96a759692ecd2874b8ed3fe2d305ab87,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -353,16 +353,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3211341463908836511, guid: 96a759692ecd2874b8ed3fe2d305ab87,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3211341463908836511, guid: 96a759692ecd2874b8ed3fe2d305ab87,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3211341463908836511, guid: 96a759692ecd2874b8ed3fe2d305ab87,
         type: 3}
@@ -394,3 +384,14 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 7788498013600013823}
   m_PrefabAsset: {fileID: 0}
+--- !u!210 &2856874884535966545
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6259040959691823326}
+  m_Enabled: 1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0

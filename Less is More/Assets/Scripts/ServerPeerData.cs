@@ -7,10 +7,10 @@ public class ServerPeerData
 {
     public int Id;
     public Inputs Inputs;
-    public Movement PlayerMovement;
     public Transform PlayerTransform;
     public LeafBlower PlayerBlower;
-    public AnimationController AnimationController;
+    public bool FlipSprite;
+    public string CurrentAnimationName;
     public bool IsPlaying;
     public string displayName;
     public ushort Score;

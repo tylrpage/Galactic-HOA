@@ -9,6 +9,7 @@ using Mirror.SimpleWeb;
 using NetStack.Quantization;
 using NetStack.Serialization;
 using UnityEngine.SceneManagement;
+using ClientState = Messages.ClientState;
 using Debug = UnityEngine.Debug;
 
 public class Client : MonoBehaviour
@@ -106,7 +107,7 @@ public class Client : MonoBehaviour
                 foreach (var keyValue in initialState.LeafStates)
                 {
                     LeafState leafState = keyValue.Value;
-                    GameObject newLeaf = _leafSpawner.SpawnLeaf(keyValue.Key, leafState.position, leafState.heightInAir, leafState.rotation);
+                    GameObject newLeaf = _leafSpawner.SpawnLeaf(keyValue.Key, leafState.position, leafState.heightInAir, leafState.rotation, false);
                     _leafInterps[keyValue.Key] = newLeaf.GetComponent<LeafInterp>();
                 }
                 
@@ -133,13 +134,18 @@ public class Client : MonoBehaviour
                 foreach (var keyValue in peerStates.States)
                 {
                     ClientPeerData peerData = _peerDatas[keyValue.Key];
+                    _gameController.ScoreController.SetPlayerScore(keyValue.Key, keyValue.Value.score, keyValue.Value.roundsPlayed);
+                    peerData.IsPlaying = keyValue.Value.isPlaying;
+                    
+                    // Ignore our own state for the below items
+                    if (keyValue.Key == _myId)
+                        continue;
+                    
                     peerData.PositionInterp.PushNewTo(keyValue.Value.position);
                     peerData.AnimationController.ChangeAnimationState(keyValue.Value.currentAnimation);
                     peerData.AnimationController.SetFace(keyValue.Value.pressingSpace);
                     peerData.AnimationController.SetSpriteDirection(keyValue.Value.spriteFlipped);
-                    peerData.IsPlaying = keyValue.Value.isPlaying;
                     peerData.LeafBlower.SetInputs(keyValue.Value.pressingSpace, keyValue.Value.mouseDir);
-                    _gameController.ScoreController.SetPlayerScore(keyValue.Key, keyValue.Value.score, keyValue.Value.roundsPlayed);
                     peerData.PlayerSounds.SetAnimation(keyValue.Value.pressingSpace, keyValue.Value.currentAnimation);
                 }
 
@@ -151,7 +157,7 @@ public class Client : MonoBehaviour
                     {
                         if (leafState.IsNew)
                         {
-                            GameObject newLeaf = _leafSpawner.SpawnLeaf(keyValue.Key, leafState.position, leafState.heightInAir, leafState.rotation);
+                            GameObject newLeaf = _leafSpawner.SpawnLeaf(keyValue.Key, leafState.position, leafState.heightInAir, leafState.rotation, false);
                             _leafInterps[keyValue.Key] = newLeaf.GetComponent<LeafInterp>();
                         }
                     }
@@ -240,11 +246,14 @@ public class Client : MonoBehaviour
     private void CreateAndRegisterPlayer(int peerId, PeerState peerState, short gameStateId)
     {
         GameObject newPlayer = Instantiate(_gameController.GetPlayerPrefab(), peerState.position, Quaternion.identity);
-                    
+
         PositionInterp positionInterp = newPlayer.GetComponent<PositionInterp>();
-        positionInterp.enabled = true;
-        positionInterp.SetPosition(peerState.position);
-        
+        if (peerId != _myId)
+        {
+            positionInterp.enabled = true;
+            positionInterp.SetPosition(peerState.position);
+        }
+
         NametagController nametagController = newPlayer.GetComponent<NametagController>();
         nametagController.SetName(peerState.displayName);
 
@@ -274,6 +283,8 @@ public class Client : MonoBehaviour
         {
             _myPlayerTransform = newPlayer.transform;
             _stateMachine.SetMyClientJoiningState(gameStateId, newPlayer.transform);
+            newPlayer.GetComponent<CircleCollider2D>().enabled = true;
+            newPlayer.GetComponent<Movement>().enabled = true;
         }
         else
         {
@@ -328,7 +339,7 @@ public class Client : MonoBehaviour
             _ws.Disconnect();
         }
     }
-
+    
     private void Update()
     {
         _ws.ProcessMessageQueue(this);
@@ -340,12 +351,12 @@ public class Client : MonoBehaviour
         PollInputs(ref _polledInputs);
 
         _timer += Time.deltaTime;
-        while (_timer >= Constants.STEP)
+        if (_timer >= Constants.STEP)
         {
-            _timer -= Constants.STEP;
+            _timer = 0;
 
             // Tell the server my inputs
-            ClientInputs clientInputs = new ClientInputs()
+            ClientState clientInputs = new ClientState()
             {
                 inputs = _polledInputs
             };
@@ -353,21 +364,13 @@ public class Client : MonoBehaviour
             _ws.Send(bytes);
 
             _polledInputs = Inputs.EmptyInputs();
-
-            // TODO: Maybe Tell character controller 2D to do client predicted movement
         }
     }
 
     private void PollInputs(ref Inputs polledInputs)
     {
-        if (Input.GetKey(KeyCode.W))
-            polledInputs.W = true;
-        if (Input.GetKey(KeyCode.A))
-            polledInputs.A = true;
-        if (Input.GetKey(KeyCode.S))
-            polledInputs.S = true;
-        if (Input.GetKey(KeyCode.D))
-            polledInputs.D = true;
+        polledInputs.Position = _myPlayerTransform.position;
+        
         if (Input.GetKey(KeyCode.Space))
             polledInputs.Space = true;
 

@@ -10,6 +10,7 @@ using UnityEngine;
 using Mirror.SimpleWeb;
 using NetStack.Quantization;
 using NetStack.Serialization;
+using ClientState = Messages.ClientState;
 
 public class Server : MonoBehaviour
 {
@@ -156,7 +157,7 @@ public class Server : MonoBehaviour
             // Client input
             case 2:
             {
-                ClientInputs clientInputs = new ClientInputs();
+                ClientState clientInputs = new ClientState();
                 clientInputs.Deserialize(ref bitBuffer);
 
                 Inputs inputsToUse;
@@ -164,9 +165,16 @@ public class Server : MonoBehaviour
                     inputsToUse = Inputs.EmptyInputs();
                 else
                     inputsToUse = clientInputs.inputs;
+                
+                Vector2 posDelta = (Vector2)inputsToUse.Position - (Vector2)_peerDatas[peerId].PlayerTransform.position;
+                
                 _peerDatas[peerId].Inputs = inputsToUse;
-                _peerDatas[peerId].PlayerMovement.SetInputs(inputsToUse);
+                _peerDatas[peerId].PlayerTransform.position = inputsToUse.Position;
                 _peerDatas[peerId].PlayerBlower.SetInputs(inputsToUse.Space, inputsToUse.MouseDir);
+                
+                _peerDatas[peerId].CurrentAnimationName = posDelta == Vector2.zero ? "idle" : "run";
+                if (posDelta != Vector2.zero)
+                    _peerDatas[peerId].FlipSprite = posDelta.x > 0;
 
                 break;
             }
@@ -182,22 +190,17 @@ public class Server : MonoBehaviour
                 GameObject newPlayer = Instantiate(_gameController.GetPlayerPrefab(), spawnPosition, Quaternion.identity);
 
                 _stateMachine.SetServerJoiningState(newPlayer.transform);
-        
-                Movement movement = newPlayer.GetComponent<Movement>();
-                movement.enabled = true;
+                
                 LeafBlower leafBlower = newPlayer.GetComponent<LeafBlower>();
                 leafBlower.enabled = true;
-                newPlayer.GetComponent<CircleCollider2D>().enabled = true;
-                newPlayer.GetComponent<LeafBlower>().Simulate = true;
+                leafBlower.Simulate = true;
 
                 ServerPeerData newPeerData = new ServerPeerData()
                 {
                     Id = peerId,
                     Inputs = Inputs.EmptyInputs(),
-                    PlayerMovement = movement,
                     PlayerTransform = newPlayer.transform,
                     PlayerBlower = leafBlower,
-                    AnimationController = newPlayer.GetComponentInChildren<AnimationController>(),
                     displayName = clientInitialData.DisplayName,
                     HeadColor = _gameController.GetRandomPlayerColorCode(),
                     BodyColor = _gameController.GetRandomPlayerColorCode(),
@@ -274,11 +277,7 @@ public class Server : MonoBehaviour
         var peerStates = new Dictionary<int, PeerState>();
         foreach (var keyValue in peerDatas)
         {
-            // TODO: position and animations are not sent if position doesnt change, can this be a problem for animations?
-            if (keyValue.Value.PlayerMovement.DidInputsChange(keyValue.Value.Inputs) || !onlySendDirty)
-            {
-                peerStates[keyValue.Key] = GenerateSinglePeerState(keyValue.Value, !onlySendDirty);
-            }
+            peerStates[keyValue.Key] = GenerateSinglePeerState(keyValue.Value, !onlySendDirty);
         }
 
         return peerStates;
@@ -289,8 +288,8 @@ public class Server : MonoBehaviour
         PeerState peerState = new PeerState()
         {
             position = data.PlayerTransform.position,
-            currentAnimation = data.AnimationController.CurrentAnimationState,
-            spriteFlipped = data.AnimationController.SpriteFlipped,
+            currentAnimation = data.CurrentAnimationName,
+            spriteFlipped = data.FlipSprite,
             isPlaying = data.IsPlaying,
             pressingSpace = data.Inputs.Space,
             mouseDir = data.Inputs.MouseDir,
