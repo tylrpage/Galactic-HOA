@@ -22,7 +22,11 @@ public class Movement : MonoBehaviour
         _leafBlower = GetComponent<LeafBlower>();
         _playerSounds = GetComponent<PlayerSounds>();
         _camera = Camera.main;
-        _chatController = _camera.GetComponent<GameController>().ChatController;
+        
+        if (_camera != null)
+        {
+            _chatController = _camera.GetComponent<GameController>()?.ChatController;
+        }
     }
 
     private void FixedUpdate()
@@ -57,7 +61,7 @@ public class Movement : MonoBehaviour
         
         Vector2 mouseDir = ScreenToPlane() - (Vector2)transform.position;
 
-        bool blowing = !_chatController.typing && Input.GetKey(KeyCode.Space);
+        bool blowing = !IsTyping() && Input.GetKey(KeyCode.Space);
         
         _leafBlower.SetInputs(blowing, mouseDir);
         _animationController.SetFace(blowing);
@@ -71,9 +75,19 @@ public class Movement : MonoBehaviour
 
     private Vector2 GetInputDir()
     {
-        if (!_chatController.typing)
+        if (!IsTyping())
             return new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
         else
             return Vector2.zero;
+    }
+
+    private bool IsTyping()
+    {
+        if (_chatController == null)
+        {
+            return false;
+        }
+
+        return _chatController.typing;
     }
 }
