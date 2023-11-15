@@ -62,7 +62,7 @@ public class Server : MonoBehaviour
         if (Application.isBatchMode)
         {
             Debug.Log("Setting up secure server");
-            sslConfig = new SslConfig(true, "cert.pfx", "", SslProtocols.Tls12);
+            sslConfig = new SslConfig(true, "cert-legacy.pfx", "", SslProtocols.Tls12);
         }
         else
         {

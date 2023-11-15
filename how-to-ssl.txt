@@ -1,0 +1,2 @@
+similar to misplaced, but unity needs a legacy pkcs12 (pfx), maybe its just a 2020 thing?
+"openssl pkcs12 -legacy -export cert-legacy.pfx -inkey privkey.pem -in cert.pem"
