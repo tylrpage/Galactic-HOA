@@ -73,7 +73,7 @@ public class LeafBlower : MonoBehaviour
                     Vector2 dir = (colliders[i].transform.position - transform.position);
                     float force = Mathf.Min(1f / Mathf.Pow(dir.magnitude, 2), Constants.MAX_LEAFBLOW_FORCE);
                     rb.AddForce(dir.normalized * force, ForceMode2D.Impulse);
-                    leafController.PushUp(LiftPower / Mathf.Pow(dir.magnitude, 2));
+                    leafController.PushUp(LiftPower * force);
                 }
             }
         }
