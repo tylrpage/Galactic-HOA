@@ -35,7 +35,7 @@ public class LeafController : MonoBehaviour
         if (Simulate)
             SimulateFrame();
         
-        SpriteTransform.localPosition = _originalSpriteLocal + HeightInAir * Vector3.up;
+        SpriteTransform.position = transform.position + _originalSpriteLocal + HeightInAir * Vector3.up;
         float growthFactor = (1 + HeightInAir / 2f);
         ShadowTransform.localScale = new Vector3(_originalShadowScale.x * growthFactor, _originalShadowScale.y * growthFactor, 1);
     }
